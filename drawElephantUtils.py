@@ -1,12 +1,18 @@
 import math
 
-WINDOW_DIMENSION = (500, 500)
+X_DIMENSION = 500
+Y_DIMENSION = 500
+
+WINDOW_DIMENSION = (X_DIMENSION, Y_DIMENSION)
+
+AXES_WIDTH = 1
 
 DISTANCE_BETWEEN_POINT = 1
 POINT_RADIUS = 2
 
 BLACK = (0, 0, 0)
 GRAY = (150, 150, 150)
+DARK_GRAY = (100, 100, 100)
 
 COLOR_LINE = BLACK
 
@@ -16,7 +22,19 @@ class Point:
 		self.x = x
 		self.y = y
 		self.module = math.hypot(x, y)
-		self.angle = math.atan(y / x)
+
+		if x != 0:
+			self.angle = math.atan(y / x)
+
+		else:
+			if y == 0:
+				self.angle = 0
+
+			elif y < 0:
+				self.angle = -math.pi / 2
+
+			else:
+				self.angle = math.pi / 2
 		
 	def getX(self):
 		return self.x
