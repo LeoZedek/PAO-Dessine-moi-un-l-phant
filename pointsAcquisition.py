@@ -106,11 +106,23 @@ def getPoints():
 
 		_fixPoint(points, screen)
 
-		pointsTuple =  []
-
-	for elt in points:
-		pointsTuple.append((elt.getX(), elt.getY()))
-
-	print(pointsTuple)
+	pg.quit()
 
 	return points
+
+def samplingPoints(points, numberOfPoints):
+
+	pointsLength = len(points)
+
+	if numberOfPoints >= pointsLength // 2:
+		return points
+
+	step = pointsLength // numberOfPoints
+
+	sampling = []
+
+	for indice in range(0, pointsLength, step):
+		sampling.append(points[indice])
+
+	print(len(sampling))
+	return sampling
