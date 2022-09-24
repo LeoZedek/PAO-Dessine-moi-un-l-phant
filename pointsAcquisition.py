@@ -119,10 +119,7 @@ def samplingPoints(points, numberOfPoints):
 
 	step = pointsLength // numberOfPoints
 
-	sampling = []
-
-	for indice in range(0, pointsLength, step):
-		sampling.append(points[indice])
+	sampling = [points[i] for i in range(0, pointsLength, step)]
 
 	print(len(sampling))
 	return sampling
