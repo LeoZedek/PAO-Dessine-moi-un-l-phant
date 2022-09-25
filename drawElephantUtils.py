@@ -1,9 +1,5 @@
 import math
-
-X_DIMENSION = 500
-Y_DIMENSION = 500
-
-WINDOW_DIMENSION = (X_DIMENSION, Y_DIMENSION)
+from numpy import sqrt
 
 AXES_WIDTH = 1
 
@@ -14,6 +10,7 @@ BLACK = (0, 0, 0)
 GRAY = (150, 150, 150)
 DARK_GRAY = (100, 100, 100)
 
+COLOR_AXES = DARK_GRAY
 COLOR_LINE = BLACK
 
 class Point:
