@@ -1,5 +1,5 @@
 import pygame as pg
-from numpy import arange
+from numpy import arange, linspace
 from drawElephantUtils import *
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
@@ -114,12 +114,9 @@ def samplingPoints(points, numberOfPoints):
 
 	pointsLength = len(points)
 
-	if numberOfPoints >= pointsLength // 2:
+	if numberOfPoints > pointsLength:
 		return points
 
-	step = pointsLength // numberOfPoints
+	sampling = [points[round(i)] for i in linspace(0, pointsLength, numberOfPoints, endpoint = False)]
 
-	sampling = [points[i] for i in range(0, pointsLength, step)]
-
-	print(len(sampling))
 	return sampling
