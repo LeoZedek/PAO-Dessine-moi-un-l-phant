@@ -1,6 +1,7 @@
 import pygame as pg
 from numpy import arange, linspace
 from drawElephantUtils import *
+from init_window import initWindow
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
 # a linear interpolation is made to add points between them.
@@ -59,19 +60,9 @@ def getPoints():
 
 	pg.init()
 
-	screen = pg.display.set_mode((0, 0), pg.FULLSCREEN)
-	#screen = pg.display.set_mode((0, 0), pg.FULLSCREEN)
-	pg.display.set_caption("Title")
+	screen = initWindow()
 
 	xDimension, yDimension = screen.get_size()
-
-	background = pg.Surface(screen.get_size())
-	background = background.convert()
-	background.fill(GRAY)
-
-	screen.blit(background, (0, 0))
-	pg.display.flip()
-
 
 	# Draw axis
 	for xAxis in range(xDimension):

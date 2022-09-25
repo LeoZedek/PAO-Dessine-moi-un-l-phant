@@ -13,6 +13,8 @@ DARK_GRAY = (100, 100, 100)
 COLOR_AXES = DARK_GRAY
 COLOR_LINE = BLACK
 
+PROPORTION_ORIGINAL_DRAWING = 1/3
+
 class Point:
 
 	def __init__(self, x, y):
