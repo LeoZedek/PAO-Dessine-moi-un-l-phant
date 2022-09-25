@@ -56,11 +56,7 @@ def _fixPoint(points, screen):
 
 				pg.display.update()
 
-def getPoints():
-
-	pg.init()
-
-	screen = initWindow()
+def getPoints(screen):
 
 	xDimension, yDimension = screen.get_size()
 
@@ -110,8 +106,6 @@ def getPoints():
 		points.append(points[0])
 
 		_fixPoint(points, screen)
-
-	pg.quit()
 
 	return points
 

@@ -4,11 +4,20 @@ from init_window import initWindow
 from draw_points import drawPoints
 from pointsAcquisition import getPoints
 
-points = getPoints()
+def clearScreen(screen):
+	background = pg.Surface(screen.get_size())
+	background = background.convert()
+	background.fill(GRAY)
+
+	screen.blit(background, (0, 0))
 
 pg.init()
 
 screen = initWindow()
+
+points = getPoints(screen)
+
+clearScreen(screen)
 
 xDimension, yDimension = screen.get_size()
 
