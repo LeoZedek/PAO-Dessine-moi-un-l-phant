@@ -6,6 +6,9 @@ from drawElephantUtils import *
 # a linear interpolation is made to add points between them.
 # Private function
 def _fixPoint(points, screen):
+
+	xDimension, yDimension = screen.get_size()
+
 	if len(points) > 1:
 
 		end = len(points) - 1
@@ -29,10 +32,12 @@ def _fixPoint(points, screen):
 				index = 0
 				for newY in arange(point1.getY(), point2.getY(), yStep):
 					if index > 0:
-						pg.draw.circle(screen, COLOR_LINE, (point1.getX() + (X_DIMENSION // 2), newY + (Y_DIMENSION // 2)), POINT_RADIUS)
+						pg.draw.circle(screen, COLOR_LINE, (point1.getX() + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
 						points.insert(len(points) - 1, Point(point1.getX(), newY))
-						pg.display.update()
 					index += 1
+
+				pg.display.update()
+
 
 			else:
 				
@@ -44,17 +49,21 @@ def _fixPoint(points, screen):
 				for newX in arange(point1.getX(), point2.getX(), xStep):
 					if index > 0:
 						newY = coeffA * newX + coeffB
-						pg.draw.circle(screen, COLOR_LINE, (newX + (X_DIMENSION // 2), newY + (Y_DIMENSION // 2)), POINT_RADIUS)
+						pg.draw.circle(screen, COLOR_LINE, (newX + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
 						points.insert(len(points) - 1, Point(newX, newY))
-						pg.display.update()
 					index += 1
+
+				pg.display.update()
 
 def getPoints():
 
 	pg.init()
 
-	screen = pg.display.set_mode(WINDOW_DIMENSION)
+	screen = pg.display.set_mode((0, 0), pg.FULLSCREEN)
+	#screen = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 	pg.display.set_caption("Title")
+
+	xDimension, yDimension = screen.get_size()
 
 	background = pg.Surface(screen.get_size())
 	background = background.convert()
@@ -65,11 +74,11 @@ def getPoints():
 
 
 	# Draw axis
-	for xAxis in range(WINDOW_DIMENSION[0]):
-		pg.draw.circle(screen, DARK_GRAY, (xAxis, Y_DIMENSION // 2), AXES_WIDTH)
+	for xAxis in range(xDimension):
+		pg.draw.circle(screen, COLOR_AXES, (xAxis, yDimension // 2), AXES_WIDTH)
 
-	for yAxis in range(WINDOW_DIMENSION[1]):
-		pg.draw.circle(screen, DARK_GRAY, (X_DIMENSION // 2, yAxis), AXES_WIDTH)
+	for yAxis in range(yDimension):
+		pg.draw.circle(screen, COLOR_AXES, (xDimension // 2, yAxis), AXES_WIDTH)
 
 	pg.display.update()
 
@@ -92,11 +101,16 @@ def getPoints():
 
 			if event.type == pg.MOUSEMOTION:
 				if mouseDown:
-					newPoint = Point(float(event.pos[0] - (X_DIMENSION // 2)), float(event.pos[1] - (Y_DIMENSION // 2)))
+					newPoint = Point(float(event.pos[0] - (xDimension // 2)), float(event.pos[1] - (yDimension // 2)))
 					points.append(newPoint)
 					pg.draw.circle(screen, COLOR_LINE, event.pos, POINT_RADIUS)
 
 					_fixPoint(points, screen)
+
+			if event.type == pg.KEYDOWN:
+				print(event.key)
+				if event.key == pg.K_q:
+					notDone = False
 
 					
 		pg.display.update()
