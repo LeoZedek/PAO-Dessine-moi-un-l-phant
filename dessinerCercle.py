@@ -23,7 +23,7 @@ class SeriesCercles:
         dessine le chemin parcouru
         """
         for point in self.chemin:
-            pg.draw.circle(surface=self.screen,color=black,center=(self.centreInitial.getX(),self.centreInitial.getY()),radius=taillePoint)
+            pg.draw.circle(surface=self.screen,color=black,center=(point.getX(),point.getY()),radius=taillePoint)
         
     def dessinerLesCercles(self):
         """
