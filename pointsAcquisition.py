@@ -1,7 +1,7 @@
 import pygame as pg
 from numpy import arange, linspace
 from drawElephantUtils import *
-from init_window import initWindow
+from screenUtils import initWindow
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
 # a linear interpolation is made to add points between them.

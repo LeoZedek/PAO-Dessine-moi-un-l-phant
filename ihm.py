@@ -1,25 +1,10 @@
 import pygame as pg
 from drawElephantUtils import *
-from init_window import initWindow
+from screenUtils import initWindow, clearScreen
 from draw_points import drawPoints
 from pointsAcquisition import getPoints, samplingPoints
-from inputBox import getNumberInput
+from rectangleUtils import getNumberInput, setRectangleText, drawRectangle, clearRectangle
 
-def clearScreen(screen):
-	background = pg.Surface(screen.get_size())
-	background = background.convert()
-	background.fill(GRAY)
-
-	screen.blit(background, (0, 0))
-
-def drawBox(screen, box, borderColor, borderWidth):	
-	pg.draw.rect(screen, borderColor, box, width = borderWidth)
-	pg.display.update()
-
-def clearBox(screen, box, borderColor, borderWidth):
-	pg.draw.rect(screen, BACKGROUND_COLOR, box)
-	drawBox(screen, box, borderColor, borderWidth)
-	pg.display.update()
 
 pg.init()
 
@@ -38,7 +23,7 @@ heightOriginalDrawingBox = yDimension * PROPORTION_ORIGINAL_DRAWING
 widthOriginalDrawingBox = xDimension * PROPORTION_ORIGINAL_DRAWING
 
 originalDrawingRectangle = pg.Rect(leftOriginalDrawingBox, topOriginalDrawingBox, widthOriginalDrawingBox, heightOriginalDrawingBox)
-drawBox(screen, originalDrawingRectangle, COLOR_AXES,AXES_WIDTH)
+drawRectangle(screen, originalDrawingRectangle, COLOR_AXES,AXES_WIDTH)
 
 drawPoints(points, screen, originalDrawingRectangle)
 
@@ -50,7 +35,7 @@ samplingBoxWidth = round(INPUT_SAMPLING_BOX_WIDTH * widthOriginalDrawingBox)
 
 samplingBox = pg.Rect(leftSamplingBox, topSamplingBox, samplingBoxWidth, samplingBoxHeight)
 
-drawBox(screen, samplingBox, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
+drawRectangle(screen, samplingBox, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
 
 #drawBorderInputBox(screen, minXSamplingBox, maxXSamplingBox, minYSamplingBox, maxYSamplingBox)
 
@@ -68,9 +53,7 @@ while notDone:
 		if event.type == pg.MOUSEBUTTONDOWN:
 			if event.button == 1: # If the button pressed is the left one
 				if samplingBox.collidepoint(event.pos):
-					clearBox(screen, samplingBox, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
-					numberOfPoints = getNumberInput()
+					numberOfPoints = getNumberInput(screen, samplingBox)
 
 					sampledPoints = samplingPoints(points, numberOfPoints)
-					clearBox(screen, originalDrawingRectangle, COLOR_AXES, AXES_WIDTH)
 					drawPoints(sampledPoints, screen, originalDrawingRectangle)
