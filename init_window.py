@@ -10,7 +10,7 @@ def initWindow():
 
 	background = pg.Surface(screen.get_size())
 	background = background.convert()
-	background.fill(GRAY)
+	background.fill(BACKGROUND_COLOR)
 
 	screen.blit(background, (0, 0))
 	pg.display.flip()
