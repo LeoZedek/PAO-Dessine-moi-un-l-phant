@@ -31,17 +31,17 @@ class Point2D:
 		return complex(self.x,self.y)
 
 	def distance(self, point2):
-		if self.getX() == point2.getX():
-			return abs(self.getY() - point2.getY())
+		if self.x == point2.x:
+			return abs(self.y - point2.y)
 
-		if self.getY() == point2.getY():
-			return abs(self.getX() - point2.getX())
+		if self.y == point2.y:
+			return abs(self.x - point2.x)
 
-		return hypot(self.getX() - point2.getX(), self.getY() - point2.getY())
+		return hypot(self.x - point2.x, self.y - point2.y)
     
 	def linearEquation(self, point2):
-		coeffA = (point2.getY() - self.getY()) / (point2.getX() - self.getX())
-		coeffB = self.getY() - coeffA * self.getX()
+		coeffA = (point2.y - self.y) / (point2.x - self.x)
+		coeffB = self.y - coeffA * self.x
 
 		return coeffA, coeffB
 
