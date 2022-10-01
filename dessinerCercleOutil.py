@@ -56,3 +56,14 @@ def dessinerCercleEtPoint(ecran,x,y,rayon):
     rayonPoint = 2
     pg.draw.circle(surface=ecran,color=black,center=(x,y),radius=rayonPoint)
     pg.draw.circle(surface=ecran,color=black,center=(x,y),radius=rayon,width=1)
+
+def coeffToRayon(liste_coeff,scale):
+    """ 
+    liste_coeff : liste des coefficients de la décomposition de fourrier complexe
+    scale : mise à l'échelle par rapport à la fenêtre d'affichage
+    """
+    # Je pense qu'il va y avoir une compréhension de liste
+    liste_rayon = []
+    for coeff in liste_coeff :
+        liste_rayon.append(np.abs(coeff)*scale)
+    return liste_rayon
