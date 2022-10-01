@@ -17,7 +17,7 @@ class SeriesCercles:
     SeriesCercles permettant de dessiner les cercle
     de la décomposition en série de fourrier et de refaire le dessin
     """
-    def __init__(self,centre_initial : Point2D,liste_coeff : list[float],\
+    def __init__(self,centre_initial : Point2D,liste_coeff : list[complex],\
         scale : float,pas : float,screen):
         """
         centreInitial: Point le centre du premier cercle
@@ -89,14 +89,14 @@ class SeriesCercles:
         """
         for point in self.chemin:
             pg.draw.circle(surface=self.screen,color=BLACK,
-                center=(point.abscisse,point.ordonnee),radius=TAILLE_POINT)
+                center=(point[0],point[1]),radius=TAILLE_POINT)
 
     def dessiner_les_cercles(self):
         """
         dessine les cercles dans leurs Etat actuel et fait avancer les angles
         """
-        abscisse = self.centre_initial.getX()
-        ordonnee = self.centre_initial.getY()
+        abscisse = self.centre_initial.x
+        ordonnee = self.centre_initial.y
         dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
             ordonnee=ordonnee,rayon=self.liste_rayon[0])
         taille_liste = len(self.liste_rayon)
@@ -104,7 +104,8 @@ class SeriesCercles:
             newx, newy = polaire2carthesien(rho=self.liste_rayon[i],phi=self.angles[i])
             abscisse +=newx
             ordonnee +=newy
-            if i==taille_liste-1 :
+            if i==taille_liste-1:
+                chemin = self.chemin
                 chemin +=[(abscisse,ordonnee)]
             dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
                 ordonnee=ordonnee,rayon=self.liste_rayon[i])

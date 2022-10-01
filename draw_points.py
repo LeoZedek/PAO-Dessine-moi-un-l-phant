@@ -6,8 +6,8 @@ def _drawPoint(point, screen, drawingRectangle):
 
 	xDimension, yDimension = screen.get_size()
 
-	xPoint = point.getX() + (xDimension // 2)
-	yPoint = point.getY() + (yDimension // 2)
+	xPoint = point.x + (xDimension // 2)
+	yPoint = point.y + (yDimension // 2)
 
 	xRatio = drawingRectangle.width / xDimension
 	yRatio = drawingRectangle.height / yDimension

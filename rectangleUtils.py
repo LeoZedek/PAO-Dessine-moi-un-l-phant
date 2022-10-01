@@ -24,11 +24,8 @@ def getNumberInput(screen, rectangle):
 					setRectangleText(screen, rectangle, str(myNumber))
 
 				if event.key == pg.K_RETURN:
-					notDone = False
-
-
-	if len(myNumber) == 0:
-		return None
+					if len(myNumber) > 0:
+						notDone = False
 
 	return int(myNumber)
 

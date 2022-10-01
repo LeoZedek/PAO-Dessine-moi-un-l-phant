@@ -2,6 +2,7 @@ import pygame as pg
 from numpy import arange, linspace
 from drawElephantUtils import *
 from screenUtils import initWindow
+from point import Point2D
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
 # a linear interpolation is made to add points between them.
@@ -22,19 +23,19 @@ def _fixPoint(points, screen):
 
 		if nbPoints > 0:
 
-			if point1.getX() == point2.getX():
+			if point1.x == point2.x:
 
 				yStep = distance / nbPoints
 
-				if point1.getY() > point2.getY():
+				if point1.y > point2.y:
 					yStep = -yStep
 
 				# Not taking the first point because he is already in the points list.
 				index = 0
-				for newY in arange(point1.getY(), point2.getY(), yStep):
+				for newY in arange(point1.y, point2.y, yStep):
 					if index > 0:
-						pg.draw.circle(screen, COLOR_LINE, (point1.getX() + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
-						points.insert(len(points) - 1, Point(point1.getX(), newY))
+						pg.draw.circle(screen, COLOR_LINE, (point1.x + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
+						points.insert(len(points) - 1, Point2D(point1.x, newY))
 					index += 1
 
 				pg.display.update()
@@ -42,16 +43,16 @@ def _fixPoint(points, screen):
 
 			else:
 				
-				coeffA, coeffB = point1.linearEquation(point2)
+				coeffA, coeffB = point1.linear_equation(point2)
 
-				xStep = (point2.getX() - point1.getX()) / nbPoints
+				xStep = (point2.x - point1.x) / nbPoints
 				
 				index = 0
-				for newX in arange(point1.getX(), point2.getX(), xStep):
+				for newX in arange(point1.x, point2.x, xStep):
 					if index > 0:
 						newY = coeffA * newX + coeffB
 						pg.draw.circle(screen, COLOR_LINE, (newX + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
-						points.insert(len(points) - 1, Point(newX, newY))
+						points.insert(len(points) - 1, Point2D(newX, newY))
 					index += 1
 
 				pg.display.update()
@@ -88,7 +89,7 @@ def getPoints(screen):
 
 			if event.type == pg.MOUSEMOTION:
 				if mouseDown:
-					newPoint = Point(float(event.pos[0] - (xDimension // 2)), float(event.pos[1] - (yDimension // 2)))
+					newPoint = Point2D(float(event.pos[0] - (xDimension // 2)), float(event.pos[1] - (yDimension // 2)))
 					points.append(newPoint)
 					pg.draw.circle(screen, COLOR_LINE, event.pos, POINT_RADIUS)
 
