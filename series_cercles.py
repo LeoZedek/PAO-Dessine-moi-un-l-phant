@@ -4,12 +4,12 @@
 import pygame as pg
 # from drawElephantUtils import Point
 
-from dessinerCercleOutil import creationListePasEtListeAngle
-from dessinerCercleOutil import polaire2carthesien
-from dessinerCercleOutil import avancementCercle
-from dessinerCercleOutil import dessinerCercleEtPoint
-from dessinerCercleOutil import coeffToRayon
-from dessinerCercleOutil import black, taillePoint
+from dessiner_cercle_outil import creation_liste_pas_et_liste_angle
+from dessiner_cercle_outil import polaire2carthesien
+from dessiner_cercle_outil import avancement_cercle
+from dessiner_cercle_outil import dessiner_cercle_et_point
+from dessiner_cercle_outil import coeff2rayon
+from dessiner_cercle_outil import BLACK, TAILLE_POINT
 from point import Point2D
 
 class SeriesCercles:
@@ -27,11 +27,11 @@ class SeriesCercles:
         pas : le pas d'avancement des cercles
         """
         self._centre_initial = centre_initial
-        self._liste_rayon = coeffToRayon(liste_coeff,scale)
+        self._liste_rayon = coeff2rayon(liste_coeff,scale)
         self._chemin = []
         self._pas = pas
         nb_cercle = len(self.liste_rayon)
-        self._liste_pas, self._angles = creationListePasEtListeAngle(nbCercle=nb_cercle,pas=pas)
+        self._liste_pas, self._angles = creation_liste_pas_et_liste_angle(nb_cercle,pas)
         self._screen = screen
 
     @property
@@ -88,22 +88,24 @@ class SeriesCercles:
         dessine le chemin parcouru
         """
         for point in self.chemin:
-            pg.draw.circle(surface=self.screen,color=black,
-                center=(point.x,point.y),radius=taillePoint)
+            pg.draw.circle(surface=self.screen,color=BLACK,
+                center=(point.abscisse,point.ordonnee),radius=TAILLE_POINT)
 
     def dessiner_les_cercles(self):
         """
         dessine les cercles dans leurs Etat actuel et fait avancer les angles
         """
-        x = self.centre_initial.getX()
-        y = self.centre_initial.getY()
-        dessinerCercleEtPoint(ecran=self.screen,x=x,y=y,rayon=self.liste_rayon[0])
-
-        for i in range(1,len(self.liste_rayon)):
+        abscisse = self.centre_initial.getX()
+        ordonnee = self.centre_initial.getY()
+        dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
+            ordonnee=ordonnee,rayon=self.liste_rayon[0])
+        taille_liste = len(self.liste_rayon)
+        for i in range(1,taille_liste):
             newx, newy = polaire2carthesien(rho=self.liste_rayon[i],phi=self.angles[i])
-            x +=newx
-            y +=newy
-            if i==len(self.liste_rayon)-1 :
-                chemin +=[(x,y)]
-            dessinerCercleEtPoint(ecran=self.screen,x=x,y=y,rayon=self.liste_rayon[i])
-            self.angles[i]=avancementCercle(angle=self.angles[i],pas=self.liste_pas[i])
+            abscisse +=newx
+            ordonnee +=newy
+            if i==taille_liste-1 :
+                chemin +=[(abscisse,ordonnee)]
+            dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
+                ordonnee=ordonnee,rayon=self.liste_rayon[i])
+            self.angles[i]=avancement_cercle(angle=self.angles[i],pas=self.liste_pas[i])
