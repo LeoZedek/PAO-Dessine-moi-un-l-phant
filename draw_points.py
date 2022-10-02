@@ -18,8 +18,6 @@ def _drawPoint(point, screen, drawingRectangle):
 	pg.draw.circle(screen, COLOR_LINE, (newX, newY), POINT_RADIUS)
 
 def drawPoints(points, screen, drawingRectangle):
-	clearRectangle(screen, drawingRectangle, COLOR_AXES, AXES_WIDTH)
-
 	for point in points:
 		_drawPoint(point, screen, drawingRectangle)
 

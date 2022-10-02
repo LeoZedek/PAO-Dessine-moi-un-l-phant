@@ -92,6 +92,7 @@ while notDone:
                     numberOfPoints = getNumberInput(screen, samplingBox)
 
                     sampledPoints = samplingPoints(points, numberOfPoints)
+                    clearRectangle(screen, originalDrawingRectangle, COLOR_AXES, AXES_WIDTH)
                     drawPoints(sampledPoints, screen, originalDrawingRectangle)
 
                 elif numberCircleBox.collidepoint(event.pos):
