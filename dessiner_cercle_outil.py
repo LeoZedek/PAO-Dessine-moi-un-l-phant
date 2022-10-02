@@ -9,7 +9,7 @@ WHITE = 255,255,255
 
 TAILLE_POINT = 2
 
-def creation_liste_pas_et_liste_angle(nb_cercle,pas):
+def creation_liste_pas(nb_cercle,pas):
     """
     nbCercle : int>=0 la taille des listes à renvoyer dans notre le nombre de cercle
     pas : int>=0 le pas d'avancement de l'angle
@@ -21,6 +21,7 @@ def creation_liste_pas_et_liste_angle(nb_cercle,pas):
     return liste_pas
 
 def creation_liste_angle(Cn):
+    """ creer la liste des angles """
     liste_angle = [phase(coefficient) for coefficient in Cn]
     return liste_angle
 

@@ -4,13 +4,13 @@
 import pygame as pg
 # from drawElephantUtils import Point
 
-from dessiner_cercle_outil import creation_liste_pas_et_liste_angle
+from dessiner_cercle_outil import creation_liste_pas
+from dessiner_cercle_outil import creation_liste_angle
 from dessiner_cercle_outil import polaire2carthesien
 from dessiner_cercle_outil import avancement_cercle
 from dessiner_cercle_outil import dessiner_cercle_et_point
 from dessiner_cercle_outil import coeff2rayon
 from dessiner_cercle_outil import BLACK, TAILLE_POINT
-from dessiner_cercle_outil import creation_liste_angle
 from point import Point2D
 
 class SeriesCercles:
@@ -32,7 +32,7 @@ class SeriesCercles:
         self._chemin = []
         self._pas = pas
         nb_cercle = len(self.liste_rayon)
-        self._liste_pas = creation_liste_pas_et_liste_angle(nb_cercle,pas)
+        self._liste_pas = creation_liste_pas(nb_cercle,pas)
         self._angles = creation_liste_angle(liste_coeff)
         self._screen = screen
 
@@ -103,7 +103,7 @@ class SeriesCercles:
             ordonnee=ordonnee,rayon=self.liste_rayon[0])
         taille_liste = len(self.liste_rayon)
         for i in range(1,taille_liste):
-            newx, newy = polaire2carthesien(rho=self.liste_rayon[i],phi=self.angles[i])
+            newx, newy = polaire2carthesien(rho=self.liste_rayon[i-1],phi=self.angles[i])
             abscisse +=newx
             ordonnee +=newy
             if i==taille_liste-1:

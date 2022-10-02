@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pygame as pg
 from math import pi
 from drawElephantUtils import *
