@@ -80,11 +80,11 @@ notDone = True
 while notDone:
     for event in pg.event.get():
         if event.type == pg.QUIT:
-            notDone = 0
+            notDone = False
 
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_q:
-                notDone = 0
+                notDone = False
 
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1: # If the button pressed is the left one
@@ -98,7 +98,7 @@ while notDone:
                     numberOfCircle = getNumberInput(screen, numberCircleBox)
 
                 elif startBox.collidepoint(event.pos):
-                    notDone = 0
+                    notDone = False
 
         pg.display.update()
 
@@ -109,14 +109,17 @@ coeffCN = decompositions_en_serie_de_fourier(sampledPointsComplexe, numberOfCirc
 centerReconstructedDrawing = Point2D(reconstructedDrawingRectangle.centerx, reconstructedDrawingRectangle.centery)
 pas = 2*pi/1024
 my_series_cercles = SeriesCercles(centerReconstructedDrawing, coeffCN, 1 - PROPORTION_ORIGINAL_DRAWING, pas, screen)
-
+print(coeffCN)
 notDone = True
 
 while notDone:
-    #clearRectangle(screen, reconstructedDrawingRectangle, COLOR_AXES, AXES_WIDTH)
+    clearScreen(screen)
 
     my_series_cercles.dessiner_le_chemin()
     my_series_cercles.dessiner_les_cercles()
+    drawPoints(sampledPoints, screen, originalDrawingRectangle)
+    
+    pg.display.update()
 
     time.sleep(0.01)
 ## Loop to draw
