@@ -2,6 +2,7 @@
 """ definition des fonction outils pour la classe SeriesCercles """
 import numpy as np
 import pygame as pg
+from cmath import phase
 
 BLACK = 0, 0, 0
 WHITE = 255,255,255
@@ -15,11 +16,13 @@ def creation_liste_pas_et_liste_angle(nb_cercle,pas):
     return : la liste d'avancement des cercle et la liste initiale des etat des angles
     """
     liste_pas = []
-    angles = []
     for i in range(nb_cercle):
         liste_pas +=[2*i*pas]
-        angles +=[0]
-    return liste_pas, angles
+    return liste_pas
+
+def creation_liste_angle(Cn):
+    liste_angle = [phase(coefficient) for coefficient in Cn]
+    return liste_angle
 
 def polaire2carthesien(rho,phi):
     """

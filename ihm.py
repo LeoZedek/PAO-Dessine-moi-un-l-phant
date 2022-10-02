@@ -119,6 +119,9 @@ while notDone:
     my_series_cercles.dessiner_le_chemin()
     my_series_cercles.dessiner_les_cercles()
     drawPoints(sampledPoints, screen, originalDrawingRectangle)
+
+    drawRectangle(screen, originalDrawingRectangle, COLOR_AXES,AXES_WIDTH)
+    drawRectangle(screen, reconstructedDrawingRectangle, COLOR_AXES, AXES_WIDTH)
     
     pg.display.update()
 

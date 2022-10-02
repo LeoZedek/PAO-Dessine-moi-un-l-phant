@@ -10,6 +10,7 @@ from dessiner_cercle_outil import avancement_cercle
 from dessiner_cercle_outil import dessiner_cercle_et_point
 from dessiner_cercle_outil import coeff2rayon
 from dessiner_cercle_outil import BLACK, TAILLE_POINT
+from dessiner_cercle_outil import creation_liste_angle
 from point import Point2D
 
 class SeriesCercles:
@@ -31,7 +32,8 @@ class SeriesCercles:
         self._chemin = []
         self._pas = pas
         nb_cercle = len(self.liste_rayon)
-        self._liste_pas, self._angles = creation_liste_pas_et_liste_angle(nb_cercle,pas)
+        self._liste_pas = creation_liste_pas_et_liste_angle(nb_cercle,pas)
+        self._angles = creation_liste_angle(liste_coeff)
         self._screen = screen
 
     @property
