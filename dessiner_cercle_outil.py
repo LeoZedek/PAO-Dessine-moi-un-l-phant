@@ -15,9 +15,8 @@ def creation_liste_pas(nb_cercle,pas):
     pas : int>=0 le pas d'avancement de l'angle
     return : la liste d'avancement des cercle et la liste initiale des etat des angles
     """
-    liste_pas = []
-    for i in range(nb_cercle):
-        liste_pas +=[2*i*pas]
+    liste_pas = [2*i*pas for i in range(nb_cercle)]
+    # liste_pas = [pas for i in range(nb_cercle)]
     return liste_pas
 
 def creation_liste_angle(Cn):
@@ -68,7 +67,5 @@ def coeff2rayon(liste_coeff,scale):
     scale : mise à l'échelle par rapport à la fenêtre d'affichage
     """
     # Je pense qu'il va ordonnee avoir une compréhension de liste
-    liste_rayon = []
-    for coeff in liste_coeff :
-        liste_rayon.append(np.abs(coeff)*scale)
+    liste_rayon = [np.abs(coeff)*scale for coeff in liste_coeff]
     return liste_rayon
