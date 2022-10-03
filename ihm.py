@@ -106,8 +106,6 @@ while notDone:
 
 sampledPointsComplexe = [complex(point) for point in sampledPoints]
 
-print(sampledPointsComplexe)
-
 coeffCN = decompositions_en_serie_de_fourier(sampledPointsComplexe, numberOfCircle)
 
 centerReconstructedDrawing = Point2D(reconstructedDrawingRectangle.centerx, reconstructedDrawingRectangle.centery)
@@ -117,6 +115,15 @@ my_series_cercles = SeriesCercles(centerReconstructedDrawing, coeffCN, 1 - PROPO
 notDone = True
 
 while notDone:
+
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            notDone = False
+
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_q:
+                notDone = False
+
     clearScreen(screen)
 
     my_series_cercles.dessiner_le_chemin()

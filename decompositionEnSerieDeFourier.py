@@ -4,7 +4,7 @@ import numpy as np
 def calcul_Cn(z,nb_cercle):
     nb_point = len(z)
     pas = 2*np.pi/nb_point
-    t=np.arange(-np.pi,np.pi,pas)
+    t=np.linspace(-np.pi,np.pi,nb_point)
     somme = np.trapz(z*np.exp(-1j*nb_cercle*t),dx=pas)
     return somme/(2*np.pi)
 

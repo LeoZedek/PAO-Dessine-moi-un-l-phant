@@ -34,7 +34,7 @@ def _fixPoint(points, screen):
 				index = 0
 				for newY in arange(point1.ordonnee, point2.ordonnee, yStep):
 					if index > 0:
-						pg.draw.circle(screen, COLOR_LINE, (point1.abscisse + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
+						pg.draw.circle(screen, COLOR_LINE, (point1.abscisse + (xDimension // 2), (-newY + (yDimension // 2))), POINT_RADIUS)
 						points.insert(len(points) - 1, Point2D(point1.abscisse, newY))
 					index += 1
 
@@ -51,7 +51,7 @@ def _fixPoint(points, screen):
 				for newX in arange(point1.abscisse, point2.abscisse, xStep):
 					if index > 0:
 						newY = coeffA * newX + coeffB
-						pg.draw.circle(screen, COLOR_LINE, (newX + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
+						pg.draw.circle(screen, COLOR_LINE, (newX + (xDimension // 2), (-newY + (yDimension // 2))), POINT_RADIUS)
 						points.insert(len(points) - 1, Point2D(newX, newY))
 					index += 1
 
@@ -89,7 +89,7 @@ def getPoints(screen):
 
 			if event.type == pg.MOUSEMOTION:
 				if mouseDown:
-					newPoint = Point2D(float(event.pos[0] - (xDimension // 2)), float(event.pos[1] - (yDimension // 2)))
+					newPoint = Point2D(float(event.pos[0] - (xDimension // 2)), -float(event.pos[1] - (yDimension // 2)))
 					points.append(newPoint)
 					pg.draw.circle(screen, COLOR_LINE, event.pos, POINT_RADIUS)
 
@@ -117,6 +117,8 @@ def samplingPoints(points, numberOfPoints):
 	if numberOfPoints > pointsLength:
 		return points
 
-	sampling = [points[round(i)] for i in linspace(0, pointsLength, numberOfPoints, endpoint = False)]
+	sampling = [points[round(i)] for i in linspace(0, pointsLength, numberOfPoints - 1, endpoint = False)]
+	if sampling:
+		sampling.append(sampling[0])
 
 	return sampling
