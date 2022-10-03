@@ -10,7 +10,7 @@ def calcul_Cn(z,nb_cercle):
 
 def decompositions_en_serie_de_fourier(z,nb_cercle):
     Cn = []
-    for nb in range(1,nb_cercle): 
+    for nb in range(-nb_cercle ,nb_cercle + 1): 
         C_nb = calcul_Cn(z,nb)
         Cn.append(C_nb)
     return Cn
