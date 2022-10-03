@@ -15,7 +15,7 @@ def creation_liste_pas(nb_cercle,pas):
     pas : int>=0 le pas d'avancement de l'angle
     return : la liste d'avancement des cercle et la liste initiale des etat des angles
     """
-    liste_pas = [2*i*pas for i in range(nb_cercle)]
+    liste_pas = [(i**2)*pas for i in range(nb_cercle)]
     # liste_pas = [pas for i in range(nb_cercle)]
     return liste_pas
 

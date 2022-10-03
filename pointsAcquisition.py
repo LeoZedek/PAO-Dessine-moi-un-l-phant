@@ -23,19 +23,19 @@ def _fixPoint(points, screen):
 
 		if nbPoints > 0:
 
-			if point1.x == point2.x:
+			if point1.abscisse == point2.abscisse:
 
 				yStep = distance / nbPoints
 
-				if point1.y > point2.y:
+				if point1.ordonnee > point2.ordonnee:
 					yStep = -yStep
 
 				# Not taking the first point because he is already in the points list.
 				index = 0
-				for newY in arange(point1.y, point2.y, yStep):
+				for newY in arange(point1.ordonnee, point2.ordonnee, yStep):
 					if index > 0:
-						pg.draw.circle(screen, COLOR_LINE, (point1.x + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
-						points.insert(len(points) - 1, Point2D(point1.x, newY))
+						pg.draw.circle(screen, COLOR_LINE, (point1.abscisse + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
+						points.insert(len(points) - 1, Point2D(point1.abscisse, newY))
 					index += 1
 
 				pg.display.update()
@@ -45,10 +45,10 @@ def _fixPoint(points, screen):
 				
 				coeffA, coeffB = point1.linear_equation(point2)
 
-				xStep = (point2.x - point1.x) / nbPoints
+				xStep = (point2.abscisse - point1.abscisse) / nbPoints
 				
 				index = 0
-				for newX in arange(point1.x, point2.x, xStep):
+				for newX in arange(point1.abscisse, point2.abscisse, xStep):
 					if index > 0:
 						newY = coeffA * newX + coeffB
 						pg.draw.circle(screen, COLOR_LINE, (newX + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)

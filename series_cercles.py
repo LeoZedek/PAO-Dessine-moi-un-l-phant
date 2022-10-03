@@ -97,8 +97,8 @@ class SeriesCercles:
         """
         dessine les cercles dans leurs Etat actuel et fait avancer les angles
         """
-        abscisse = self.centre_initial.x
-        ordonnee = self.centre_initial.y
+        abscisse = self.centre_initial.abscisse
+        ordonnee = self.centre_initial.ordonnee
         dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
             ordonnee=ordonnee,rayon=self.liste_rayon[0])
         taille_liste = len(self.liste_rayon)
