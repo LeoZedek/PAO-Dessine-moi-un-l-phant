@@ -106,12 +106,14 @@ while notDone:
 
 sampledPointsComplexe = [complex(point) for point in sampledPoints]
 
+print(sampledPointsComplexe)
+
 coeffCN = decompositions_en_serie_de_fourier(sampledPointsComplexe, numberOfCircle)
 
 centerReconstructedDrawing = Point2D(reconstructedDrawingRectangle.centerx, reconstructedDrawingRectangle.centery)
 pas = 2*pi/1024
 my_series_cercles = SeriesCercles(centerReconstructedDrawing, coeffCN, 1 - PROPORTION_ORIGINAL_DRAWING, pas, screen)
-print(coeffCN)
+# print(coeffCN)
 notDone = True
 
 while notDone:
