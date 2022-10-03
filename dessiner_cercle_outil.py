@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """ definition des fonction outils pour la classe SeriesCercles """
+from cmath import phase
 import numpy as np
 import pygame as pg
 
@@ -8,18 +9,19 @@ WHITE = 255,255,255
 
 TAILLE_POINT = 2
 
-def creation_liste_pas_et_liste_angle(nb_cercle,pas):
+def creation_liste_pas(nb_cercle,pas):
     """
     nbCercle : int>=0 la taille des listes à renvoyer dans notre le nombre de cercle
     pas : int>=0 le pas d'avancement de l'angle
     return : la liste d'avancement des cercle et la liste initiale des etat des angles
     """
-    liste_pas = []
-    angles = []
-    for i in range(nb_cercle):
-        liste_pas +=[2*i*pas]
-        angles +=[0]
-    return liste_pas, angles
+    liste_pas = [i*pas for i in range(1, nb_cercle+1)]
+    return liste_pas
+
+def creation_liste_angle(coefficients):
+    """ creer la liste des angles """
+    liste_angle = [0*i for i in range(len(coefficients)+1)]
+    return liste_angle
 
 def polaire2carthesien(rho,phi):
     """
@@ -63,8 +65,7 @@ def coeff2rayon(liste_coeff,scale):
     liste_coeff : liste des coefficients de la décomposition de fourrier complexe
     scale : mise à l'échelle par rapport à la fenêtre d'affichage
     """
-    # Je pense qu'il va ordonnee avoir une compréhension de liste
-    liste_rayon = []
-    for coeff in liste_coeff :
-        liste_rayon.append(np.abs(coeff)*scale)
+    liste_rayon = [np.abs(coeff)*(scale*0+1) for coeff in liste_coeff]
+    liste_rayon.append(1)
+    # liste_rayon = [np.abs(coeff)*(scale) for coeff in liste_coeff]
     return liste_rayon

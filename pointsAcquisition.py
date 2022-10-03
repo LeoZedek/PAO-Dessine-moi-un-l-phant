@@ -1,6 +1,8 @@
 import pygame as pg
 from numpy import arange, linspace
 from drawElephantUtils import *
+from screenUtils import initWindow
+from point import Point2D
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
 # a linear interpolation is made to add points between them.
@@ -21,19 +23,19 @@ def _fixPoint(points, screen):
 
 		if nbPoints > 0:
 
-			if point1.getX() == point2.getX():
+			if point1.abscisse == point2.abscisse:
 
 				yStep = distance / nbPoints
 
-				if point1.getY() > point2.getY():
+				if point1.ordonnee > point2.ordonnee:
 					yStep = -yStep
 
 				# Not taking the first point because he is already in the points list.
 				index = 0
-				for newY in arange(point1.getY(), point2.getY(), yStep):
+				for newY in arange(point1.ordonnee, point2.ordonnee, yStep):
 					if index > 0:
-						pg.draw.circle(screen, COLOR_LINE, (point1.getX() + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
-						points.insert(len(points) - 1, Point(point1.getX(), newY))
+						pg.draw.circle(screen, COLOR_LINE, (point1.abscisse + (xDimension // 2), (-newY + (yDimension // 2))), POINT_RADIUS)
+						points.insert(len(points) - 1, Point2D(point1.abscisse, newY))
 					index += 1
 
 				pg.display.update()
@@ -41,37 +43,23 @@ def _fixPoint(points, screen):
 
 			else:
 				
-				coeffA, coeffB = point1.linearEquation(point2)
+				coeffA, coeffB = point1.linear_equation(point2)
 
-				xStep = (point2.getX() - point1.getX()) / nbPoints
+				xStep = (point2.abscisse - point1.abscisse) / nbPoints
 				
 				index = 0
-				for newX in arange(point1.getX(), point2.getX(), xStep):
+				for newX in arange(point1.abscisse, point2.abscisse, xStep):
 					if index > 0:
 						newY = coeffA * newX + coeffB
-						pg.draw.circle(screen, COLOR_LINE, (newX + (xDimension // 2), newY + (yDimension // 2)), POINT_RADIUS)
-						points.insert(len(points) - 1, Point(newX, newY))
+						pg.draw.circle(screen, COLOR_LINE, (newX + (xDimension // 2), (-newY + (yDimension // 2))), POINT_RADIUS)
+						points.insert(len(points) - 1, Point2D(newX, newY))
 					index += 1
 
 				pg.display.update()
 
-def getPoints():
-
-	pg.init()
-
-	screen = pg.display.set_mode((0, 0), pg.FULLSCREEN)
-	#screen = pg.display.set_mode((0, 0), pg.FULLSCREEN)
-	pg.display.set_caption("Title")
+def getPoints(screen):
 
 	xDimension, yDimension = screen.get_size()
-
-	background = pg.Surface(screen.get_size())
-	background = background.convert()
-	background.fill(GRAY)
-
-	screen.blit(background, (0, 0))
-	pg.display.flip()
-
 
 	# Draw axis
 	for xAxis in range(xDimension):
@@ -101,7 +89,7 @@ def getPoints():
 
 			if event.type == pg.MOUSEMOTION:
 				if mouseDown:
-					newPoint = Point(float(event.pos[0] - (xDimension // 2)), float(event.pos[1] - (yDimension // 2)))
+					newPoint = Point2D(float(event.pos[0] - (xDimension // 2)), -float(event.pos[1] - (yDimension // 2)))
 					points.append(newPoint)
 					pg.draw.circle(screen, COLOR_LINE, event.pos, POINT_RADIUS)
 
@@ -120,8 +108,6 @@ def getPoints():
 
 		_fixPoint(points, screen)
 
-	pg.quit()
-
 	return points
 
 def samplingPoints(points, numberOfPoints):
@@ -131,6 +117,8 @@ def samplingPoints(points, numberOfPoints):
 	if numberOfPoints > pointsLength:
 		return points
 
-	sampling = [points[round(i)] for i in linspace(0, pointsLength, numberOfPoints, endpoint = False)]
+	sampling = [points[round(i)] for i in linspace(0, pointsLength, numberOfPoints - 1, endpoint = False)]
+	if sampling:
+		sampling.append(sampling[0])
 
 	return sampling

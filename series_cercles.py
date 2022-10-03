@@ -4,7 +4,8 @@
 import pygame as pg
 # from drawElephantUtils import Point
 
-from dessiner_cercle_outil import creation_liste_pas_et_liste_angle
+from dessiner_cercle_outil import creation_liste_pas
+from dessiner_cercle_outil import creation_liste_angle
 from dessiner_cercle_outil import polaire2carthesien
 from dessiner_cercle_outil import avancement_cercle
 from dessiner_cercle_outil import dessiner_cercle_et_point
@@ -17,7 +18,7 @@ class SeriesCercles:
     SeriesCercles permettant de dessiner les cercle
     de la décomposition en série de fourrier et de refaire le dessin
     """
-    def __init__(self,centre_initial : Point2D,liste_coeff : list[float],\
+    def __init__(self,centre_initial : Point2D,liste_coeff : list[complex],\
         scale : float,pas : float,screen):
         """
         centreInitial: Point le centre du premier cercle
@@ -31,7 +32,8 @@ class SeriesCercles:
         self._chemin = []
         self._pas = pas
         nb_cercle = len(self.liste_rayon)
-        self._liste_pas, self._angles = creation_liste_pas_et_liste_angle(nb_cercle,pas)
+        self._liste_pas = creation_liste_pas(nb_cercle,pas)
+        self._angles = creation_liste_angle(liste_coeff)
         self._screen = screen
 
     @property
@@ -89,22 +91,23 @@ class SeriesCercles:
         """
         for point in self.chemin:
             pg.draw.circle(surface=self.screen,color=BLACK,
-                center=(point.abscisse,point.ordonnee),radius=TAILLE_POINT)
+                center=(point[0],point[1]),radius=TAILLE_POINT)
 
     def dessiner_les_cercles(self):
         """
         dessine les cercles dans leurs Etat actuel et fait avancer les angles
         """
-        abscisse = self.centre_initial.getX()
-        ordonnee = self.centre_initial.getY()
+        abscisse = self.centre_initial.abscisse
+        ordonnee = self.centre_initial.ordonnee
         dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
             ordonnee=ordonnee,rayon=self.liste_rayon[0])
         taille_liste = len(self.liste_rayon)
         for i in range(1,taille_liste):
-            newx, newy = polaire2carthesien(rho=self.liste_rayon[i],phi=self.angles[i])
+            newx, newy = polaire2carthesien(rho=self.liste_rayon[i-1],phi=self.angles[i])
             abscisse +=newx
             ordonnee +=newy
-            if i==taille_liste-1 :
+            if i==taille_liste-1:
+                chemin = self.chemin
                 chemin +=[(abscisse,ordonnee)]
             dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
                 ordonnee=ordonnee,rayon=self.liste_rayon[i])
