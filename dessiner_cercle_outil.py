@@ -19,9 +19,9 @@ def creation_liste_pas(nb_cercle,pas):
     # liste_pas = [pas for i in range(nb_cercle)]
     return liste_pas
 
-def creation_liste_angle(Cn):
+def creation_liste_angle(coefficients):
     """ creer la liste des angles """
-    liste_angle = [phase(coefficient) for coefficient in Cn]
+    liste_angle = [phase(coefficient) for coefficient in coefficients]
     return liste_angle
 
 def polaire2carthesien(rho,phi):
