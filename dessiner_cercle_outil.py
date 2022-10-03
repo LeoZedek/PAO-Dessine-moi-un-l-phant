@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """ definition des fonction outils pour la classe SeriesCercles """
+from cmath import phase
 import numpy as np
 import pygame as pg
-from cmath import phase
 
 BLACK = 0, 0, 0
 WHITE = 255,255,255
