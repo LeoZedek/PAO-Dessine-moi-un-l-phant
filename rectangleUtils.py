@@ -1,5 +1,5 @@
 import pygame as pg
-from drawElephantUtils import BLACK, BACKGROUND_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH, INPUT_SAMPLING_BOX_BORDER_COLOR
+from drawElephantUtils import BLACK, BACKGROUND_COLOR, BOX_BORDER_WIDTH, BOX_BORDER_COLOR
 
 # Function to verify that the pressed key is a digit
 # Private function
@@ -9,7 +9,7 @@ def _isDigitKey(key):
 # Get the number input from the user with key input
 # Max input is 9 999
 def getNumberInput(screen, rectangle):
-	clearRectangle(screen, rectangle, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
+	clearRectangle(screen, rectangle, BOX_BORDER_COLOR, BOX_BORDER_WIDTH)
 
 	notDone = True
 
@@ -30,7 +30,7 @@ def getNumberInput(screen, rectangle):
 	return int(myNumber)
 
 def setRectangleText(screen, rectangle, text):
-	clearRectangle(screen, rectangle, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
+	clearRectangle(screen, rectangle, BOX_BORDER_COLOR, BOX_BORDER_WIDTH)
 
 	letterSizeInPixels = rectangle.height * 0.8
 	letterSizeInPoints = round(letterSizeInPixels * 72 / 96  * 1.5)

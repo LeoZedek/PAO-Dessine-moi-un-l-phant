@@ -57,7 +57,7 @@ samplingBoxHeight = boxHeight
 samplingBoxWidth = boxWidth
 
 samplingBox = pg.Rect(leftSamplingBox, topSamplingBox, samplingBoxWidth, samplingBoxHeight)
-drawRectangle(screen, samplingBox, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
+drawRectangle(screen, samplingBox, BOX_BORDER_COLOR, BOX_BORDER_WIDTH)
 
 numberCircleBoxHeight = boxHeight
 numberCircleBoxWidth = boxWidth
@@ -65,7 +65,7 @@ topNumberCircleBox = topReconstructedDrawingRect - paddingTopBox - boxHeight
 leftNumberCircleBox = xDimension - paddingLeftBox - boxWidth
 
 numberCircleBox = pg.Rect(leftNumberCircleBox, topNumberCircleBox, numberCircleBoxWidth, numberCircleBoxHeight)
-drawRectangle(screen, numberCircleBox, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
+drawRectangle(screen, numberCircleBox, BOX_BORDER_COLOR, BOX_BORDER_WIDTH)
 
 startBoxHeight = boxHeight
 startBoxWidth = boxWidth
@@ -73,7 +73,7 @@ topStartBox = topReconstructedDrawingRect + heightReconstructedDrawingRect // 2 
 leftStartBox = xDimension - paddingLeftBox - boxWidth
 
 startBox = pg.Rect(leftStartBox, topStartBox, startBoxWidth, startBoxHeight)
-drawRectangle(screen, startBox, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
+drawRectangle(screen, startBox, BOX_BORDER_COLOR, BOX_BORDER_WIDTH)
 setRectangleText(screen, startBox, "GO !")
 
 notDone = True
