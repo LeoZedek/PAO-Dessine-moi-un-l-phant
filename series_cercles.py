@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """ definition de la classe SeriesCercles """
-# from tkinter import Scale
 import pygame as pg
-# from drawElephantUtils import Point
 from dessiner_cercle_outil import creation_liste_pas
 from dessiner_cercle_outil import creation_liste_angle
 from dessiner_cercle_outil import polaire2carthesien

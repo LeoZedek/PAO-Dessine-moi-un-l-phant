@@ -36,7 +36,7 @@ def creation_liste_angle(coefficients):
         liste_angle.append(phase(coefficients[middle_ind + i]))
 
     print(liste_angle)
-    print([phase(coeff) for coeff in coefficients])    
+    print([phase(coeff) for coeff in coefficients])
 
     return liste_angle
 
