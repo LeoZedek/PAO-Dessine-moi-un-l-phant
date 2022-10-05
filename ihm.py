@@ -6,7 +6,7 @@ from screenUtils import initWindow, clearScreen
 from draw_points import drawPoints
 from pointsAcquisition import getPoints, samplingPoints
 from rectangleUtils import getNumberInput, drawRectangle, setRectangleText, clearRectangle
-from decompositionEnSerieDeFourier import decompositions_en_serie_de_fourier
+from decomposition_en_serie_de_fourier import decompositions_en_serie_de_fourier
 from series_cercles import SeriesCercles
 from point import Point2D
 import time
