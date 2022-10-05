@@ -17,7 +17,6 @@ def initWindow():
 
 	return screen
 
-	
 def clearScreen(screen):
 	background = pg.Surface(screen.get_size())
 	background = background.convert()
