@@ -3,7 +3,6 @@
 # from tkinter import Scale
 import pygame as pg
 # from drawElephantUtils import Point
-import numpy as np
 from dessiner_cercle_outil import creation_liste_pas
 from dessiner_cercle_outil import creation_liste_angle
 from dessiner_cercle_outil import polaire2carthesien
@@ -27,9 +26,9 @@ class SeriesCercles:
         screen : screen : l'écran d'affichage
         pas : le pas d'avancement des cercles
         """
-        
+
         self._centre_initial = centre_initial
-        
+
         self._liste_rayon = coeff2rayon(liste_coeff,scale)
         self._chemin = []
         self._pas = pas
