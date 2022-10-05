@@ -33,7 +33,8 @@ def creation_liste_angle(coefficients):
 
     for i in range(1, nb_cercle // 2 + 1):
         liste_angle.append(phase(coefficients[middle_ind - i]))
-        liste_angle.append(phase(coefficients[middle_ind + i]))
+        if middle_ind+i<len(liste_angle):
+            liste_angle.append(phase(coefficients[middle_ind + i]))
 
     print(liste_angle)
     print([phase(coeff) for coeff in coefficients])    
@@ -91,7 +92,8 @@ def coeff2rayon(liste_coeff,scale):
 
     for i in range(1, nb_cercle // 2 + 1):
         liste_rayon.append(np.abs(liste_coeff[middle_ind - i]) * scale)
-        liste_rayon.append(np.abs(liste_coeff[middle_ind + i]) * scale)
+        if middle_ind+i<len(liste_coeff):
+            liste_rayon.append(np.abs(liste_coeff[middle_ind + i]) * scale)
 
     liste_rayon.append(0)
 

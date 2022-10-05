@@ -14,5 +14,12 @@ def calcul_coefficient(points_complexes,indice)->complex:
 
 def decompositions_en_serie_de_fourier(points_complexes,nb_cercle)->list[complex]:
     """ Fonction retournant l'ensemble des coefficients de l a décomposition en série de Fourier """
-    return [calcul_coefficient(points_complexes,indice_coefficients)\
-        for indice_coefficients in range(-nb_cercle,nb_cercle+1) ]
+    borne = nb_cercle // 2
+    if nb_cercle % 2 == 0:
+        coefficients = [calcul_coefficient(points_complexes,indice_coefficients)\
+        for indice_coefficients in range(-borne,borne+1) ]
+    else:
+        coefficients = [calcul_coefficient(points_complexes,indice_coefficients)\
+        for indice_coefficients in range(-borne,borne+2) ]
+
+    return coefficients
