@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 """ definition de la classe SeriesCercles """
-# from tkinter import Scale
 import pygame as pg
-# from drawElephantUtils import Point
-import numpy as np
 from dessiner_cercle_outil import creation_liste_pas
 from dessiner_cercle_outil import creation_liste_angle
 from dessiner_cercle_outil import polaire2carthesien
@@ -19,24 +16,46 @@ class SeriesCercles:
     de la décomposition en série de fourrier et de refaire le dessin
     """
     def __init__(self,centre_initial : Point2D,liste_coeff : list[complex],\
-        scale : float,pas : float,screen):
+        scale : float,pas : float,screen,nombre_point_chemin:int=100):
         """
         centreInitial: Point le centre du premier cercle
         liste_coeff : list[float] : liste des coefficient de la décomposition en série de fourrier
         scale : float : mise à l'échelle par rapport à la fenêtre d'affichage
         screen : screen : l'écran d'affichage
         pas : le pas d'avancement des cercles
+        nombre_point_chemin : le nombre de point que l'on va garder dans le chemin
         """
-        
+
         self._centre_initial = centre_initial
-        
+
         self._liste_rayon = coeff2rayon(liste_coeff,scale)
-        self._chemin = []
+        self._chemin = [None]*nombre_point_chemin
+        self._nombre_point_chemin = nombre_point_chemin
         self._pas = pas
         nb_cercle = len(self.liste_rayon)
         self._liste_pas = creation_liste_pas(nb_cercle,pas)
         self._angles = creation_liste_angle(liste_coeff)
         self._screen = screen
+        self._compteur_chemin = 0
+
+    @property
+    def nombre_point_chemin(self):
+        """ renvoi le nombre de point dans le chemin """
+        return self._nombre_point_chemin
+        
+    @nombre_point_chemin.setter
+    def nombre_point_chemin(self, nombre_point_chemin):
+        self._nombre_point_chemin = nombre_point_chemin
+
+    @property
+    def compteur_chemin(self)->int:
+        """ renvoi la position parcouru dans le chemin """
+        return self._compteur_chemin
+
+    @compteur_chemin.setter
+    def compteur_chemin(self,compteur_chemin:int):
+        """Setter de l'argument compteur_chemin"""
+        self._compteur_chemin = compteur_chemin
 
     @property
     def centre_initial(self)->Point2D:
@@ -58,6 +77,11 @@ class SeriesCercles:
         renvoi le chemin déjà parcouru
         """
         return self._chemin
+
+    @chemin.setter
+    def chemin(self,chemin:list[Point2D]):
+        """ Setter de l'arguement chemin """
+        self._chemin=chemin
 
     @property
     def pas(self)->float:
@@ -92,8 +116,9 @@ class SeriesCercles:
         dessine le chemin parcouru
         """
         for point in self.chemin:
-            pg.draw.circle(surface=self.screen,color=BLACK,
-                center=(point[0],point[1]),radius=TAILLE_POINT)
+            if point:
+                pg.draw.circle(surface=self.screen,color=BLACK,\
+                    center=(point.abscisse,point.ordonnee),radius=TAILLE_POINT)
 
     def dessiner_les_cercles(self):
         """
@@ -109,8 +134,10 @@ class SeriesCercles:
             abscisse +=newx
             ordonnee +=newy
             if i==taille_liste-1:
-                chemin = self.chemin
-                chemin +=[(abscisse,ordonnee)]
+                if (self.compteur_chemin >= self.nombre_point_chemin):
+                    self.compteur_chemin = 0
+                self.chemin[self.compteur_chemin] = Point2D(abscisse,ordonnee)
+                self.compteur_chemin +=1
             dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
                 ordonnee=ordonnee,rayon=self.liste_rayon[i])
             self.angles[i]=avancement_cercle(angle=self.angles[i],pas=self.liste_pas[i])
