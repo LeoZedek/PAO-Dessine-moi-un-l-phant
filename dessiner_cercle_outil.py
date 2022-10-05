@@ -20,7 +20,10 @@ def creation_liste_pas(nb_cercle,pas):
 
 def creation_liste_angle(coefficients):
     """ creer la liste des angles """
-    liste_angle = [0*i for i in range(len(coefficients)+1)]
+    liste_angle = [phase(coeff) for coeff in coefficients]
+    liste_angle.append(0)
+
+    # liste_angle = [0*i for i in range(len(coefficients)+1)]
     return liste_angle
 
 def polaire2carthesien(rho,phi):
@@ -65,7 +68,14 @@ def coeff2rayon(liste_coeff,scale):
     liste_coeff : liste des coefficients de la décomposition de fourrier complexe
     scale : mise à l'échelle par rapport à la fenêtre d'affichage
     """
-    liste_rayon = [np.abs(coeff)*(scale*0+1) for coeff in liste_coeff]
+    nb_cercle = len(liste_coeff)//2
+
+    liste_rayon = [np.abs(liste_coeff[nb_cercle])*scale]
+    for i in range(1,nb_cercle):
+        liste_rayon.append(2*scale*np.abs(liste_coeff[nb_cercle+i]))
+
+    # liste_rayon = [np.abs(coeff)*(scale) for coeff in liste_coeff]
     liste_rayon.append(1)
     # liste_rayon = [np.abs(coeff)*(scale) for coeff in liste_coeff]
+    print(liste_rayon)
     return liste_rayon
