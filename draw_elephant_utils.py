@@ -1,5 +1,5 @@
-import math
-from numpy import sqrt
+#!/usr/bin/env python3
+"""Module proposant les constantes nécessaire à pour le projet pao-dessine-moi-un-elephant"""
 
 AXES_WIDTH = 1
 
