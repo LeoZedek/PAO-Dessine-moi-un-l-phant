@@ -21,7 +21,6 @@ def rangement(coefficients,nb_cercle):
         nouvelle_liste.append(coefficients[middle_ind + i]) 
     if nb_cercle % 2==1:
         nouvelle_liste.pop()
-    print(nouvelle_liste)
     return nouvelle_liste
 
 def decompositions_en_serie_de_fourier(points_complexes,nb_cercle)->list[complex]:
