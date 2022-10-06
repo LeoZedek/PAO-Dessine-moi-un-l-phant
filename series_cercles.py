@@ -32,7 +32,7 @@ class SeriesCercles:
         self._chemin = [None]*nombre_point_chemin
         self._nombre_point_chemin = nombre_point_chemin
         self._pas = pas
-        nb_cercle = len(self.liste_rayon)
+        nb_cercle = len(self.liste_rayon) - 1
         self._liste_pas = creation_liste_pas(nb_cercle,pas)
         self._angles = creation_liste_angle(liste_coeff)
         self._screen = screen
