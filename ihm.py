@@ -10,7 +10,7 @@ if __name__ == "__main__":
     from decompositionEnSerieDeFourier import decompositions_en_serie_de_fourier
     from series_cercles import SeriesCercles
     from point import Point2D
-    from constructed_rectangle import create_input_boxes
+    from constructed_rectangle import ConstructedRectangle
 
     from drawing_rectangle import DrawingRectangle
 
@@ -25,36 +25,16 @@ if __name__ == "__main__":
 
     clear_screen(screen)
 
-    x_dimension, y_dimension = screen.get_size()
+    ## Construction of the input box
+    constructed_rectangle = ConstructedRectangle(screen)
 
-    ## Construction of the original drawing rectangle
-
-    top_original_drawing_rect = 0
-    left_original_drawing_rect = 0
-    height_original_drawing_rect = y_dimension * PROPORTION_ORIGINAL_DRAWING
-    width_original_drawing_rect = x_dimension * PROPORTION_ORIGINAL_DRAWING
-
-    original_drawing_rectangle = DrawingRectangle(screen, left_original_drawing_rect,\
-        top_original_drawing_rect, width_original_drawing_rect, height_original_drawing_rect)
-
-    ## Construction of the reconstructed drawing rectangle
-
-    top_reconstructed_drawing_rect = height_original_drawing_rect - 1
-    left_reconstructed_drawing_rect = width_original_drawing_rect - 1
-    width_reconstructed_drawing_rect = x_dimension - left_reconstructed_drawing_rect + 1
-    height_reconstructed_drawing_rect = y_dimension - top_reconstructed_drawing_rect + 1
-
-    reconstructed_drawing_rectangle = DrawingRectangle(screen, left_reconstructed_drawing_rect,\
-     top_reconstructed_drawing_rect, width_reconstructed_drawing_rect, \
-     height_reconstructed_drawing_rect)
-
-    original_drawing_rectangle.draw()
-    reconstructed_drawing_rectangle.draw()
+    original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
+    reconstructed_drawing_rectangle = constructed_rectangle.reconstructed_drawing_rectangle
+    sampling_box = constructed_rectangle.sampling_box
+    number_circle_box = constructed_rectangle.number_circle_box
+    start_box = constructed_rectangle.start_box
 
     original_drawing_rectangle.draw_points(points)
-
-    ## Construction of the input box
-    sampling_box, number_circle_box, start_box = create_input_boxes(screen)
 
     not_done = True
 
