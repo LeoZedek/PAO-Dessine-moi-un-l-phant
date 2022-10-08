@@ -4,7 +4,7 @@
 from math import pi
 import time
 import pygame as pg
-from decompositionEnSerieDeFourier import decompositions_en_serie_de_fourier
+from decomposition_en_serie_de_fourier import decompositions_en_serie_de_fourier
 from draw_elephant_utils import DRAWING_RECT_BORDER_COLOR
 from draw_elephant_utils import POINT_RADIUS, COLOR_LINE
 from my_rectangle import MyRectangle
