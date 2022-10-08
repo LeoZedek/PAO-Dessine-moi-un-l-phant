@@ -14,6 +14,21 @@ def _is_digit_key(key):
 	"""
     return key in range(pg.K_0, pg.K_9 + 1)
 
+def _remove_last_letter_from_string(string):
+    """
+    Fonction privée
+    """
+
+    if len(string) == 0:
+        return string
+
+    else:
+
+        temp_list_char = list(string)
+        temp_list_char.pop()
+
+        return "".join(temp_list_char)
+
 class InputBox(MyRectangle):
     '''
         Classe représentant une boite d'entrée dans laquelle, on peut mettre un nombre en entrée.
@@ -71,6 +86,11 @@ class InputBox(MyRectangle):
                     if event.key == pg.K_RETURN:
                         if len(my_number) > 0:
                             not_done = False
+
+                    if event.key == pg.K_BACKSPACE:
+                        if len(my_number) > 0:
+                            my_number = _remove_last_letter_from_string(my_number)
+                            self.set_text(my_number, BOX_BORDER_COLOR_ON_FOCUS)
 
         self.set_text(my_number)
 
