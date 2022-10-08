@@ -1,139 +1,65 @@
 #!/usr/bin/env python3
-import pygame as pg
-from math import pi
-from drawElephantUtils import *
-from screenUtils import initWindow, clearScreen
-from draw_points import drawPoints
-from pointsAcquisition import getPoints, samplingPoints
-from rectangleUtils import getNumberInput, drawRectangle, setRectangleText, clearRectangle
-from decomposition_en_serie_de_fourier import decompositions_en_serie_de_fourier
-from series_cercles import SeriesCercles
-from point import Point2D
-import time
+"""
+Fichier main du projet pao "dessine moi un éléphant".
+"""
 
-pg.init()
+if __name__ == "__main__":
 
-screen = initWindow()
+    from screen_utils import init_window, clear_screen
+    from points_acquisition import get_points, sampling_points
+    from constructed_rectangles import ConstructedRectangles
 
-points = getPoints(screen)
+    import pygame as pg
 
-clearScreen(screen)
+    pg.init()
 
-xDimension, yDimension = screen.get_size()
+    screen = init_window()
 
-## Construction of the original drawing rectangle
+    points = get_points(screen)
 
-topOriginalDrawingRect = 0
-leftOriginalDrawingRect = 0
-heightOriginalDrawingRect = yDimension * PROPORTION_ORIGINAL_DRAWING
-widthOriginalDrawingRect = xDimension * PROPORTION_ORIGINAL_DRAWING
+    clear_screen(screen)
 
-originalDrawingRectangle = pg.Rect(leftOriginalDrawingRect, topOriginalDrawingRect, widthOriginalDrawingRect, heightOriginalDrawingRect)
+    ## Construction of the input box
+    constructed_rectangle = ConstructedRectangles(screen)
 
-## Construction of the reconstructed drawing rectangle
+    original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
+    reconstructed_drawing_rectangle = constructed_rectangle.reconstructed_drawing_rectangle
+    sampling_box = constructed_rectangle.sampling_box
+    number_circle_box = constructed_rectangle.number_circle_box
+    start_box = constructed_rectangle.start_box
 
-topReconstructedDrawingRect = heightOriginalDrawingRect - 1
-leftReconstructedDrawingRect = widthOriginalDrawingRect - 1
-widthReconstructedDrawingRect = xDimension - leftReconstructedDrawingRect + 1
-heightReconstructedDrawingRect = yDimension - topReconstructedDrawingRect + 1
+    original_drawing_rectangle.draw_points(points)
 
-reconstructedDrawingRectangle = pg.Rect(leftReconstructedDrawingRect, topReconstructedDrawingRect, widthReconstructedDrawingRect, heightReconstructedDrawingRect)
+    not_done = True
 
-drawRectangle(screen, originalDrawingRectangle, COLOR_AXES,AXES_WIDTH)
-drawRectangle(screen, reconstructedDrawingRectangle, COLOR_AXES, AXES_WIDTH)
+    number_circle = 1
+    sampled_points = points
+    while not_done:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                not_done = False
 
-drawPoints(points, screen, originalDrawingRectangle)
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_q:
+                    not_done = False
 
-## Construction of the input box
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1: # If the button pressed is the left one
+                    if sampling_box.collidepoint(event.pos):
+                        number_points = sampling_box.get_number_input()
 
-paddingTopBox = round(heightOriginalDrawingRect * INPUT_SAMPLING_BOX_PADDING_TOP)
-paddingLeftBox = round(widthOriginalDrawingRect * INPUT_SAMPLING_BOX_PADDING_RIGHT)
-boxHeight = round(INPUT_SAMPLING_BOX_HEIGHT * heightOriginalDrawingRect)
-boxWidth = round(INPUT_SAMPLING_BOX_WIDTH * widthOriginalDrawingRect)
+                        sampled_points = sampling_points(points, number_points)
+                        print(len(sampled_points))
+                        original_drawing_rectangle.clear()
+                        original_drawing_rectangle.draw_points(sampled_points)
 
-topSamplingBox = paddingTopBox
-leftSamplingBox = widthOriginalDrawingRect + paddingLeftBox
-samplingBoxHeight = boxHeight
-samplingBoxWidth = boxWidth
+                    elif number_circle_box.collidepoint(event.pos):
+                        number_circle = number_circle_box.get_number_input()
 
-samplingBox = pg.Rect(leftSamplingBox, topSamplingBox, samplingBoxWidth, samplingBoxHeight)
-drawRectangle(screen, samplingBox, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
+                    elif start_box.collidepoint(event.pos):
+                        not_done = False
 
-numberCircleBoxHeight = boxHeight
-numberCircleBoxWidth = boxWidth
-topNumberCircleBox = topReconstructedDrawingRect - paddingTopBox - boxHeight
-leftNumberCircleBox = xDimension - paddingLeftBox - boxWidth
+            pg.display.update()
 
-numberCircleBox = pg.Rect(leftNumberCircleBox, topNumberCircleBox, numberCircleBoxWidth, numberCircleBoxHeight)
-drawRectangle(screen, numberCircleBox, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
-
-startBoxHeight = boxHeight
-startBoxWidth = boxWidth
-topStartBox = topReconstructedDrawingRect + heightReconstructedDrawingRect // 2 - startBoxHeight // 2
-leftStartBox = xDimension - paddingLeftBox - boxWidth
-
-startBox = pg.Rect(leftStartBox, topStartBox, startBoxWidth, startBoxHeight)
-drawRectangle(screen, startBox, INPUT_SAMPLING_BOX_BORDER_COLOR, INPUT_SAMPLING_BOX_BORDER_WIDTH)
-setRectangleText(screen, startBox, "GO !")
-
-notDone = True
-
-while notDone:
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            notDone = False
-
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_q:
-                notDone = False
-
-        if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == 1: # If the button pressed is the left one
-                if samplingBox.collidepoint(event.pos):
-                    numberOfPoints = getNumberInput(screen, samplingBox)
-
-                    sampledPoints = samplingPoints(points, numberOfPoints)
-                    clearRectangle(screen, originalDrawingRectangle, COLOR_AXES, AXES_WIDTH)
-                    drawPoints(sampledPoints, screen, originalDrawingRectangle)
-
-                elif numberCircleBox.collidepoint(event.pos):
-                    numberOfCircle = getNumberInput(screen, numberCircleBox)
-
-                elif startBox.collidepoint(event.pos):
-                    notDone = False
-
-        pg.display.update()
-
-sampledPointsComplexe = [complex(point) for point in sampledPoints]
-
-coeffCN = decompositions_en_serie_de_fourier(sampledPointsComplexe, numberOfCircle)
-
-centerReconstructedDrawing = Point2D(reconstructedDrawingRectangle.centerx, reconstructedDrawingRectangle.centery)
-pas = 2*pi/1024
-my_series_cercles = SeriesCercles(centerReconstructedDrawing, coeffCN, 1 - PROPORTION_ORIGINAL_DRAWING, pas, screen)
-
-notDone = True
-
-while notDone:
-
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            notDone = False
-
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_q:
-                notDone = False
-
-    clearScreen(screen)
-
-    my_series_cercles.dessiner_le_chemin()
-    my_series_cercles.dessiner_les_cercles()
-    drawPoints(sampledPoints, screen, originalDrawingRectangle)
-
-    drawRectangle(screen, originalDrawingRectangle, COLOR_AXES,AXES_WIDTH)
-    drawRectangle(screen, reconstructedDrawingRectangle, COLOR_AXES, AXES_WIDTH)
-    
-    pg.display.update()
-
-    time.sleep(0.01)
-## Loop to draw
+    reconstructed_drawing_rectangle.draw_reconstructed_drawing( \
+        original_drawing_rectangle, sampled_points, number_circle)

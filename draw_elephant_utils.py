@@ -1,5 +1,5 @@
-import math
-from numpy import sqrt
+#!/usr/bin/env python3
+"""Module proposant les constantes nécessaire à pour le projet pao-dessine-moi-un-elephant"""
 
 AXES_WIDTH = 1
 
@@ -17,11 +17,14 @@ COLOR_LINE = BLACK
 
 PROPORTION_ORIGINAL_DRAWING = 1/3
 
+DRAWING_RECT_BORDER_COLOR = DARK_GRAY
+DRAWING_RECT_BORDER_WIDTH = 1
+
 ## Value relative to the size of the original drawing window
 INPUT_SAMPLING_BOX_PADDING_TOP = 1/10
 INPUT_SAMPLING_BOX_PADDING_RIGHT = 1/10
 INPUT_SAMPLING_BOX_HEIGHT = 1/5
 INPUT_SAMPLING_BOX_WIDTH = 1/5
 
-INPUT_SAMPLING_BOX_BORDER_WIDTH = 2
-INPUT_SAMPLING_BOX_BORDER_COLOR = BLACK
+BOX_BORDER_WIDTH = 2
+BOX_BORDER_COLOR = BLACK
