@@ -21,7 +21,7 @@ class DrawingRectangle(MyRectangle):
         """
         Dessine les bordures du rectangle.
         """
-        self._draw_border()
+        self._draw_border(DRAWING_RECT_BORDER_COLOR)
         pg.display.update()
 
     def _draw_point(self, point):
@@ -101,22 +101,3 @@ class DrawingRectangle(MyRectangle):
             pg.display.update()
 
             time.sleep(0.01)
-
-
-    def _draw_border(self):
-        """
-        Fonction privée
-        """
-        pg.draw.line(self.screen, DRAWING_RECT_BORDER_COLOR,\
-         (self.left, self.top), (self.left + self.width -1, self.top))
-
-        pg.draw.line(self.screen, DRAWING_RECT_BORDER_COLOR,\
-         (self.left, self.top), (self.left, self.top + self.height -1))
-
-        pg.draw.line(self.screen, DRAWING_RECT_BORDER_COLOR,\
-         (self.left + self.width - 1, self.top),\
-          (self.left + self.width - 1, self.top + self.height - 1))
-
-        pg.draw.line(self.screen, DRAWING_RECT_BORDER_COLOR,\
-         (self.left, self.top + self.height - 1),\
-          (self.left + self.width - 1, self.top + self.height - 1))

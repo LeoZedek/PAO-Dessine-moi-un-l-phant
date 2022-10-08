@@ -49,7 +49,6 @@ if __name__ == "__main__":
                         number_points = sampling_box.get_number_input()
 
                         sampled_points = sampling_points(points, number_points)
-                        print(len(sampled_points))
                         original_drawing_rectangle.clear()
                         original_drawing_rectangle.draw_points(sampled_points)
 

@@ -134,10 +134,14 @@ class SeriesCercles:
             abscisse +=newx
             ordonnee +=newy
             if i==taille_liste-1:
-                if (self.compteur_chemin >= self.nombre_point_chemin):
-                    self.compteur_chemin = 0
-                self.chemin[self.compteur_chemin] = Point2D(abscisse,ordonnee)
-                self.compteur_chemin +=1
+            #     if (self.compteur_chemin >= self.nombre_point_chemin):
+            #         self.compteur_chemin = 0
+            #     self.chemin[self.compteur_chemin] = Point2D(abscisse,ordonnee)
+            #     self.compteur_chemin +=1
+
+                chemin = self.chemin
+                chemin += [Point2D(abscisse, ordonnee)]
+
             dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
                 ordonnee=ordonnee,rayon=self.liste_rayon[i])
             self.angles[i]=avancement_cercle(angle=self.angles[i],pas=self.liste_pas[i])

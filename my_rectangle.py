@@ -34,3 +34,21 @@ class MyRectangle(pg.Rect):
         pg.draw.rect(self.screen, BACKGROUND_COLOR, self)
         self.draw()
         pg.display.update()
+
+    def _draw_border(self, border_color):
+        """
+        Fonction privée
+        """
+        pg.draw.line(self.screen, border_color,\
+         (self.left, self.top), (self.left + self.width -1, self.top))
+
+        pg.draw.line(self.screen, border_color,\
+         (self.left, self.top), (self.left, self.top + self.height -1))
+
+        pg.draw.line(self.screen, border_color,\
+         (self.left + self.width - 1, self.top),\
+          (self.left + self.width - 1, self.top + self.height - 1))
+
+        pg.draw.line(self.screen, border_color,\
+         (self.left, self.top + self.height - 1),\
+          (self.left + self.width - 1, self.top + self.height - 1))
