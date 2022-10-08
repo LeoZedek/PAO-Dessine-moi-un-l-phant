@@ -2,10 +2,7 @@
 """Module permettant de construire les rectangles de dessins"""
 
 import pygame as pg
-from draw_elephant_utils import PROPORTION_ORIGINAL_DRAWING, INPUT_SAMPLING_BOX_WIDTH
-from draw_elephant_utils import INPUT_SAMPLING_BOX_PADDING_RIGHT, INPUT_SAMPLING_BOX_PADDING_TOP
-from draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT
-from input_box import InputBox
+from draw_elephant_utils import PROPORTION_ORIGINAL_DRAWING
 from drawing_rectangle import DrawingRectangle
 
 class ConstructedDrawingRectangle:

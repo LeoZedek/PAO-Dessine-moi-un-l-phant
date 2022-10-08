@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 """Module permettant de construire les différents rectangle"""
 
-import pygame as pg
-from draw_elephant_utils import PROPORTION_ORIGINAL_DRAWING, INPUT_SAMPLING_BOX_WIDTH
+from draw_elephant_utils import INPUT_SAMPLING_BOX_WIDTH
 from draw_elephant_utils import INPUT_SAMPLING_BOX_PADDING_RIGHT, INPUT_SAMPLING_BOX_PADDING_TOP
 from draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT
 from input_box import InputBox
-from drawing_rectangle import DrawingRectangle
 from constructed_drawing_rectangle import ConstructedDrawingRectangle
 
-class ConstructedRectangle(ConstructedDrawingRectangle):
+class ConstructedRectangles(ConstructedDrawingRectangle):
     """
     Classe permettant de construire les differents rectangle de l'ihm.
     Elle permet de construire les deux rectangles de dessins et les 3 rectangles d'input
@@ -31,39 +29,52 @@ class ConstructedRectangle(ConstructedDrawingRectangle):
         self._start_box = self._constructed_start_box()
 
     @property
-    def original_drawing_rectangle(self):
-        return self._original_drawing_rectangle
-
-    @property
-    def reconstructed_drawing_rectangle(self):
-        return self._reconstructed_drawing_rectangle
-
-    @property
     def box_width(self)->int:
+        """
+        Getter pour obtenir la largeur des boites.
+        """
         return self._box_width
 
     @property
     def box_height(self)->int:
+        """
+        Getter pour obtenir la hauteur des boites.
+        """
         return self._box_height
 
     @property
     def box_padding_abscissa(self)->int:
+        """
+        Getter pour obtenir la marge sur l'abscisse des boites.
+        """
         return self._box_padding_abscissa
 
     @property
     def box_padding_ordinate(self)->int:
+        """
+        Getter pour obtenir la marge sur l'ordonnée des boites.
+        """
         return self._box_padding_ordinate
 
     @property
     def sampling_box(self):
+        """
+        Getter pour obtenir la boite d'entrée pour le nombre d'échantillonage.
+        """
         return self._sampling_box
 
     @property
     def number_circle_box(self):
+        """
+        Getter pour obtenir la boite d'entrée pour le nombre de cercle.
+        """
         return self._number_circle_box
 
     @property
     def start_box(self):
+        """
+        Getter pour obtenir la boite d'entrée pour commencer le dessin.
+        """
         return self._start_box
 
     def _constructed_box_abscissa_dimension(self):

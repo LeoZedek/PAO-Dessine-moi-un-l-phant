@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 """Module proposant la classe DrawingRectangle"""
 
+from math import pi
+import time
 import pygame as pg
+from decompositionEnSerieDeFourier import decompositions_en_serie_de_fourier
 from draw_elephant_utils import DRAWING_RECT_BORDER_COLOR
 from draw_elephant_utils import POINT_RADIUS, COLOR_LINE
 from my_rectangle import MyRectangle
+from screen_utils import clear_screen
+from series_cercles import SeriesCercles
+from point import Point2D
 
 class DrawingRectangle(MyRectangle):
     '''
@@ -39,11 +45,63 @@ class DrawingRectangle(MyRectangle):
     def draw_points(self, points):
         """
         Dessine la liste de point dans le rectangle.
+
+            points : une liste de Point2D
         """
         for point in points:
             self._draw_point(point)
 
         pg.display.update()
+
+    def draw_reconstructed_drawing(self, original_drawing_rectangle, points, number_circle):
+        """
+        Commence la reconstruction des cercles et garde les points dessiner dans
+        le rectangle du dessin original.
+        Précondition : le rapport hauteur/largueur du DrawingRectangle
+                       doit être le même que celui de la fenêtre.
+
+            original_drawing_rectangle : le DrawingRectangle qui contiendra le dessin original
+            points : la liste de Point2D du dessin original
+            number_circle : le nombre de cercle utilisé pour reconstruire le dessin
+        """
+
+        points_complexe = [complex(point) for point in points]
+
+        coeff_cn = decompositions_en_serie_de_fourier(points_complexe, number_circle)
+
+        center_drawing = Point2D(self.centerx,\
+            self.centery)
+        pas = 2*pi/1024
+        scale = self.height / self.screen.get_size()[1]
+
+        my_circles_serie = SeriesCercles(center_drawing, coeff_cn,\
+            scale, pas, self.screen)
+
+        not_done = True
+
+        while not_done:
+
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    not_done = False
+
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_q:
+                        not_done = False
+
+            clear_screen(self.screen)
+
+            my_circles_serie.dessiner_le_chemin()
+            my_circles_serie.dessiner_les_cercles()
+            original_drawing_rectangle.draw_points(points)
+
+            original_drawing_rectangle.draw()
+            self.draw()
+
+            pg.display.update()
+
+            time.sleep(0.01)
+
 
     def _draw_border(self):
         """
