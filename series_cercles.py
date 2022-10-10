@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ definition de la classe SeriesCercles """
 import pygame as pg
+from math import pi
 from dessiner_cercle_outil import creation_liste_pas
 from dessiner_cercle_outil import creation_liste_angle
 from dessiner_cercle_outil import polaire2carthesien
@@ -35,6 +36,8 @@ class SeriesCercles:
         nb_cercle = len(self.liste_rayon) - 1
         self._liste_pas = creation_liste_pas(nb_cercle,pas)
         self._angles = creation_liste_angle(liste_coeff)
+        self._angles_initiales = self._angles.copy()
+        print(self._angles_initiales)
         self._screen = screen
         self._compteur_chemin = 0
 
@@ -145,3 +148,12 @@ class SeriesCercles:
             dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
                 ordonnee=ordonnee,rayon=self.liste_rayon[i])
             self.angles[i]=avancement_cercle(angle=self.angles[i],pas=self.liste_pas[i])
+
+    def get_angle_first_circle(self):
+        return self.angles[1]
+
+    def get_initial_angle_first_circle(self):
+        return self._angles_initiales[1]
+
+    def have_done_complete_tour(self):
+        return self.get_angle_first_circle() < self.get_initial_angle_first_circle() - 2 * pi

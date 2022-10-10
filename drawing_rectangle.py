@@ -94,9 +94,11 @@ class DrawingRectangle(MyRectangle):
             my_circles_serie.dessiner_le_chemin()
             my_circles_serie.dessiner_les_cercles()
             original_drawing_rectangle.draw_points(points)
-
             original_drawing_rectangle.draw()
             self.draw()
+
+            if my_circles_serie.have_done_complete_tour():
+                not_done = False
 
             pg.display.update()
 

@@ -62,3 +62,14 @@ if __name__ == "__main__":
 
     reconstructed_drawing_rectangle.draw_reconstructed_drawing( \
         original_drawing_rectangle, sampled_points, number_circle)
+
+    quit = False
+
+    while not(quit):
+        for event in pg.event.get():
+                if event.type == pg.QUIT or event.type:
+                    quit = True
+
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_q:
+                        quit = True
