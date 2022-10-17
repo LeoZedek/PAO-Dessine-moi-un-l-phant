@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Module permettant de construire les différents rectangle"""
 
-from ihm.affichage.draw_elephant_utils import INPUT_SAMPLING_BOX_WIDTH
-from ihm.affichage.draw_elephant_utils import INPUT_SAMPLING_BOX_PADDING_RIGHT, INPUT_SAMPLING_BOX_PADDING_TOP
-from ihm.affichage.draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT
-from ihm.acquisition.clavier.input_box import InputBox
-from constructed_drawing_rectangle import ConstructedDrawingRectangle
+from dessiner_des_elphants.ihm.affichage.draw_elephant_utils import INPUT_SAMPLING_BOX_WIDTH
+from dessiner_des_elphants.ihm.affichage.draw_elephant_utils import INPUT_SAMPLING_BOX_PADDING_RIGHT, INPUT_SAMPLING_BOX_PADDING_TOP
+from dessiner_des_elphants.ihm.affichage.draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT
+from dessiner_des_elphants.ihm.acquisition.clavier.input_box import InputBox
+from .constructed_drawing_rectangleconstructed_drawing_rectangle import ConstructedDrawingRectangle
 
 class ConstructedRectangles(ConstructedDrawingRectangle):
     """

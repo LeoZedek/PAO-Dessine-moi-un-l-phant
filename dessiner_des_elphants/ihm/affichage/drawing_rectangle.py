@@ -5,12 +5,12 @@ from math import pi
 import time
 import pygame as pg
 from decomposition_en_serie_de_fourier import decompositions_en_serie_de_fourier
-from ihm.affichage.draw_elephant_utils import DRAWING_RECT_BORDER_COLOR
-from ihm.affichage.draw_elephant_utils import POINT_RADIUS, COLOR_LINE
-from my_rectangle import MyRectangle
-from screen_utils import clear_screen
-from series_cercles import SeriesCercles
-from point import Point2D
+from dessiner_des_elphants.ihm.affichage.draw_elephant_utils import POINT_RADIUS, COLOR_LINE
+from dessiner_des_elphants.ihm.affichage.draw_elephant_utils import DRAWING_RECT_BORDER_COLOR
+from dessiner_des_elphants.ihm.affichage.my_rectangle import MyRectangle
+from .screen_utils import clear_screen
+from dessiner_des_elphants.logique_metier.series_de_cercles import SeriesCercles
+from dessiner_des_elphants.logique_metier.points.point import Point2D
 
 class DrawingRectangle(MyRectangle):
     '''

@@ -2,7 +2,7 @@
 """Module proposant la classe abstraite MyRectangle"""
 
 import pygame as pg
-from draw_elephant_utils import BACKGROUND_COLOR
+from .draw_elephant_utils import BACKGROUND_COLOR
 
 class MyRectangle(pg.Rect):
     '''

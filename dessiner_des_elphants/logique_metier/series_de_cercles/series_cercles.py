@@ -2,14 +2,14 @@
 """ definition de la classe SeriesCercles """
 import pygame as pg
 from math import pi
-from dessiner_cercle_outil import creation_liste_pas
-from dessiner_cercle_outil import creation_liste_angle
-from dessiner_cercle_outil import polaire2carthesien
-from dessiner_cercle_outil import avancement_cercle
-from dessiner_cercle_outil import dessiner_cercle_et_point
-from dessiner_cercle_outil import coeff2rayon
-from dessiner_cercle_outil import BLACK, TAILLE_POINT
-from point import Point2D
+from dessiner_des_elphants.logique_metier.series_de_cercles.dessiner_cercle_outil import creation_liste_pas
+from dessiner_des_elphants.logique_metier.series_de_cercles.dessiner_cercle_outil import creation_liste_angle
+from dessiner_des_elphants.logique_metier.series_de_cercles.dessiner_cercle_outil import polaire2carthesien
+from dessiner_des_elphants.logique_metier.series_de_cercles.dessiner_cercle_outil import avancement_cercle
+from dessiner_des_elphants.logique_metier.series_de_cercles.dessiner_cercle_outil import dessiner_cercle_et_point
+from dessiner_des_elphants.logique_metier.series_de_cercles.dessiner_cercle_outil import coeff2rayon
+from dessiner_des_elphants.logique_metier.series_de_cercles.dessiner_cercle_outil import BLACK, TAILLE_POINT
+from dessiner_des_elphants.logique_metier.points.point import Point2D
 
 class SeriesCercles:
     """
