@@ -2,8 +2,8 @@
 """Module permettant de construire les rectangles de dessins"""
 
 import pygame as pg
-from dessiner_des_elphants.ihm.affichage.draw_elephant_utils import PROPORTION_ORIGINAL_DRAWING
-from dessiner_des_elphants.ihm.affichage.drawing_rectangle import DrawingRectangle
+from .draw_elephant_utils import PROPORTION_ORIGINAL_DRAWING
+from .drawing_rectangle import DrawingRectangle
 
 class ConstructedDrawingRectangle:
     """

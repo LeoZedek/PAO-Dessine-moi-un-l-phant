@@ -2,7 +2,7 @@
 """Module proposant les fonctions pour gérer la fenêtre d'affichage"""
 
 import pygame as pg
-from draw_elephant_utils import BACKGROUND_COLOR
+from .draw_elephant_utils import BACKGROUND_COLOR
 
 def init_window()->pg.Surface:
     '''Fonction permettant l\'initialisation de la fenêtre'''
