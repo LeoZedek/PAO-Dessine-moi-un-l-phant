@@ -17,27 +17,26 @@ class SeriesCercles:
     de la décomposition en série de fourrier et de refaire le dessin
     """
     def __init__(self,centre_initial : Point2D,liste_coeff : list[complex],\
-        scale : float,pas : float,screen,nombre_point_chemin:int=100):
+        scale : float,pas : float,screen):
         """
         centreInitial: Point le centre du premier cercle
         liste_coeff : list[float] : liste des coefficient de la décomposition en série de fourrier
         scale : float : mise à l'échelle par rapport à la fenêtre d'affichage
         screen : screen : l'écran d'affichage
         pas : le pas d'avancement des cercles
-        nombre_point_chemin : le nombre de point que l'on va garder dans le chemin
         """
 
         self._centre_initial = centre_initial
 
         self._liste_rayon = coeff2rayon(liste_coeff,scale)
+        self._pas = pas
+        nombre_point_chemin = int(2*(pi//pas))
         self._chemin = [None]*nombre_point_chemin
         self._nombre_point_chemin = nombre_point_chemin
-        self._pas = pas
         nb_cercle = len(self.liste_rayon) - 1
         self._liste_pas = creation_liste_pas(nb_cercle,pas)
         self._angles = creation_liste_angle(liste_coeff)
         self._angles_initiales = self._angles.copy()
-        print(self._angles_initiales)
         self._screen = screen
         self._compteur_chemin = 0
 
@@ -46,9 +45,9 @@ class SeriesCercles:
         """ renvoi le nombre de point dans le chemin """
         return self._nombre_point_chemin
         
-    @nombre_point_chemin.setter
-    def nombre_point_chemin(self, nombre_point_chemin):
-        self._nombre_point_chemin = nombre_point_chemin
+    # @nombre_point_chemin.setter
+    # def nombre_point_chemin(self, nombre_point_chemin):
+    #     self._nombre_point_chemin = nombre_point_chemin
 
     @property
     def compteur_chemin(self)->int:
@@ -106,6 +105,11 @@ class SeriesCercles:
         Renvoi les angles sur chaque cercle
         """
         return self._angles
+    
+    @angles.setter
+    def angles(self,angles):
+        """ Permet de set la valeur des angles """
+        self._angles=angles
 
     @property
     def screen(self):
@@ -113,6 +117,12 @@ class SeriesCercles:
         renvoi l'écran sur lequel on écrit
         """
         return self._screen
+
+    @property
+    def angles_initiales(self):
+        """ Renvoi les phase initiale des angles """
+        return self._angles_initiales
+    
 
     def dessiner_le_chemin(self):
         """
@@ -137,13 +147,14 @@ class SeriesCercles:
             abscisse +=newx
             ordonnee +=newy
             if i==taille_liste-1:
-            #     if (self.compteur_chemin >= self.nombre_point_chemin):
-            #         self.compteur_chemin = 0
-            #     self.chemin[self.compteur_chemin] = Point2D(abscisse,ordonnee)
-            #     self.compteur_chemin +=1
+                if (self.compteur_chemin >= self.nombre_point_chemin):
+                    self.compteur_chemin = 0
+                    self._angles = self.angles_initiales.copy()
+                self.chemin[self.compteur_chemin] = Point2D(abscisse,ordonnee)
+                self.compteur_chemin +=1
 
-                chemin = self.chemin
-                chemin += [Point2D(abscisse, ordonnee)]
+                # chemin = self.chemin
+                # chemin += [Point2D(abscisse, ordonnee)]
 
             dessiner_cercle_et_point(ecran=self.screen,abscisse=abscisse,\
                 ordonnee=ordonnee,rayon=self.liste_rayon[i])
