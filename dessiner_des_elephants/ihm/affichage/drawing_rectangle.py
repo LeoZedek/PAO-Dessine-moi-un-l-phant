@@ -4,13 +4,14 @@
 from math import pi
 import time
 import pygame as pg
-from ...logique_metier.decomposition_en_series_de_fourrier.decomposition_en_serie_de_fourier import decompositions_en_serie_de_fourier
+from ...logique_metier.decomposition_en_serie_de_fourier import decompositions_en_serie_de_fourier
 from .draw_elephant_utils import POINT_RADIUS, COLOR_LINE
 from .draw_elephant_utils import DRAWING_RECT_BORDER_COLOR
 from .my_rectangle import MyRectangle
 from .screen_utils import clear_screen
-from ...logique_metier.series_de_cercles.series_cercles import SeriesCercles
-from ...logique_metier.points.point import Point2D
+from ...logique_metier.series_cercles import SeriesCercles
+from ...logique_metier.point import Point2D
+
 
 class DrawingRectangle(MyRectangle):
     '''

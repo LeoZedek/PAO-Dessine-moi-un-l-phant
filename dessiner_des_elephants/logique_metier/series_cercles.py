@@ -9,7 +9,7 @@ from .dessiner_cercle_outil import avancement_cercle
 from .dessiner_cercle_outil import dessiner_cercle_et_point
 from .dessiner_cercle_outil import coeff2rayon
 from .dessiner_cercle_outil import BLACK, TAILLE_POINT
-from ..points.point import Point2D
+from .point import Point2D
 
 class SeriesCercles:
     """

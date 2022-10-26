@@ -3,9 +3,9 @@
 
 import pygame as pg
 from numpy import arange, linspace
-from ....affichage.draw_elephant_utils import DISTANCE_BETWEEN_POINT, POINT_RADIUS, COLOR_LINE
-from ....affichage.draw_elephant_utils import COLOR_AXES, AXES_WIDTH
-from .....logique_metier.points.point import Point2D
+from ..affichage.draw_elephant_utils import DISTANCE_BETWEEN_POINT, POINT_RADIUS, COLOR_LINE
+from ..affichage.draw_elephant_utils import COLOR_AXES, AXES_WIDTH
+from ...logique_metier.point import Point2D
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
 # a linear interpolation is made to add points between them.

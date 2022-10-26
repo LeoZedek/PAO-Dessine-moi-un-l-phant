@@ -2,9 +2,9 @@
 """Module proposant la classe InputBox"""
 
 import pygame as pg
-from ...affichage.draw_elephant_utils import BLACK, BOX_BORDER_WIDTH, BOX_BORDER_COLOR
-from ...affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS
-from ...affichage.my_rectangle import MyRectangle
+from ..affichage.draw_elephant_utils import BLACK, BOX_BORDER_WIDTH, BOX_BORDER_COLOR
+from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS
+from ..affichage.my_rectangle import MyRectangle
 
 # Function to verify that the pressed key is a digit
 # Private function

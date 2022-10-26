@@ -6,7 +6,7 @@ Fichier main du projet pao "dessine moi un éléphant".
 if __name__ == "__main__":
 
     from dessiner_des_elephants.ihm.affichage.screen_utils import init_window, clear_screen
-    from dessiner_des_elephants.ihm.acquisition.souris.dessin_dynamique.points_acquisition import get_points, sampling_points
+    from dessiner_des_elephants.ihm.acquisition.points_acquisition import get_points, sampling_points
     from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
 
     import pygame as pg

@@ -4,7 +4,7 @@
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_WIDTH
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_PADDING_RIGHT, INPUT_SAMPLING_BOX_PADDING_TOP
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT
-from ..acquisition.clavier.input_box import InputBox
+from ..acquisition.input_box import InputBox
 from .constructed_drawing_rectangle import ConstructedDrawingRectangle
 
 class ConstructedRectangles(ConstructedDrawingRectangle):
