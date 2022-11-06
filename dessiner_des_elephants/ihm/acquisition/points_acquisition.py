@@ -94,7 +94,8 @@ def get_points(screen)->list[Point2D]:
 
             if event.type == pg.MOUSEBUTTONUP:
                 mouse_down = False
-                not_done = False
+                if len(points) > 1:
+                        not_done = False
 
             if event.type == pg.MOUSEMOTION:
                 if mouse_down:
@@ -108,7 +109,6 @@ def get_points(screen)->list[Point2D]:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_q:
                     not_done = False
-
 
         pg.display.update()
 
