@@ -62,13 +62,18 @@ def _launch_drawing(screen):
     reconstructed_drawing_rectangle.draw_reconstructed_drawing( \
         original_drawing_rectangle, sampled_points, number_circle)
 
+    return constructed_rectangle.redraw_box
+
 def _launch_main():
     
     pg.init()
 
     screen = init_window()
 
-    _launch_drawing(screen)
+    redraw_box = _launch_drawing(screen)
+
+    redraw_box.draw()
+    redraw_box.set_text("DRAW")
 
     end = False
 
@@ -82,6 +87,11 @@ def _launch_main():
                     end = True
                 if event.key == pg.K_y:
                     _launch_drawing(screen)
+
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1: # If the button pressed is the left one
+                    if redraw_box.collidepoint(event.pos):
+                        _launch_drawing(screen)
 
 if __name__ == "__main__":
 

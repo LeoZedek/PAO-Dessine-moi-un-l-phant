@@ -7,6 +7,50 @@ from .draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT
 from ..acquisition.input_box import InputBox
 from .constructed_drawing_rectangle import ConstructedDrawingRectangle
 
+class _BoxDimension():
+
+    def __init__(self, width, height):
+        self._width = width
+        self._height = height
+
+    @property
+    def width(self)->int:
+        """
+        Getter pour obtenir la largeur
+        """
+
+        return self._width
+
+    @property
+    def height(self)->int:
+        """
+        Getter pour obtenir la longueur
+        """
+
+        return self._height
+
+class _BoxPadding():
+
+    def __init__(self, padding_abscissa, padding_ordinate):
+        self._padding_abscissa = padding_abscissa
+        self._padding_ordinate = padding_ordinate
+
+    @property
+    def padding_abscissa(self)->int:
+        """
+        Getter du padding des abscisses
+        """
+
+        return self._padding_abscissa
+
+    @property
+    def padding_ordinate(self)->int:
+        """
+        Getter du padding des ordonnés
+        """
+
+        return self._padding_ordinate
+
 class ConstructedRectangles(ConstructedDrawingRectangle):
     """
     Classe permettant de construire les differents rectangle de l'ihm.
@@ -17,10 +61,9 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         super().__init__(screen)
 
-        self._box_width, self._box_height = self._constructed_box_abscissa_dimension()
+        self._box_dimension = self._constructed_box_dimension()
 
-        self._box_padding_abscissa, self._box_padding_ordinate = \
-            self._constructed_box_padding()
+        self._box_padding = self._constructed_box_padding()
 
         self._sampling_box = self._constructed_sampling_box()
 
@@ -28,33 +71,35 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         self._start_box = self._constructed_start_box()
 
+        self._redraw_box = self._constructed_redraw_box()
+
     @property
     def box_width(self)->int:
         """
         Getter pour obtenir la largeur des boites.
         """
-        return self._box_width
+        return self._box_dimension.width
 
     @property
     def box_height(self)->int:
         """
         Getter pour obtenir la hauteur des boites.
         """
-        return self._box_height
+        return self._box_dimension.height
 
     @property
     def box_padding_abscissa(self)->int:
         """
         Getter pour obtenir la marge sur l'abscisse des boites.
         """
-        return self._box_padding_abscissa
+        return self._box_padding.padding_abscissa
 
     @property
     def box_padding_ordinate(self)->int:
         """
         Getter pour obtenir la marge sur l'ordonnée des boites.
         """
-        return self._box_padding_ordinate
+        return self._box_padding.padding_ordinate
 
     @property
     def sampling_box(self):
@@ -77,14 +122,21 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         """
         return self._start_box
 
-    def _constructed_box_abscissa_dimension(self):
+    @property
+    def redraw_box(self):
+        """
+        Getter pour obtenir la boite d'entrée pour recommencer un dessin.
+        """
+        return self._redraw_box
+
+    def _constructed_box_dimension(self):
         """
         Fonction privée
         """
         box_height = round(INPUT_SAMPLING_BOX_HEIGHT * self.original_drawing_rectangle.height)
         box_width = round(INPUT_SAMPLING_BOX_WIDTH * self.original_drawing_rectangle.width)
 
-        return box_width, box_height
+        return _BoxDimension(box_width, box_height)
 
     def _constructed_box_padding(self):
         """
@@ -95,7 +147,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         padding_ordinate_box = round(self.original_drawing_rectangle.height \
             * INPUT_SAMPLING_BOX_PADDING_TOP)
 
-        return padding_abscissa_box, padding_ordinate_box
+        return _BoxPadding(padding_abscissa_box, padding_ordinate_box)
 
     def _constructed_sampling_box(self):
         """
@@ -146,3 +198,17 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         start_box.set_text("GO !")
 
         return start_box
+
+    def _constructed_redraw_box(self):
+
+        height_box = self.box_height
+        width_box = self.box_width
+        top_box = self.box_padding_ordinate
+        left_box = self.screen.get_size()[0]\
+            - self.box_padding_abscissa\
+            - self.box_width
+
+        redraw_box = InputBox(self.screen, left_box, top_box, \
+            width_box, height_box)
+
+        return redraw_box
