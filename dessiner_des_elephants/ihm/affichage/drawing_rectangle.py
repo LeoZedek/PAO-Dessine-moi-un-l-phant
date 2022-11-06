@@ -86,9 +86,8 @@ class DrawingRectangle(MyRectangle):
                 if event.type == pg.QUIT:
                     not_done = False
 
-                if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_q:
-                        not_done = False
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    not_done = False
 
             clear_screen(self.screen)
 
