@@ -20,7 +20,7 @@ def creation_liste_pas(nb_cercle,pas):
         liste_pas.append(-(i) * pas)
         liste_pas.append((i) * pas)
     if nb_cercle%2==1:
-        liste_pas.append(-i * (nb_cercle // 2 + 1) * pas)
+        liste_pas.append(-(nb_cercle // 2 + 1) * (nb_cercle // 2 + 1) * pas)
     return liste_pas
 
 def creation_liste_angle(coefficients):
