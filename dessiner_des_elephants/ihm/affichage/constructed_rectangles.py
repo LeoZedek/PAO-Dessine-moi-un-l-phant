@@ -71,6 +71,8 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         self._start_box = self._constructed_start_box()
 
+        self._draw_box = self._constructed_draw_box()
+
         self._redraw_box = self._constructed_redraw_box()
 
     @property
@@ -123,9 +125,16 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         return self._start_box
 
     @property
+    def draw_box(self):
+        """
+        Getter pour obtenir la boite d'entrée pour recommencer la reconstruction du dessin.
+        """
+        return self._draw_box
+
+    @property
     def redraw_box(self):
         """
-        Getter pour obtenir la boite d'entrée pour recommencer un dessin.
+        Getter pour obtenir la boite d'entrée pour redessiner un dessin.
         """
         return self._redraw_box
 
@@ -160,7 +169,6 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         sampling_box = InputBox(self.screen, left_sampling_box, \
             top_sampling_box, width_sampling_box, height_sampling_box)
-        sampling_box.draw()
 
         return sampling_box
 
@@ -178,7 +186,6 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         number_circle_box = InputBox(self.screen, left_number_circle_box, \
             top_number_circle_box, width_number_circle_box, height_number_circle_box)
-        number_circle_box.draw()
 
         return number_circle_box
 
@@ -194,19 +201,31 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         start_box = InputBox(self.screen, left_start_box, \
             top_start_box, width_start_box, height_start_box)
-        start_box.draw()
-        start_box.set_text("GO !")
 
         return start_box
+
+    def _constructed_draw_box(self):
+
+        height_box = self.box_height
+        width_box = 2 * self.box_width
+        top_box = self.box_padding_ordinate
+        left_box = self.screen.get_size()[0]\
+            - self.box_padding_abscissa\
+            - width_box
+
+        draw_box = InputBox(self.screen, left_box, top_box, \
+            width_box, height_box)
+
+        return draw_box
 
     def _constructed_redraw_box(self):
 
         height_box = self.box_height
-        width_box = self.box_width
-        top_box = self.box_padding_ordinate
+        width_box = 2 * self.box_width
+        top_box = self.box_padding_ordinate * 2 + self.draw_box.height
         left_box = self.screen.get_size()[0]\
             - self.box_padding_abscissa\
-            - self.box_width
+            - width_box
 
         redraw_box = InputBox(self.screen, left_box, top_box, \
             width_box, height_box)

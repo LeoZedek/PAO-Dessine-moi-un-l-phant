@@ -6,6 +6,7 @@ from numpy import arange, linspace
 from ..affichage.draw_elephant_utils import DISTANCE_BETWEEN_POINT, POINT_RADIUS, COLOR_LINE
 from ..affichage.draw_elephant_utils import COLOR_AXES, AXES_WIDTH
 from ...logique_metier.point import Point2D
+from ..affichage.screen_utils import clear_screen
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
 # a linear interpolation is made to add points between them.
@@ -68,6 +69,8 @@ def get_points(screen)->list[Point2D]:
         screen : la Surface sur laquelle l'utilisateur dessine.
     """
 
+    clear_screen(screen)
+
     x_dimension  , y_dimension   = screen.get_size()
 
     # Draw axis
@@ -87,7 +90,7 @@ def get_points(screen)->list[Point2D]:
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                not_done = 0
+                exit()
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 mouse_down = True
@@ -108,7 +111,7 @@ def get_points(screen)->list[Point2D]:
 
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_q:
-                    not_done = False
+                    exit()
 
         pg.display.update()
 
@@ -116,6 +119,8 @@ def get_points(screen)->list[Point2D]:
         points.append(points[0])
 
         _fix_point(points, screen)
+
+    clear_screen(screen)
 
     return points
 

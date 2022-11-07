@@ -17,11 +17,11 @@ def _get_parameters(points, constructed_rectangle):
     while not_done:
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                not_done = False
+                exit()
 
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_q:
-                    not_done = False
+                    exit()
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1: # If the button pressed is the left one
@@ -36,21 +36,17 @@ def _get_parameters(points, constructed_rectangle):
                         number_circle = number_circle_box.get_number_input()
 
                     elif start_box.collidepoint(event.pos):
-                        not_done = False
+                        if number_circle > 0:
+                            not_done = False
 
             pg.display.update()
 
     return sampled_points, number_circle
 
-def _launch_drawing(screen):
+def _launch_drawing(screen, constructed_rectangle, points):
     clear_screen(screen)
-
-    points = get_points(screen)
-
-    clear_screen(screen)
-
-    ## Construction of the input box
-    constructed_rectangle = ConstructedRectangles(screen)
+    _show_parameters_box(constructed_rectangle)
+    _show_drawing_rectangle(constructed_rectangle)
 
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
     reconstructed_drawing_rectangle = constructed_rectangle.reconstructed_drawing_rectangle
@@ -62,18 +58,46 @@ def _launch_drawing(screen):
     reconstructed_drawing_rectangle.draw_reconstructed_drawing( \
         original_drawing_rectangle, sampled_points, number_circle)
 
-    return constructed_rectangle.redraw_box
+def _show_parameters_box(constructed_rectangle):
+    start_box = constructed_rectangle.start_box
+    number_circle_box = constructed_rectangle.number_circle_box
+    sampling_box = constructed_rectangle.sampling_box
+
+    sampling_box.draw()
+    number_circle_box.draw()
+    start_box.draw()
+    start_box.set_text("GO !")
+
+def _show_drawing_rectangle(constructed_rectangle):
+    original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
+    reconstructed_drawing_rectangle = constructed_rectangle.reconstructed_drawing_rectangle
+
+    original_drawing_rectangle.draw()
+    reconstructed_drawing_rectangle.draw()
+
+def _show_draw_box(constructed_rectangle):
+    draw_box = constructed_rectangle.draw_box
+    redraw_box = constructed_rectangle.redraw_box
+
+    draw_box.draw()
+    draw_box.set_text("DRAW")
+    redraw_box.draw()
+    redraw_box.set_text("REDRAW")
 
 def _launch_main():
     
     pg.init()
 
     screen = init_window()
+    constructed_rectangle = ConstructedRectangles(screen)
+    points = get_points(screen)
 
-    redraw_box = _launch_drawing(screen)
+    _launch_drawing(screen, constructed_rectangle, points)
 
-    redraw_box.draw()
-    redraw_box.set_text("DRAW")
+    _show_draw_box(constructed_rectangle)
+
+    draw_box = constructed_rectangle.draw_box
+    redraw_box = constructed_rectangle.redraw_box
 
     end = False
 
@@ -90,8 +114,15 @@ def _launch_main():
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1: # If the button pressed is the left one
+                    if draw_box.collidepoint(event.pos):
+                        _launch_drawing(screen, constructed_rectangle, points)
+                        _show_draw_box(constructed_rectangle)
+
                     if redraw_box.collidepoint(event.pos):
-                        _launch_drawing(screen)
+                        points = get_points(screen)
+                        _launch_drawing(screen, constructed_rectangle, points)
+                        _show_draw_box(constructed_rectangle)
+
 
 if __name__ == "__main__":
 
