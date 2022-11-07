@@ -48,7 +48,7 @@ class InputBox(MyRectangle):
         self.clear()
         self.draw(border_color)
 
-        letter_size_in_pixels = self.height * 0.8
+        letter_size_in_pixels = self.height * 0.7
         letter_size_in_points = round(letter_size_in_pixels * 72 / 96  * 1.5)
 
         font = pg.font.SysFont(None, letter_size_in_points)
