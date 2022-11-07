@@ -2,14 +2,41 @@
 """ definition de la classe SeriesCercles """
 import pygame as pg
 from math import pi
-from .dessiner_cercle_outil import creation_liste_pas
-from .dessiner_cercle_outil import creation_liste_angle
-from .dessiner_cercle_outil import polaire2carthesien
-from .dessiner_cercle_outil import avancement_cercle
-from .dessiner_cercle_outil import dessiner_cercle_et_point
-from .dessiner_cercle_outil import coeff2rayon
-from .dessiner_cercle_outil import BLACK, TAILLE_POINT
 from .point import Point2D
+
+from cmath import phase
+import numpy as np
+
+
+def _creation_liste_pas(nb_cercle, pas):
+    """
+    nbCercle : int>=0 la taille des listes à renvoyer dans notre le nombre de cercle
+    pas : int>=0 le pas d'avancement de l'angle
+    return : la liste d'avancement des cercle
+    """
+    liste_pas = [0]
+    for i in range(1, nb_cercle // 2 + 1):
+        liste_pas.append(-(i) * pas)
+        liste_pas.append((i) * pas)
+    if nb_cercle % 2 == 1:
+        liste_pas.append(-(nb_cercle // 2 + 1) * (nb_cercle // 2 + 1) * pas)
+    return liste_pas
+
+
+def _creation_liste_angle(coefficients):
+    """ creer la liste des angles """
+    liste_angle = [0] + [phase(coefficient) for coefficient in coefficients]
+    return liste_angle
+
+
+def _coeff2rayon(liste_coeff, scale):
+    """
+    liste_coeff : liste des coefficients de la décomposition de fourrier complexe
+    scale : mise à l'échelle par rapport à la fenêtre d'affichage
+    """
+    liste_rayon = [np.abs(coefficient)*scale for coefficient in liste_coeff]
+    liste_rayon.append(0)
+    return liste_rayon
 
 
 class SeriesCercles:
@@ -29,14 +56,14 @@ class SeriesCercles:
 
         self._centre_initial = centre_initial
 
-        self._liste_rayon = coeff2rayon(liste_coeff, scale)
+        self._liste_rayon = _coeff2rayon(liste_coeff, scale)
         self._pas = pas
         nombre_point_chemin = int(2*(pi//pas))
         self._chemin = [None]*nombre_point_chemin
         self._nombre_point_chemin = nombre_point_chemin
         nb_cercle = len(self.liste_rayon) - 1
-        self._liste_pas = creation_liste_pas(nb_cercle, pas)
-        self._angles = creation_liste_angle(liste_coeff)
+        self._liste_pas = _creation_liste_pas(nb_cercle, pas)
+        self._angles = _creation_liste_angle(liste_coeff)
         self._angles_initiales = self._angles.copy()
         self._compteur_chemin = 0
 
@@ -110,8 +137,6 @@ class SeriesCercles:
     def angles(self, angles):
         """ Permet de set la valeur des angles """
         self._angles = angles
-
-
 
     @property
     def angles_initiales(self):
