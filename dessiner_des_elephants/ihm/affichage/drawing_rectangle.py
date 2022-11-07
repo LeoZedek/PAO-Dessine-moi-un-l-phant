@@ -11,6 +11,7 @@ from .my_rectangle import MyRectangle
 from .screen_utils import clear_screen
 from ...logique_metier.series_cercles import SeriesCercles
 from ...logique_metier.point import Point2D
+from .dessiner_series_cercles import dessiner_series_cercles
 
 
 class DrawingRectangle(MyRectangle):
@@ -68,15 +69,16 @@ class DrawingRectangle(MyRectangle):
 
         points_complexe = [complex(point) for point in points]
 
-        coeff_cn = decompositions_en_serie_de_fourier(points_complexe, number_circle)
+        coeff_cn = decompositions_en_serie_de_fourier(
+            points_complexe, number_circle)
 
-        center_drawing = Point2D(self.centerx,\
-            self.centery)
+        center_drawing = Point2D(self.centerx,
+                                 self.centery)
         pas = 2*pi/1024
         scale = self.height / self.screen.get_size()[1]
 
-        my_circles_serie = SeriesCercles(center_drawing, coeff_cn,\
-            scale, pas, self.screen)
+        my_circles_serie = SeriesCercles(center_drawing, coeff_cn,
+                                         scale, pas)
 
         not_done = True
 
@@ -91,8 +93,8 @@ class DrawingRectangle(MyRectangle):
 
             clear_screen(self.screen)
 
-            my_circles_serie.dessiner_le_chemin()
-            my_circles_serie.dessiner_les_cercles()
+            dessiner_series_cercles(
+                series_cercles=my_circles_serie, screen=self.screen)
             original_drawing_rectangle.draw_points(points)
             original_drawing_rectangle.draw()
             self.draw()
