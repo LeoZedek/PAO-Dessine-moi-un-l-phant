@@ -24,7 +24,6 @@ class DrawingRectangle(MyRectangle):
         Dessine les bordures du rectangle.
         """
         self._draw_border(DRAWING_RECT_BORDER_COLOR)
-        pg.display.update()
 
     def _draw_point(self, point):
         """
@@ -52,8 +51,6 @@ class DrawingRectangle(MyRectangle):
         """
         for point in points:
             self._draw_point(point)
-
-        pg.display.update()
 
     def draw_reconstructed_drawing(self, original_drawing_rectangle, points, number_circle):
         """
@@ -102,6 +99,6 @@ class DrawingRectangle(MyRectangle):
             if my_circles_serie.have_done_complete_tour():
                 not_done = False
 
-            pg.display.update()
+            pg.display.update(self)
 
             time.sleep(0.01)

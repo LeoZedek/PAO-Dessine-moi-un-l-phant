@@ -37,7 +37,6 @@ class InputBox(MyRectangle):
     def draw(self, border_color = BOX_BORDER_COLOR):
         """Dessine le rectangle"""
         pg.draw.rect(self.screen, border_color, self, width = BOX_BORDER_WIDTH)
-        pg.display.update()
 
     def set_text(self, text, border_color = BOX_BORDER_COLOR):
         """
@@ -59,7 +58,7 @@ class InputBox(MyRectangle):
         y_display = self.top + (self.height - text_height) / 2
 
         self.screen.blit(text_to_display, (x_display, y_display))
-        pg.display.update()
+        pg.display.update(self)
 
     def get_number_input(self)->int:
         """
@@ -70,6 +69,7 @@ class InputBox(MyRectangle):
 
         self.clear()
         self.draw(BOX_BORDER_COLOR_ON_FOCUS)
+        pg.display.update(self)
 
         not_done = True
 

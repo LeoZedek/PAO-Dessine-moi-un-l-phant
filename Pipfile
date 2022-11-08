@@ -8,6 +8,7 @@ numpy = "*"
 pygame = "*"
 pylint = "*"
 pytest = "*"
+pygame-widgets = "*"
 
 [dev-packages]
 

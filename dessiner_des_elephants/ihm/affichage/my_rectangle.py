@@ -33,7 +33,6 @@ class MyRectangle(pg.Rect):
         """
         pg.draw.rect(self.screen, BACKGROUND_COLOR, self)
         self.draw()
-        pg.display.update()
 
     def _draw_border(self, border_color):
         """
