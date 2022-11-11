@@ -5,6 +5,7 @@ from .draw_elephant_utils import INPUT_SAMPLING_BOX_WIDTH
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_PADDING_RIGHT, INPUT_SAMPLING_BOX_PADDING_TOP
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT
 from ..acquisition.input_box import InputBox
+from .text_box import TextBox
 from .constructed_drawing_rectangle import ConstructedDrawingRectangle
 
 class _BoxDimension():
@@ -199,7 +200,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
             + self.reconstructed_drawing_rectangle.height // 2 - height_start_box // 2
         left_start_box = self.abscissa_dimension - self.box_padding_abscissa - self.box_width
 
-        start_box = InputBox(self.screen, left_start_box, \
+        start_box = TextBox(self.screen, left_start_box, \
             top_start_box, width_start_box, height_start_box)
 
         return start_box
@@ -213,7 +214,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
             - self.box_padding_abscissa\
             - width_box
 
-        draw_box = InputBox(self.screen, left_box, top_box, \
+        draw_box = TextBox(self.screen, left_box, top_box, \
             width_box, height_box)
 
         return draw_box
@@ -227,7 +228,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
             - self.box_padding_abscissa\
             - width_box
 
-        redraw_box = InputBox(self.screen, left_box, top_box, \
+        redraw_box = TextBox(self.screen, left_box, top_box, \
             width_box, height_box)
 
         return redraw_box
