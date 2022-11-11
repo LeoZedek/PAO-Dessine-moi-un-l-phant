@@ -3,6 +3,47 @@
 Fichier main du projet pao "dessine moi un éléphant".
 """
 
+def _create_sampling_slider(screen, constructed_rectangle, points):
+    sampling_box = constructed_rectangle.sampling_box
+
+    width_slider = constructed_rectangle.box_width
+    height_slider = constructed_rectangle.box_padding_ordinate // 2
+
+    left_slider_sampling = sampling_box.left
+    top_slider_sampling = sampling_box.top + sampling_box.height \
+                          + (constructed_rectangle.box_padding_ordinate // 4)
+
+    min_sampling = min(len(points), 10)
+    max_sampling = min(len(points), 500)
+
+    slider_sampling = Slider(screen, left_slider_sampling, top_slider_sampling, \
+                             width_slider, height_slider, \
+                             min = min_sampling, max = max_sampling, \
+                             step = 10, \
+                             handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
+    return slider_sampling
+
+def _create_number_circle_slider(screen, constructed_rectangle):
+
+    number_circle_box = constructed_rectangle.number_circle_box
+
+    width_slider = constructed_rectangle.box_width
+    height_slider = constructed_rectangle.box_padding_ordinate // 2
+
+    left_slider_number_circle = number_circle_box.left
+    top_slider_number_circle = number_circle_box.top + number_circle_box.height \
+                          + (constructed_rectangle.box_padding_ordinate // 4)
+
+    min_circle = 2
+    max_circle = 50
+
+    slider_number_circle = Slider(screen, left_slider_number_circle, \
+                             top_slider_number_circle, width_slider, height_slider, \
+                             min = min_circle, max = max_circle, \
+                             step = 2, \
+                             handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
+    return slider_number_circle
+
 def _get_parameters(screen, points, constructed_rectangle):
 
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
@@ -10,16 +51,11 @@ def _get_parameters(screen, points, constructed_rectangle):
     number_circle_box = constructed_rectangle.number_circle_box
     start_box = constructed_rectangle.start_box
 
-    width_slider = constructed_rectangle.box_padding_ordinate // 2
-    height_slider = constructed_rectangle.box_width
+    slider_sampling = _create_sampling_slider(screen, constructed_rectangle, points)
+    slider_number_circle = _create_number_circle_slider(screen, constructed_rectangle)
 
-    left_slider_sampling = sampling_box.left
-    top_slider_sampling = sampling_box.top + sampling_box.height \
-                          + (constructed_rectangle.box_padding_ordinate // 4)
-
-    slider_sampling = Slider(screen, left_slider_sampling, top_slider_sampling, \
-                             width_slider, height_slider)
-    #slider_sampling.draw()
+    slider_sampling.draw()
+    slider_number_circle.draw()
 
     not_done = True
 
@@ -31,35 +67,43 @@ def _get_parameters(screen, points, constructed_rectangle):
         _show_parameters_box(constructed_rectangle)
         _show_drawing_rectangle(constructed_rectangle)
         original_drawing_rectangle.draw_points(sampled_points)
+        slider_sampling.draw()
 
         events = pg.event.get()
 
         for event in events:
             if event.type == pg.QUIT:
-                exit()
+                sys.exit()
 
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_q:
-                    exit()
+                    sys.exit()
 
-            if event.type == pg.MOUSEBUTTONDOWN:
-                if event.button == 1: # If the button pressed is the left one
-                    if sampling_box.collidepoint(event.pos):
-                        number_points = sampling_box.get_number_input()
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+            # If the button pressed is the left one
 
-                        sampled_points = sampling_points(points, number_points)
+                if sampling_box.collidepoint(event.pos):
+                    number_points = sampling_box.get_number_input()
 
-                    elif number_circle_box.collidepoint(event.pos):
-                        number_circle = number_circle_box.get_number_input()
+                    sampled_points = sampling_points(points, number_points)
 
-                    elif start_box.collidepoint(event.pos):
-                        if number_circle > 0:
-                            not_done = False
+                elif number_circle_box.collidepoint(event.pos):
+                    number_circle = number_circle_box.get_number_input()
+
+                elif start_box.collidepoint(event.pos):
+                    if number_circle > 0:
+                        not_done = False
+
+        pygame_widgets.update(events)
+
+        number_points = slider_sampling.getValue()
+        sampled_points = sampling_points(points, number_points)
+        sampling_box.set_text(str(number_points))
+
+        number_circle = slider_number_circle.getValue()
+        number_circle_box.set_text(str(number_circle))
 
         pg.display.update()
-        #pygame_widgets.update(events)
-        
-
 
     return sampled_points, number_circle
 
@@ -105,7 +149,7 @@ def _show_draw_box(constructed_rectangle):
     redraw_box.set_text("REDRAW")
 
 def _launch_main():
-    
+
     pg.init()
 
     screen = init_window()
@@ -130,7 +174,7 @@ def _launch_main():
                 if event.key == pg.K_q:
                     end = True
                 if event.key == pg.K_y:
-                    _launch_drawing(screen)
+                    _launch_drawing(screen, constructed_rectangle, points)
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1: # If the button pressed is the left one
@@ -150,7 +194,9 @@ if __name__ == "__main__":
     from dessiner_des_elephants.ihm.acquisition.points_acquisition import get_points, \
                                                                           sampling_points
     from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
-
+    from dessiner_des_elephants.ihm.affichage.draw_elephant_utils import SLIDER_COLOR,\
+                                                                         SLIDER_HANDLE_COLOR
+    import sys
     import pygame as pg
     import pygame_widgets
     from pygame_widgets.slider import Slider
