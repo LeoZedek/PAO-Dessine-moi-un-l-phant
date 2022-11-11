@@ -105,6 +105,9 @@ def _get_parameters(screen, points, constructed_rectangle):
 
         pg.display.update()
 
+    WidgetHandler.removeWidget(slider_sampling)
+    WidgetHandler.removeWidget(slider_number_circle)
+
     return sampled_points, number_circle
 
 def _launch_drawing(screen, constructed_rectangle, points):
@@ -200,5 +203,6 @@ if __name__ == "__main__":
     import pygame as pg
     import pygame_widgets
     from pygame_widgets.slider import Slider
+    from pygame_widgets.widget import WidgetHandler
 
     _launch_main()
