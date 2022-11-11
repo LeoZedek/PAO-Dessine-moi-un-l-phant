@@ -23,8 +23,10 @@ def init_window()->pg.Surface:
 def clear_screen(screen):
     '''Fonction qui vide la fenêtre de tout dessin'''
 
-    background = pg.Surface(screen.get_size())
-    background = background.convert()
-    background.fill(BACKGROUND_COLOR)
+    screen.fill(BACKGROUND_COLOR)
 
-    screen.blit(background, (0, 0))
+    #background = pg.Surface(screen.get_size())
+    #background = background.convert()
+    #background.fill(BACKGROUND_COLOR)
+
+    #screen.blit(background, (0, 0))
