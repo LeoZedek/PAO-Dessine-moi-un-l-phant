@@ -2,7 +2,9 @@
 """Module proposant la classe InputBox"""
 
 import pygame as pg
-from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS
+from pygame_widgets.slider import Slider
+from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS, BOX_BORDER_COLOR, \
+                                            SLIDER_HANDLE_COLOR, SLIDER_COLOR
 from ..affichage.text_box import TextBox
 
 # Function to verify that the pressed key is a digit
@@ -30,6 +32,29 @@ class InputBox(TextBox):
     '''
         Classe représentant une boite d'entrée dans laquelle, on peut mettre un nombre en entrée.
     '''
+
+    def __init__(self, screen, left: int, top: int, width: int, height: int, **kwargs):
+
+        super().__init__(screen, left, top, width, height)
+        #self.slider = self._create_slider(kwargs.get("min_value"),\
+        #                                  kwargs.get("max_value"),\
+        #                                  kwargs.get("step"))
+
+    def _create_slider(self, min_value, max_value, step):
+
+        width_slider = self.width
+        height_slider = self.height // 3
+
+        left_slider = self.left
+        top_slider = self.top + self.height \
+                     + (self.height // 4)
+
+        slider = Slider(self.screen, left_slider, top_slider, \
+                                 width_slider, height_slider, \
+                                 min = min_value, max = max_value, \
+                                 step = step, \
+                                 handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
+        return slider
 
     def get_number_input(self)->int:
         """

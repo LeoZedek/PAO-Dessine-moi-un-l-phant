@@ -61,13 +61,14 @@ def _get_parameters(screen, points, constructed_rectangle):
 
     number_circle = 1
     sampled_points = points
+    last_slider_sampling_value = -1
+    last_slider_number_circle_value = -1
     while not_done:
         clear_screen(screen)
 
         _show_parameters_box(constructed_rectangle)
         _show_drawing_rectangle(constructed_rectangle)
         original_drawing_rectangle.draw_points(sampled_points)
-        slider_sampling.draw()
 
         events = pg.event.get()
 
@@ -96,11 +97,16 @@ def _get_parameters(screen, points, constructed_rectangle):
 
         pygame_widgets.update(events)
 
-        number_points = slider_sampling.getValue()
-        sampled_points = sampling_points(points, number_points)
-        sampling_box.set_text(str(number_points))
+        if slider_sampling.getValue() != last_slider_sampling_value:
+            number_points = slider_sampling.getValue()
+            sampled_points = sampling_points(points, number_points)
+            last_slider_sampling_value = number_points
 
-        number_circle = slider_number_circle.getValue()
+        if slider_number_circle.getValue() != last_slider_number_circle_value:
+            number_circle = slider_number_circle.getValue()
+            last_slider_number_circle_value = number_circle_box
+
+        sampling_box.set_text(str(number_points))
         number_circle_box.set_text(str(number_circle))
 
         pg.display.update()
