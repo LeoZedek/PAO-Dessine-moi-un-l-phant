@@ -8,6 +8,9 @@ from ...logique_metier.point import Point2D
 
 BLACK = 0, 0, 0
 WHITE = 255, 255, 255
+BLUE = 6, 28, 115
+GREEN = 30, 66,2
+RED = 171, 15, 15
 
 TAILLE_POINT = 2
 
@@ -60,10 +63,10 @@ def __dessiner_cercle_et_point(ecran, abscisse, ordonnee, rayon):
     rayon : le rayon du grand cercle
     """
     # Transformer en constante dans le fichier
-    pg.draw.circle(surface=ecran, color=BLACK, center=(
+    pg.draw.circle(surface=ecran, color=RED, center=(
         abscisse, ordonnee), radius=TAILLE_POINT)
-    pg.draw.circle(surface=ecran, color=BLACK, center=(
-        abscisse, ordonnee), radius=rayon, width=1)
+    pg.draw.circle(surface=ecran, color=GREEN, center=(
+        abscisse, ordonnee), radius=rayon,width=2)
 
 
 def __dessiner_les_cercles(series_cercles: SeriesCercles, screen):
@@ -71,16 +74,33 @@ def __dessiner_les_cercles(series_cercles: SeriesCercles, screen):
     dessine les cercles dans leurs Etat actuel et fait avancer les angles
     """
     abscisse = series_cercles.centre_initial.abscisse
+
     ordonnee = series_cercles.centre_initial.ordonnee
     __dessiner_cercle_et_point(ecran=screen, abscisse=abscisse,
                                ordonnee=ordonnee, rayon=series_cercles.liste_rayon[0])
+    newx, newy = __polaire2carthesien(
+            rho=series_cercles.liste_rayon[0], phi=series_cercles.angles[1])
+    abscisse2 = abscisse +  newx
+    ordonnee2 = ordonnee +  newy
+    
+    pg.draw.line(surface=screen, color=BLUE, start_pos=(abscisse, ordonnee),end_pos=(abscisse2, ordonnee2),width=2)
+    
     taille_liste = len(series_cercles.liste_rayon)
     for i in range(1, taille_liste):
         newx, newy = __polaire2carthesien(
             rho=series_cercles.liste_rayon[i-1], phi=series_cercles.angles[i])
         abscisse += newx
         ordonnee += newy
-        if i == taille_liste-1:
+
+        if i != taille_liste-1:
+            newx2, newy2 = __polaire2carthesien(
+                rho=series_cercles.liste_rayon[i], phi=series_cercles.angles[i+1])
+            abscisse2 = newx2 + abscisse
+            ordonnee2 = newy2 + ordonnee
+            pg.draw.line(surface=screen, color=BLUE, start_pos=(abscisse, ordonnee),end_pos=(abscisse2, ordonnee2),width=2)
+        
+        
+        else:
             if (series_cercles.compteur_chemin >= series_cercles.nombre_point_chemin):
                 series_cercles.compteur_chemin = 0
                 series_cercles._angles = series_cercles.angles_initiales.copy()
