@@ -14,7 +14,7 @@ class TextBox(MyRectangle):
         """Dessine le rectangle"""
         pg.draw.rect(self.screen, border_color, self, width = BOX_BORDER_WIDTH)
 
-    def set_text(self, text, border_color = BOX_BORDER_COLOR):
+    def set_text(self, text : str, border_color = BOX_BORDER_COLOR):
         """
         Dessine le text dans le rectangle
 

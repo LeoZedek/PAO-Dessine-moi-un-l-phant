@@ -3,7 +3,7 @@
 
 import pygame as pg
 from pygame_widgets.slider import Slider
-from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS, BOX_BORDER_COLOR, \
+from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS, \
                                             SLIDER_HANDLE_COLOR, SLIDER_COLOR
 from ..affichage.text_box import TextBox
 
