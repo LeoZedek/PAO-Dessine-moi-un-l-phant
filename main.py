@@ -34,12 +34,9 @@ def _create_number_circle_slider(screen, constructed_rectangle):
     top_slider_number_circle = number_circle_box.top + number_circle_box.height \
                           + (constructed_rectangle.box_padding_ordinate // 4)
 
-    min_circle = 2
-    max_circle = 50
-
     slider_number_circle = Slider(screen, left_slider_number_circle, \
                              top_slider_number_circle, width_slider, height_slider, \
-                             min = min_circle, max = max_circle, \
+                             min = MIN_CIRCLE, max = MAX_CIRCLE, \
                              step = 2, \
                              handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
     return slider_number_circle
@@ -199,7 +196,8 @@ if __name__ == "__main__":
                                                                           sampling_points
     from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
     from dessiner_des_elephants.ihm.affichage.draw_elephant_utils import SLIDER_COLOR,\
-                                                                         SLIDER_HANDLE_COLOR
+                                                                         SLIDER_HANDLE_COLOR, \
+                                                                         MIN_CIRCLE, MAX_CIRCLE
     import sys
     import pygame as pg
     import pygame_widgets

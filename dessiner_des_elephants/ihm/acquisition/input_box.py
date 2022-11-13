@@ -9,15 +9,9 @@ from ..affichage.text_box import TextBox
 # Function to verify that the pressed key is a digit
 # Private function
 def _is_digit_key(key):
-    """
-    Fonction privée
-	"""
     return key in range(pg.K_0, pg.K_9 + 1)
 
 def _remove_last_letter_from_string(string):
-    """
-    Fonction privée
-    """
 
     if len(string) == 0:
         return string
