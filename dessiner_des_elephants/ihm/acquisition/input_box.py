@@ -3,8 +3,7 @@
 
 import pygame as pg
 from pygame_widgets.slider import Slider
-from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS, \
-                                            SLIDER_HANDLE_COLOR, SLIDER_COLOR
+from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS
 from ..affichage.text_box import TextBox
 
 # Function to verify that the pressed key is a digit
@@ -33,28 +32,62 @@ class InputBox(TextBox):
         Classe représentant une boite d'entrée dans laquelle, on peut mettre un nombre en entrée.
     '''
 
-    def __init__(self, screen, left: int, top: int, width: int, height: int, **kwargs):
+    def __init__(self, screen, left: int, top: int, width: int, height: int):
 
         super().__init__(screen, left, top, width, height)
-        #self.slider = self._create_slider(kwargs.get("min_value"),\
-        #                                  kwargs.get("max_value"),\
-        #                                  kwargs.get("step"))
+        self._last_slider_value = -1
+        self._value = None
+        self._slider = None
 
-    def _create_slider(self, min_value, max_value, step):
+    @property
+    def value(self)->int:
+        """
+        Renvoie la valeur de la boite.
+        """
+        return self._value
 
-        width_slider = self.width
-        height_slider = self.height // 3
+    @value.setter
+    def value(self, value : int):
+        """
+        Setter de la valeur dans la boite.
+        """
+        self._value = value
 
-        left_slider = self.left
-        top_slider = self.top + self.height \
-                     + (self.height // 4)
+    @property
+    def slider(self)->Slider:
+        """
+        Renvoie le slider de la boite.
+        """
+        return self._slider
 
-        slider = Slider(self.screen, left_slider, top_slider, \
-                                 width_slider, height_slider, \
-                                 min = min_value, max = max_value, \
-                                 step = step, \
-                                 handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
-        return slider
+    @slider.setter
+    def slider(self, slider):
+        """
+        Setter du slider.
+        """
+        self._slider = slider
+
+    def _update_slider_value(self):
+        """
+        Méthode mettant à jour la valeur de la box si la valeur du slider à été touché.
+        """
+        slider_value = self.slider.getValue()
+
+        if self._last_slider_value != slider_value:
+            self._last_slider_value = slider_value
+            self.value = slider_value
+
+    def _update_text(self):
+        if self.value is not None:
+            self.set_text(str(self.value))
+
+    def update(self):
+        """
+        Méthode permettant de mettre à jour la valeur du slider s'il a bougé
+        et le texte dans la boite.
+        """
+        self._update_text()
+        self._update_slider_value()
 
     def get_number_input(self)->int:
         """
@@ -88,6 +121,6 @@ class InputBox(TextBox):
                             my_number = _remove_last_letter_from_string(my_number)
                             self.set_text(my_number, BOX_BORDER_COLOR_ON_FOCUS)
 
-        self.set_text(my_number)
+        self._value = int(my_number)
 
         return int(my_number)
