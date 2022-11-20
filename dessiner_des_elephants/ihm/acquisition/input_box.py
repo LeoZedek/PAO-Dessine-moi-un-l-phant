@@ -5,6 +5,7 @@ import pygame as pg
 from pygame_widgets.slider import Slider
 from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS
 from ..affichage.text_box import TextBox
+from .virtual_keyboard import VirtualKeyboard
 
 # Function to verify that the pressed key is a digit
 # Private function
@@ -32,6 +33,7 @@ class InputBox(TextBox):
         self._last_slider_value = -1
         self._value = None
         self._slider = None
+        self._virtual_keyboard = VirtualKeyboard(self.screen)
 
     @property
     def value(self)->int:
@@ -61,7 +63,7 @@ class InputBox(TextBox):
         """
         self._slider = slider
 
-    def _update_slider_value(self):
+    def _update_slider_value(self)->bool:
         """
         Méthode mettant à jour la valeur de la box si la valeur du slider à été touché.
         """
@@ -70,51 +72,29 @@ class InputBox(TextBox):
         if self._last_slider_value != slider_value:
             self._last_slider_value = slider_value
             self.value = slider_value
+            return True
+
+        return False
 
     def _update_text(self):
         if self.value is not None:
             self.set_text(str(self.value))
 
-    def update(self):
+    def update(self)->bool:
         """
         Méthode permettant de mettre à jour la valeur du slider s'il a bougé
         et le texte dans la boite.
         """
         self._update_text()
-        self._update_slider_value()
+        
+        # Return True si la valeur du slider à été modifier
+        return self._update_slider_value()
 
     def get_number_input(self)->int:
         """
-        Renvoie le nombre mis en entrée par l'utilisateur
-
-        Appuyer sur Entrée pour envoyer la valeur
+        Renvoie le nombre mis en entrée par l'utilisateur dans le clavier virtuel
         """
 
-        self.clear()
-        self.draw(BOX_BORDER_COLOR_ON_FOCUS)
-        pg.display.update(self)
+        self.value = self._virtual_keyboard.get_input_value()
 
-        not_done = True
-
-        my_number = ""
-
-        while not_done:
-            for event in pg.event.get():
-
-                if event.type == pg.KEYDOWN:
-                    if _is_digit_key(event.key) and len(my_number) < 4:
-                        my_number += event.unicode
-                        self.set_text(my_number, BOX_BORDER_COLOR_ON_FOCUS)
-
-                    if event.key == pg.K_RETURN:
-                        if len(my_number) > 0:
-                            not_done = False
-
-                    if event.key == pg.K_BACKSPACE:
-                        if len(my_number) > 0:
-                            my_number = _remove_last_letter_from_string(my_number)
-                            self.set_text(my_number, BOX_BORDER_COLOR_ON_FOCUS)
-
-        self._value = int(my_number)
-
-        return int(my_number)
+        return self.value

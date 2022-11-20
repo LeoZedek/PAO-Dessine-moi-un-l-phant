@@ -37,7 +37,7 @@ def _create_number_circle_slider(screen, constructed_rectangle):
     slider_number_circle = Slider(screen, left_slider_number_circle, \
                              top_slider_number_circle, width_slider, height_slider, \
                              min = MIN_CIRCLE, max = MAX_CIRCLE, \
-                             step = 2, \
+                             step = 1, \
                              handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
     return slider_number_circle
 
@@ -58,8 +58,7 @@ def _get_parameters(screen, points, constructed_rectangle):
 
     number_circle = 1
     sampled_points = points
-    last_slider_sampling_value = -1
-    last_slider_number_circle_value = -1
+
     while not_done:
         clear_screen(screen)
 
@@ -94,12 +93,12 @@ def _get_parameters(screen, points, constructed_rectangle):
 
         pygame_widgets.update(events)
 
-        sampling_box.update()
-        number_circle_box.update()
+        if sampling_box.update():
+            number_points = sampling_box.value
+            sampled_points = sampling_points(points, number_points)
 
-        number_circle = number_circle_box.value
-        number_points = sampling_box.value
-        sampled_points = sampling_points(points, number_points)
+        if number_circle_box.update():
+            number_circle = number_circle_box.value
 
         pg.display.update()
 
@@ -154,9 +153,9 @@ def _launch_main():
     pg.init()
 
     screen = init_window()
-    constructed_rectangle = ConstructedRectangles(screen)
     points = get_points(screen)
 
+    constructed_rectangle = ConstructedRectangles(screen)
     _launch_drawing(screen, constructed_rectangle, points)
 
     _show_draw_box(constructed_rectangle)
