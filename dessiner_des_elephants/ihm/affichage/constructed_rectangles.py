@@ -66,15 +66,19 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         self._box_padding = self._constructed_box_padding()
 
-        self._sampling_box = self._constructed_sampling_box()
+        self._box_map = {}
 
-        self._number_circle_box = self._constructed_number_circle_box()
+        self._add_box(self._constructed_sampling_box(), "sampling_box")
+        self._add_box(self._constructed_number_circle_box(), "number_circle_box")
+        self._add_box(self._constructed_start_box(), "start_box")
+        self._add_box(self._constructed_draw_box(), "draw_box")
+        self._add_box(self._constructed_redraw_box(), "redraw_box")
 
-        self._start_box = self._constructed_start_box()
+    def _add_box(self, box, box_tag):
+        self._box_map[box_tag] = box
 
-        self._draw_box = self._constructed_draw_box()
-
-        self._redraw_box = self._constructed_redraw_box()
+    def _get_box_by_tag(self, box_tag):
+        return self._box_map[box_tag]
 
     @property
     def box_width(self)->int:
@@ -109,35 +113,35 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         """
         Getter pour obtenir la boite d'entrée pour le nombre d'échantillonage.
         """
-        return self._sampling_box
+        return self._get_box_by_tag("sampling_box")
 
     @property
     def number_circle_box(self):
         """
         Getter pour obtenir la boite d'entrée pour le nombre de cercle.
         """
-        return self._number_circle_box
+        return self._get_box_by_tag("number_circle_box")
 
     @property
     def start_box(self):
         """
         Getter pour obtenir la boite d'entrée pour commencer le dessin.
         """
-        return self._start_box
+        return self._get_box_by_tag("start_box")
 
     @property
     def draw_box(self):
         """
         Getter pour obtenir la boite d'entrée pour recommencer la reconstruction du dessin.
         """
-        return self._draw_box
+        return self._get_box_by_tag("draw_box")
 
     @property
     def redraw_box(self):
         """
         Getter pour obtenir la boite d'entrée pour redessiner un dessin.
         """
-        return self._redraw_box
+        return self._get_box_by_tag("redraw_box")
 
     def _constructed_box_dimension(self):
         """
