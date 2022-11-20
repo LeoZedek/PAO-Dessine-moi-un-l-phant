@@ -2,6 +2,7 @@
 """Module proposant la classe VirtualKeyboard"""
 
 import pygame as pg
+import pygame_widgets
 from pygame_widgets.button import Button
 from pygame_widgets.widget import WidgetHandler
 from ..affichage.draw_elephant_utils import PROPORTION_VIRTUAL_KEYBOARD_HEIGHT,\
@@ -86,6 +87,8 @@ class VirtualKeyboard():
 
         self._text_box = None
 
+        self._in_acquisition = False
+
     @property
     def screen(self)->pg.Surface:
         """Getter de l'objet Surface du clavier"""
@@ -145,6 +148,17 @@ class VirtualKeyboard():
 
     def _delete_text_box(self):
         WidgetHandler.removeWidget(self._text_box)
+        self._text_box = None
+
+    def _delete_keys(self):
+        for key in self._keys.values():
+            WidgetHandler.removeWidget(key)
+
+        self._keys = {}
+
+    def _delete_keyboard(self):
+        self._delete_text_box()
+        self._delete_keys()
 
     def _create_text_box(self):
         button_parameters = KEY_PARAMETERS.copy()
@@ -187,7 +201,7 @@ class VirtualKeyboard():
 
         button_parameters = KEY_PARAMETERS.copy()
         button_parameters["text"] = "OK"
-        button_parameters["onRelease"] = lambda : print("temp")
+        button_parameters["onRelease"] = self._end_acquisition
 
         enter_button = Button(self.screen,
                                x = self.left + 2 * self.key_dimension + 2 * self.key_padding,\
@@ -214,3 +228,29 @@ class VirtualKeyboard():
                             **button_parameters)
 
             self._add_key_by_tag(button, str(number))
+
+    def _end_acquisition(self):
+        if len(self._string_value) > 0:
+            self._in_acquisition = False
+
+    def get_input_value(self)->int:
+        """
+        Méthode pour faire apparaître le clavier virtuel et renvoie la valeur final.
+        """
+        self._create_keyboard()
+
+        self._in_acquisition = True
+
+        while self._in_acquisition:
+            events = pg.event.get()
+            for event in events:
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_q:
+                        self._end_acquisition()
+
+            pygame_widgets.update(events)
+            pg.display.update()
+
+        self._delete_keyboard()
+
+        return int(self._string_value)
