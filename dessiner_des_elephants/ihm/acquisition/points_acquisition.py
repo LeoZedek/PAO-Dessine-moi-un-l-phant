@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Module proposant les fonctions pour acquérir les points dessiner par l'utilisateur"""
 
+import sys
 import pygame as pg
 from numpy import arange, linspace
 from ..affichage.draw_elephant_utils import DISTANCE_BETWEEN_POINT, POINT_RADIUS, COLOR_LINE
@@ -90,28 +91,26 @@ def get_points(screen)->list[Point2D]:
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                exit()
+                sys.exit()
 
-            if event.type == pg.MOUSEBUTTONDOWN:
+            elif event.type == pg.MOUSEBUTTONDOWN:
                 mouse_down = True
 
-            if event.type == pg.MOUSEBUTTONUP:
+            elif event.type == pg.MOUSEBUTTONUP:
                 mouse_down = False
                 if len(points) > 1:
-                        not_done = False
+                    not_done = False
 
-            if event.type == pg.MOUSEMOTION:
-                if mouse_down:
-                    new_point = Point2D(float(event.pos[0] - (x_dimension   // 2)), \
-                        -float(event.pos[1] - (y_dimension   // 2)))
-                    points.append(new_point)
-                    pg.draw.circle(screen, COLOR_LINE, event.pos, POINT_RADIUS)
+            elif event.type == pg.MOUSEMOTION and mouse_down:
+                new_point = Point2D(float(event.pos[0] - (x_dimension   // 2)), \
+                    -float(event.pos[1] - (y_dimension   // 2)))
+                points.append(new_point)
+                pg.draw.circle(screen, COLOR_LINE, event.pos, POINT_RADIUS)
 
-                    _fix_point(points, screen)
+                _fix_point(points, screen)
 
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_q:
-                    exit()
+            elif event.type == pg.KEYDOWN and event.key == pg.K_q:
+                sys.exit()
 
         pg.display.update()
 

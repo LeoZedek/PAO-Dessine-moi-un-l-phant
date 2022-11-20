@@ -34,13 +34,10 @@ def _create_number_circle_slider(screen, constructed_rectangle):
     top_slider_number_circle = number_circle_box.top + number_circle_box.height \
                           + (constructed_rectangle.box_padding_ordinate // 4)
 
-    min_circle = 2
-    max_circle = 50
-
     slider_number_circle = Slider(screen, left_slider_number_circle, \
                              top_slider_number_circle, width_slider, height_slider, \
-                             min = min_circle, max = max_circle, \
-                             step = 2, \
+                             min = MIN_CIRCLE, max = MAX_CIRCLE, \
+                             step = 1, \
                              handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
     return slider_number_circle
 
@@ -54,20 +51,20 @@ def _get_parameters(screen, points, constructed_rectangle):
     slider_sampling = _create_sampling_slider(screen, constructed_rectangle, points)
     slider_number_circle = _create_number_circle_slider(screen, constructed_rectangle)
 
-    slider_sampling.draw()
-    slider_number_circle.draw()
+    sampling_box.slider = slider_sampling
+    number_circle_box.slider = slider_number_circle
 
     not_done = True
 
     number_circle = 1
     sampled_points = points
+
     while not_done:
         clear_screen(screen)
 
         _show_parameters_box(constructed_rectangle)
         _show_drawing_rectangle(constructed_rectangle)
         original_drawing_rectangle.draw_points(sampled_points)
-        slider_sampling.draw()
 
         events = pg.event.get()
 
@@ -96,12 +93,12 @@ def _get_parameters(screen, points, constructed_rectangle):
 
         pygame_widgets.update(events)
 
-        number_points = slider_sampling.getValue()
-        sampled_points = sampling_points(points, number_points)
-        sampling_box.set_text(str(number_points))
+        if sampling_box.update():
+            number_points = sampling_box.value
+            sampled_points = sampling_points(points, number_points)
 
-        number_circle = slider_number_circle.getValue()
-        number_circle_box.set_text(str(number_circle))
+        if number_circle_box.update():
+            number_circle = number_circle_box.value
 
         pg.display.update()
 
@@ -156,9 +153,9 @@ def _launch_main():
     pg.init()
 
     screen = init_window()
-    constructed_rectangle = ConstructedRectangles(screen)
     points = get_points(screen)
 
+    constructed_rectangle = ConstructedRectangles(screen)
     _launch_drawing(screen, constructed_rectangle, points)
 
     _show_draw_box(constructed_rectangle)
@@ -198,7 +195,8 @@ if __name__ == "__main__":
                                                                           sampling_points
     from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
     from dessiner_des_elephants.ihm.affichage.draw_elephant_utils import SLIDER_COLOR,\
-                                                                         SLIDER_HANDLE_COLOR
+                                                                         SLIDER_HANDLE_COLOR, \
+                                                                         MIN_CIRCLE, MAX_CIRCLE
     import sys
     import pygame as pg
     import pygame_widgets
