@@ -3,14 +3,16 @@
 
 import pygame as pg
 from pygame_widgets.button import Button
+from pygame_widgets.widget import WidgetHandler
 from ..affichage.draw_elephant_utils import PROPORTION_VIRTUAL_KEYBOARD_HEIGHT,\
-                                            BLACK
+                                            BLACK, BACKGROUND_COLOR
 
 KEY_PARAMETERS = {
     "imageHAlign" : 'centre',
     "imageVAlign" : 'centre',
     "borderThickness" : 3,
-    "borderColor" : BLACK,
+    "borderColour" : BLACK,
+    "inactiveColour" : BACKGROUND_COLOR,
     "fontSize" : 40
 }
 
@@ -82,6 +84,8 @@ class VirtualKeyboard():
 
         self._string_value = ""
 
+        self._text_box = None
+
     @property
     def screen(self)->pg.Surface:
         """Getter de l'objet Surface du clavier"""
@@ -121,13 +125,41 @@ class VirtualKeyboard():
     def _add_key_by_tag(self, key, key_tag):
         self._keys[key_tag] = key
 
+    def _update_text_box(self):
+        self._delete_text_box()
+        self._create_text_box()
+
     def _add_character_to_string_value(self, charactere):
-        if len(self._string_value) < 4 and len(charactere) == 1:
+        if len(self._string_value) < 5 and len(charactere) == 1:
             self._string_value += charactere
 
+        self._update_text_box()
 
     def _return_press(self):
         self._string_value = _remove_last_letter_from_string(self._string_value)
+        self._update_text_box()
+
+    def _create_keyboard(self):
+        self._create_text_box()
+        self._create_number_keys()
+
+    def _delete_text_box(self):
+        WidgetHandler.removeWidget(self._text_box)
+
+    def _create_text_box(self):
+        button_parameters = KEY_PARAMETERS.copy()
+        button_parameters["text"] = self._string_value
+        button_parameters["hoverColour"] = BACKGROUND_COLOR
+        button_parameters["pressedColour"] = BACKGROUND_COLOR
+        button_parameters["hoverBorderColour"] = BLACK
+        button_parameters["pressedBorderColour"] = BLACK
+        button_parameters["fontSize"] = 100
+
+        self._text_box = Button(self.screen, \
+                                 x = self.left, \
+                                 y = self.top - (self.key_dimension + self.key_padding),\
+                                 height = self.key_dimension, width = self.width,
+                                 **button_parameters)
 
     def _create_number_keys(self):
         button_parameters = KEY_PARAMETERS.copy()
