@@ -10,7 +10,8 @@ KEY_PARAMETERS = {
     "imageHAlign" : 'centre',
     "imageVAlign" : 'centre',
     "borderThickness" : 3,
-    "borderColor" : BLACK
+    "borderColor" : BLACK,
+    "fontSize" : 40
 }
 
 def _remove_last_letter_from_string(string):
@@ -113,13 +114,30 @@ class VirtualKeyboard():
                                width = self.key_dimension, height = self.key_dimension,\
                                **button_parameters)
 
+        self._add_key_by_tag(zero_button, "0")
+
         button_parameters = KEY_PARAMETERS.copy()
         button_parameters["text"] = "OK"
         button_parameters["onRelease"] = lambda : print("temp")
-        print("coucou")
+
         enter_button = Button(self.screen,
                                x = self.left + 2 * self.key_dimension + 2 * self.key_padding,\
                                y = self.top + 3 * self.key_dimension + 3 * self.key_padding,\
                                width = self.key_dimension, height = self.key_dimension,\
                                **button_parameters)
-        print(enter_button)
+
+        self._add_key_by_tag(enter_button, "enter")
+
+        for number in range(1, 10):
+
+            button_parameters = KEY_PARAMETERS.copy()
+            button_parameters["text"] = str(number)
+            button_parameters["onRelease"] = lambda : self._add_character_to_string_value(str(number))
+
+            button = Button(self.screen,
+                            x = self.left + (2 - (number - 1) % 3) * (self.key_dimension + self.key_padding),\
+                            y = self.top + (2 - (number - 1) // 3 ) * (self.key_dimension + self.key_padding),\
+                            width = self.key_dimension, height = self.key_dimension,\
+                            **button_parameters)
+
+            self._add_key_by_tag(button, str(number))
