@@ -24,14 +24,10 @@ def _remove_last_letter_from_string(string):
 
     return "".join(temp_list_char)
 
-class VirtualKeyboard():
-    """
-        Class représentant la classe clavier virtuel.
-    """
-    def __init__(self, screen):
-        self._screen = screen
+class _VirtualKeyboardDimension():
 
-        self._height = round(self._screen.get_size()[1] * PROPORTION_VIRTUAL_KEYBOARD_HEIGHT)
+    def __init__(self, screen):
+        self._height = round(screen.get_size()[1] * PROPORTION_VIRTUAL_KEYBOARD_HEIGHT)
         self._top = self._height // 2
 
         self._key_padding = (self._height * 1/5) // 3
@@ -40,16 +36,7 @@ class VirtualKeyboard():
 
         self._width = 2 * self._key_padding + 3 * self._key_dimension
 
-        self._left = (self._screen.get_size()[0] - self._width) // 2
-
-        self._keys = {}
-
-        self._string_value = ""
-
-    @property
-    def screen(self)->pg.Surface:
-        """Getter de l'objet Surface du clavier"""
-        return self._screen
+        self._left = (screen.get_size()[0] - self._width) // 2
 
     @property
     def height(self)->int:
@@ -82,12 +69,62 @@ class VirtualKeyboard():
         """Getter de l'abscisse du coin gauche du clavier virtuel"""
         return self._left
 
+class VirtualKeyboard():
+    """
+        Class représentant la classe clavier virtuel.
+    """
+    def __init__(self, screen):
+        self._screen = screen
+
+        self._keyboard_dimension = _VirtualKeyboardDimension(screen)
+
+        self._keys = {}
+
+        self._string_value = ""
+
+    @property
+    def screen(self)->pg.Surface:
+        """Getter de l'objet Surface du clavier"""
+        return self._screen
+
+    @property
+    def height(self)->int:
+        """Getter de la hauteur du clavier"""
+        return self._keyboard_dimension.height
+
+    @property
+    def width(self)->int:
+        """Getter de la largeur du clavier"""
+        return self._keyboard_dimension.width
+
+    @property
+    def key_padding(self)->int:
+        """Getter de la marge entre les touches du clavier"""
+        return self._keyboard_dimension.key_padding
+
+    @property
+    def key_dimension(self)->int:
+        """Getter de la dimension des touches.
+        Les touches étant carrés, cela correspond donc à la hauteur et la largeur des touches."""
+        return self._keyboard_dimension.key_dimension
+
+    @property
+    def top(self)->int:
+        """Getter de l'ordonnée du coin gauche du clavier virtuel"""
+        return self._keyboard_dimension.top
+
+    @property
+    def left(self)->int:
+        """Getter de l'abscisse du coin gauche du clavier virtuel"""
+        return self._keyboard_dimension.left
+
     def _add_key_by_tag(self, key, key_tag):
         self._keys[key_tag] = key
 
     def _add_character_to_string_value(self, charactere):
         if len(self._string_value) < 4 and len(charactere) == 1:
             self._string_value += charactere
+
 
     def _return_press(self):
         self._string_value = _remove_last_letter_from_string(self._string_value)
@@ -132,11 +169,15 @@ class VirtualKeyboard():
 
             button_parameters = KEY_PARAMETERS.copy()
             button_parameters["text"] = str(number)
-            button_parameters["onRelease"] = lambda : self._add_character_to_string_value(str(number))
+            button_parameters["onRelease"] = lambda number_string = str(number): \
+                                             self._add_character_to_string_value(number_string)
 
             button = Button(self.screen,
-                            x = self.left + (2 - (number - 1) % 3) * (self.key_dimension + self.key_padding),\
-                            y = self.top + (2 - (number - 1) // 3 ) * (self.key_dimension + self.key_padding),\
+                            x = self.left \
+                                + (2 - (number - 1) % 3) * (self.key_dimension + self.key_padding),\
+                            y = self.top \
+                                + (2 - (number - 1) // 3 ) * (self.key_dimension\
+                                                              + self.key_padding),\
                             width = self.key_dimension, height = self.key_dimension,\
                             **button_parameters)
 
