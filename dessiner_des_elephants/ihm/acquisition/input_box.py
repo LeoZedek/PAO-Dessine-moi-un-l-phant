@@ -49,6 +49,21 @@ class InputBox(TextBox):
         """
         self._value = value
 
+        if self.slider:
+            if self.slider.min <= value and value <= self.slider.max:
+
+                self.slider.setValue(value)
+                self._last_slider_value = value
+
+            elif value < self.slider.min:
+                self.slider.setValue(self.slider.min)
+                self._last_slider_value = self.slider.min
+
+            else:
+                self.slider.setValue(self.slider.max)
+                self._last_slider_value = self.slider.max
+
+
     @property
     def slider(self)->Slider:
         """
