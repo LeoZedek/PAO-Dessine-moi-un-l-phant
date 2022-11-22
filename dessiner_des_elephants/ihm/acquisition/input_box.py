@@ -62,6 +62,9 @@ class InputBox(TextBox):
         Setter du slider.
         """
         self._slider = slider
+        if self._last_slider_value == -1:
+            self.value = slider.getValue()
+        self._last_slider_value = slider.getValue()
 
     def _update_slider_value(self)->bool:
         """

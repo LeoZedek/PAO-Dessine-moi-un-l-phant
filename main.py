@@ -14,12 +14,12 @@ def _create_sampling_slider(screen, constructed_rectangle, points):
                           + (constructed_rectangle.box_padding_ordinate // 4)
 
     min_sampling = min(len(points), 10)
-    max_sampling = min(len(points), 500)
+    max_sampling = min(len(points), 2000)
 
     slider_sampling = Slider(screen, left_slider_sampling, top_slider_sampling, \
                              width_slider, height_slider, \
                              min = min_sampling, max = max_sampling, \
-                             step = 10, \
+                             step = 5, \
                              handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
     return slider_sampling
 
@@ -41,7 +41,8 @@ def _create_number_circle_slider(screen, constructed_rectangle):
                              handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
     return slider_number_circle
 
-def _get_parameters(screen, points, constructed_rectangle):
+def _get_parameters(screen, points, constructed_rectangle,\
+                    number_points, number_circle):
 
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
     sampling_box = constructed_rectangle.sampling_box
@@ -56,8 +57,17 @@ def _get_parameters(screen, points, constructed_rectangle):
 
     not_done = True
 
-    number_circle = 1
     sampled_points = points
+
+    if number_points:
+        sampling_box.value = number_points
+    else:
+        number_points = sampling_box.value
+
+    if number_circle:
+        number_circle_box.value = number_circle
+    else:
+        number_circle = number_circle_box.value
 
     while not_done:
         clear_screen(screen)
@@ -72,9 +82,8 @@ def _get_parameters(screen, points, constructed_rectangle):
             if event.type == pg.QUIT:
                 sys.exit()
 
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_q:
-                    sys.exit()
+            if event.type == pg.KEYDOWN and event.key == pg.K_q:
+                sys.exit()
 
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             # If the button pressed is the left one
@@ -88,10 +97,8 @@ def _get_parameters(screen, points, constructed_rectangle):
                     number_circle = number_circle_box.get_number_input()
 
                 elif start_box.collidepoint(event.pos):
-                    if number_circle > 0:
+                    if number_circle and number_circle > 0:
                         not_done = False
-
-        pygame_widgets.update(events)
 
         if sampling_box.update():
             number_points = sampling_box.value
@@ -100,14 +107,21 @@ def _get_parameters(screen, points, constructed_rectangle):
         if number_circle_box.update():
             number_circle = number_circle_box.value
 
+        pygame_widgets.update(events)
         pg.display.update()
 
     WidgetHandler.removeWidget(slider_sampling)
     WidgetHandler.removeWidget(slider_number_circle)
 
+    number_circle = number_circle_box.value
+
+    number_points = sampling_box.value
+    sampled_points = sampling_points(points, number_points)
+
     return sampled_points, number_circle
 
-def _launch_drawing(screen, constructed_rectangle, points):
+def _launch_drawing(screen, constructed_rectangle, points,\
+                    number_point = None, number_circle = None):
     clear_screen(screen)
     _show_parameters_box(constructed_rectangle)
     _show_drawing_rectangle(constructed_rectangle)
@@ -117,10 +131,13 @@ def _launch_drawing(screen, constructed_rectangle, points):
 
     original_drawing_rectangle.draw_points(points)
 
-    sampled_points, number_circle = _get_parameters(screen, points, constructed_rectangle)
+    sampled_points, number_circle = _get_parameters(screen, points, constructed_rectangle,\
+                                                    number_point, number_circle)
 
     reconstructed_drawing_rectangle.draw_reconstructed_drawing( \
         original_drawing_rectangle, sampled_points, number_circle)
+
+    return len(sampled_points), number_circle
 
 def _show_parameters_box(constructed_rectangle):
     start_box = constructed_rectangle.start_box
@@ -139,7 +156,7 @@ def _show_drawing_rectangle(constructed_rectangle):
     original_drawing_rectangle.draw()
     reconstructed_drawing_rectangle.draw()
 
-def _show_draw_box(constructed_rectangle):
+def _show_draw_boxes(constructed_rectangle):
     draw_box = constructed_rectangle.draw_box
     redraw_box = constructed_rectangle.redraw_box
 
@@ -156,9 +173,9 @@ def _launch_main():
     points = get_points(screen)
 
     constructed_rectangle = ConstructedRectangles(screen)
-    _launch_drawing(screen, constructed_rectangle, points)
+    last_number_point, last_number_circle =  _launch_drawing(screen, constructed_rectangle, points)
 
-    _show_draw_box(constructed_rectangle)
+    _show_draw_boxes(constructed_rectangle)
 
     draw_box = constructed_rectangle.draw_box
     redraw_box = constructed_rectangle.redraw_box
@@ -170,22 +187,25 @@ def _launch_main():
             if event.type == pg.QUIT:
                 end = True
 
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_q:
-                    end = True
-                if event.key == pg.K_y:
-                    _launch_drawing(screen, constructed_rectangle, points)
+            if event.type == pg.KEYDOWN and event.key == pg.K_q:
+                end = True
 
-            if event.type == pg.MOUSEBUTTONDOWN:
-                if event.button == 1: # If the button pressed is the left one
-                    if draw_box.collidepoint(event.pos):
-                        _launch_drawing(screen, constructed_rectangle, points)
-                        _show_draw_box(constructed_rectangle)
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+            # If the button pressed is the left one
+                if draw_box.collidepoint(event.pos):
+                    last_number_point, last_number_circle = _launch_drawing(screen,\
+                                                                            constructed_rectangle,\
+                                                                            points,\
+                                                                            last_number_point,\
+                                                                            last_number_circle)
+                    _show_draw_boxes(constructed_rectangle)
 
-                    if redraw_box.collidepoint(event.pos):
-                        points = get_points(screen)
-                        _launch_drawing(screen, constructed_rectangle, points)
-                        _show_draw_box(constructed_rectangle)
+                if redraw_box.collidepoint(event.pos):
+                    points = get_points(screen)
+                    last_number_point, last_number_circle  = _launch_drawing(screen,\
+                                                                             constructed_rectangle,\
+                                                                             points)
+                    _show_draw_boxes(constructed_rectangle)
 
 
 if __name__ == "__main__":
