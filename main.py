@@ -159,7 +159,10 @@ def _show_drawing_rectangle(constructed_rectangle):
 def _show_draw_boxes(constructed_rectangle):
     draw_box = constructed_rectangle.draw_box
     redraw_box = constructed_rectangle.redraw_box
+    quit_box = constructed_rectangle.quit_box
 
+    quit_box.draw()
+    quit_box.set_text("QUIT")
     draw_box.draw()
     draw_box.set_text("DRAW")
     redraw_box.draw()
@@ -179,6 +182,7 @@ def _launch_main():
 
     draw_box = constructed_rectangle.draw_box
     redraw_box = constructed_rectangle.redraw_box
+    quit_box = constructed_rectangle.quit_box
 
     end = False
 
@@ -207,6 +211,8 @@ def _launch_main():
                                                                              points)
                     _show_draw_boxes(constructed_rectangle)
 
+                if quit_box.collidepoint(event.pos):
+                    end = True
 
 if __name__ == "__main__":
 
