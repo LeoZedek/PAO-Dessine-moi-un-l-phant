@@ -3,14 +3,12 @@
 
 import pygame as pg
 from pygame_widgets.slider import Slider
-from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS
+from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS,\
+                                            LABEL_HEIGHT, LABEL_WIDTH,\
+                                            BLACK
+
 from ..affichage.text_box import TextBox
 from .virtual_keyboard import VirtualKeyboard
-
-# Function to verify that the pressed key is a digit
-# Private function
-def _is_digit_key(key):
-    return key in range(pg.K_0, pg.K_9 + 1)
 
 def _remove_last_letter_from_string(string):
 
@@ -27,13 +25,27 @@ class InputBox(TextBox):
         Classe représentant une boite d'entrée dans laquelle, on peut mettre un nombre en entrée.
     '''
 
-    def __init__(self, screen, left: int, top: int, width: int, height: int):
+    def __init__(self, screen, left: int, top: int, width: int, height: int, label : str):
 
         super().__init__(screen, left, top, width, height)
         self._last_slider_value = -1
         self._value = None
         self._slider = None
         self._virtual_keyboard = VirtualKeyboard(self.screen)
+
+        letter_size_in_pixels = LABEL_HEIGHT * self.height * 0.5
+        letter_size_in_points = round(letter_size_in_pixels * 72 / 96  * 1.5)
+
+        font = pg.font.SysFont(None, letter_size_in_points)
+        self._label = font.render(label, True, BLACK)
+        text_width, text_height = font.size(label)
+
+        x_display = self.left - LABEL_WIDTH * self.width + (LABEL_WIDTH * self.width - text_width) / 2
+        y_display = self.top + (self.height - text_height) / 2
+
+        self._dimension_label_display = (x_display, y_display)
+
+        self.screen.blit(self._label, self._dimension_label_display)
 
     @property
     def value(self)->int:
@@ -103,8 +115,9 @@ class InputBox(TextBox):
         Méthode permettant de mettre à jour la valeur du slider s'il a bougé
         et le texte dans la boite.
         """
+        self.screen.blit(self._label, self._dimension_label_display)
         self._update_text()
-        
+
         # Return True si la valeur du slider à été modifier
         return self._update_slider_value()
 

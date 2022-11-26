@@ -3,7 +3,7 @@
 
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_WIDTH
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_PADDING_RIGHT, INPUT_SAMPLING_BOX_PADDING_TOP
-from .draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT
+from .draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT, LABEL_WIDTH
 from ..acquisition.input_box import InputBox
 from .text_box import TextBox
 from .constructed_drawing_rectangle import ConstructedDrawingRectangle
@@ -168,12 +168,14 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         Fonction privée
         """
         top_sampling_box = self.box_padding_ordinate
-        left_sampling_box = self.box_padding_abscissa + self.original_drawing_rectangle.width
+        left_sampling_box = self.original_drawing_rectangle.width\
+                            + LABEL_WIDTH * self.box_width
         height_sampling_box = self.box_height
         width_sampling_box = self.box_width
 
         sampling_box = InputBox(self.screen, left_sampling_box, \
-            top_sampling_box, width_sampling_box, height_sampling_box)
+            top_sampling_box, width_sampling_box, height_sampling_box,\
+            "number points :")
 
         return sampling_box
 
@@ -190,7 +192,8 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         - self.box_padding_abscissa - self.box_width
 
         number_circle_box = InputBox(self.screen, left_number_circle_box, \
-            top_number_circle_box, width_number_circle_box, height_number_circle_box)
+            top_number_circle_box, width_number_circle_box, height_number_circle_box,\
+            "number circle :")
 
         return number_circle_box
 
