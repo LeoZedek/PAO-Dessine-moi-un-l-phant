@@ -7,11 +7,6 @@ from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS
 from ..affichage.text_box import TextBox
 from .virtual_keyboard import VirtualKeyboard
 
-# Function to verify that the pressed key is a digit
-# Private function
-def _is_digit_key(key):
-    return key in range(pg.K_0, pg.K_9 + 1)
-
 def _remove_last_letter_from_string(string):
 
     if len(string) == 0:
