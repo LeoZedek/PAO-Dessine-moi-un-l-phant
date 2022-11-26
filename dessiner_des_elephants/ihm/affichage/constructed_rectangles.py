@@ -73,6 +73,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         self._add_box(self._constructed_start_box(), "start_box")
         self._add_box(self._constructed_draw_box(), "draw_box")
         self._add_box(self._constructed_redraw_box(), "redraw_box")
+        self._add_box(self._constructed_quit_box(), "quit_box")
 
     def _add_box(self, box, box_tag):
         self._box_map[box_tag] = box
@@ -142,6 +143,13 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         Getter pour obtenir la boite d'entrée pour redessiner un dessin.
         """
         return self._get_box_by_tag("redraw_box")
+
+    @property
+    def quit_box(self):
+        """
+        Getter pour obtenir la boite de sortie pour quitter le programme.
+        """
+        return self._get_box_by_tag("quit_box")
 
     def _constructed_box_dimension(self):
         """
@@ -239,3 +247,18 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
             width_box, height_box)
 
         return redraw_box
+
+    def _constructed_quit_box(self):
+        """
+        Fonction privée
+        """
+        height_start_box = self.box_height
+        width_start_box = self.box_width
+        top_start_box = self.reconstructed_drawing_rectangle.top \
+            + self.reconstructed_drawing_rectangle.height // 2 - height_start_box // 2
+        left_start_box = self.abscissa_dimension - self.box_padding_abscissa - self.box_width
+
+        quit_box = TextBox(self.screen, left_start_box, \
+            top_start_box, width_start_box, height_start_box)
+
+        return quit_box
