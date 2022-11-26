@@ -10,16 +10,6 @@ from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS,\
 from ..affichage.text_box import TextBox
 from .virtual_keyboard import VirtualKeyboard
 
-def _remove_last_letter_from_string(string):
-
-    if len(string) == 0:
-        return string
-
-    temp_list_char = list(string)
-    temp_list_char.pop()
-
-    return "".join(temp_list_char)
-
 class InputBox(TextBox):
     '''
         Classe représentant une boite d'entrée dans laquelle, on peut mettre un nombre en entrée.
@@ -40,7 +30,8 @@ class InputBox(TextBox):
         self._label = font.render(label, True, BLACK)
         text_width, text_height = font.size(label)
 
-        x_display = self.left - LABEL_WIDTH * self.width + (LABEL_WIDTH * self.width - text_width) / 2
+        x_display = self.left - LABEL_WIDTH * self.width \
+                    + (LABEL_WIDTH * self.width - text_width) / 2
         y_display = self.top + (self.height - text_height) / 2
 
         self._dimension_label_display = (x_display, y_display)
