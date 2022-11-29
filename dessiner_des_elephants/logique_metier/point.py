@@ -20,6 +20,14 @@ class Point2D:
         """ Retourne l'ordonnée du point """
         return self._ordonnee
 
+    @abscisse.setter
+    def abscisse(self, abscisse):
+        self._abscisse;
+        
+    @ordonnee.setter
+    def ordonnee(self,ordonnee):
+        self._ordonnee;
+
     def __complex__(self):
         return complex(self.abscisse,self.ordonnee)
 

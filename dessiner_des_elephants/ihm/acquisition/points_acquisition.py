@@ -5,9 +5,13 @@ import sys
 import pygame as pg
 from numpy import arange, linspace
 from ..affichage.draw_elephant_utils import DISTANCE_BETWEEN_POINT, POINT_RADIUS, COLOR_LINE
-from ..affichage.draw_elephant_utils import COLOR_AXES, AXES_WIDTH
+from ..affichage.draw_elephant_utils import COLOR_AXES, AXES_WIDTH, BLACK, BACKGROUND_COLOR
 from ...logique_metier.point import Point2D
 from ..affichage.screen_utils import clear_screen
+from ..affichage.text_box import TextBox
+from  dessiner_des_elephants.ihm.affichage.drawing_rectangle import DrawingRectangle
+import pickle
+
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
 # a linear interpolation is made to add points between them.
@@ -64,7 +68,7 @@ def _fix_point(points, screen):
 
                 pg.display.update()
 
-def get_points(screen)->list[Point2D]:
+def _get_points_manually(screen)->list[Point2D]:
     """Retourne la liste des points dessiner par l'utilisateur.
 
         screen : la Surface sur laquelle l'utilisateur dessine.
@@ -122,6 +126,114 @@ def get_points(screen)->list[Point2D]:
     clear_screen(screen)
 
     return points
+
+def _affichage_image(screen,nom_fichier,left,top,width,height,x_dimension,y_dimension):
+
+    file = open(nom_fichier,"rb")
+    new_points, x_dimension_charge, y_dimension_charge = pickle.load(file)
+    file.close()
+
+    x_ratio =  x_dimension / x_dimension_charge
+    y_ratio = y_dimension / y_dimension_charge
+
+    for p in new_points:
+        p.abscisse=p.abscisse*x_ratio
+        p.ordonne=p.ordonnee*y_ratio
+
+    dessin1 = DrawingRectangle(screen,left,top,width,height)
+    dessin1.draw()
+
+    return dessin1,new_points
+
+def _get_galerie(screen):
+
+    clear_screen(screen)
+
+    x_dimension, y_dimension = screen.get_size()
+    
+    left = 0
+    top = 0
+    width = x_dimension//2
+    height = y_dimension//2
+    dessin1,new_points1 = _affichage_image(screen,"file1.txt",left,top,width,height,x_dimension,y_dimension)
+
+    left = x_dimension//2
+    top = 0
+    width = x_dimension//2
+    height = y_dimension//2
+    dessin2,new_points2 = _affichage_image(screen,"file2.txt",left,top,width,height,x_dimension,y_dimension)
+
+    left = 0
+    top = y_dimension//2
+    width = x_dimension//2
+    height = y_dimension//2
+    dessin3,new_points3 = _affichage_image(screen,"file3.txt",left,top,width,height,x_dimension,y_dimension)
+
+    left = x_dimension//2
+    top = y_dimension//2
+    width = x_dimension//2
+    height = y_dimension//2
+    dessin4,new_points4 = _affichage_image(screen,"file4.txt",left,top,width,height,x_dimension,y_dimension)
+    
+    run = True
+    while run:
+        dessin1.draw_points(new_points1)
+        dessin2.draw_points(new_points2)
+        dessin3.draw_points(new_points3)
+        dessin4.draw_points(new_points4)
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                sys.exit()
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                if dessin1.collidepoint(event.pos):
+                    return new_points1
+                if dessin2.collidepoint(event.pos):
+                    return new_points2
+                if dessin3.collidepoint(event.pos):
+                    return new_points3
+                if dessin4.collidepoint(event.pos):
+                    return new_points4
+        pg.display.update()
+
+def get_points(screen)->list[Point2D]:
+
+    clear_screen(screen)
+    
+    x_dimension, y_dimension = screen.get_size()
+    
+    width = x_dimension*0.50
+    height = y_dimension*0.10
+    left = x_dimension//2-width//2
+    top = y_dimension//2-height
+    choix1 = TextBox(screen,left,top,width,height)
+    choix1.set_text("Dessiner votre propre dessin")
+
+
+    left2 = x_dimension//2-width//2
+    top2 = y_dimension//2+height
+    choix2 = TextBox(screen,left2,top2,width,height)
+    choix2.set_text("Choisir un dessin à tracer")
+
+    
+    
+    run=True
+    while run:
+        choix1.draw()
+        choix2.draw()
+        events = pg.event.get()
+        for event in events:
+            if event.type == pg.QUIT:
+                pg.quit()
+                run =False
+                quit()
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                if choix1.collidepoint(event.pos):
+                    return _get_points_manually(screen)
+                if choix2.collidepoint(event.pos):
+                    return _get_galerie(screen)
+        pg.display.update()
+
+
 
 def sampling_points(points, number_of_points):
     """Retourne une liste échantilloné des points

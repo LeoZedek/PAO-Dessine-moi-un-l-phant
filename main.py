@@ -229,4 +229,6 @@ if __name__ == "__main__":
     from pygame_widgets.slider import Slider
     from pygame_widgets.widget import WidgetHandler
 
+    import pickle
+
     _launch_main()
