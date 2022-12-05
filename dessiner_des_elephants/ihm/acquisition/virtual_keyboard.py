@@ -95,6 +95,15 @@ class VirtualKeyboard():
         return self._screen
 
     @property
+    def string_value(self):
+        return self._string_value
+
+    @string_value.setter
+    def string_value(self, value):
+        self._string_value = value
+    
+
+    @property
     def height(self)->int:
         """Getter de la hauteur du clavier"""
         return self._keyboard_dimension.height
@@ -133,13 +142,13 @@ class VirtualKeyboard():
         self._create_text_box()
 
     def _add_character_to_string_value(self, charactere):
-        if len(self._string_value) < 5 and len(charactere) == 1:
-            self._string_value += charactere
+        if len(self.string_value) < 5 and len(charactere) == 1:
+            self.string_value += charactere
 
         self._update_text_box()
 
     def _return_press(self):
-        self._string_value = _remove_last_letter_from_string(self._string_value)
+        self.string_value = _remove_last_letter_from_string(self.string_value)
         self._update_text_box()
 
     def _create_keyboard(self):
@@ -162,7 +171,7 @@ class VirtualKeyboard():
 
     def _create_text_box(self):
         button_parameters = KEY_PARAMETERS.copy()
-        button_parameters["text"] = self._string_value
+        button_parameters["text"] = self.string_value
         button_parameters["hoverColour"] = BACKGROUND_COLOR
         button_parameters["pressedColour"] = BACKGROUND_COLOR
         button_parameters["hoverBorderColour"] = BLACK
@@ -230,13 +239,15 @@ class VirtualKeyboard():
             self._add_key_by_tag(button, str(number))
 
     def _end_acquisition(self):
-        if len(self._string_value) > 0:
+        if len(self.string_value) > 0:
             self._in_acquisition = False
 
     def get_input_value(self)->int:
         """
         Méthode pour faire apparaître le clavier virtuel et renvoie la valeur final.
         """
+        self.string_value = ""
+
         self._create_keyboard()
 
         self._in_acquisition = True
@@ -253,4 +264,4 @@ class VirtualKeyboard():
 
         self._delete_keyboard()
 
-        return int(self._string_value)
+        return int(self.string_value)
