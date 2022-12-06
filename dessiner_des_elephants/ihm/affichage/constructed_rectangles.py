@@ -3,7 +3,7 @@
 
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_WIDTH
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_PADDING_RIGHT, INPUT_SAMPLING_BOX_PADDING_TOP
-from .draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT, LABEL_WIDTH
+from .draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT, LABEL_WIDTH, PROPORTION_PARAMETERS_BUTTON
 from ..acquisition.input_box import InputBox
 from .text_box import TextBox
 from .constructed_drawing_rectangle import ConstructedDrawingRectangle
@@ -177,7 +177,10 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         """
         top_sampling_box = self.box_padding_ordinate
         left_sampling_box = self.original_drawing_rectangle.width\
-                            + LABEL_WIDTH * self.box_width
+                            + (self.screen.get_size()[0]\
+                                - self.original_drawing_rectangle.width)\
+                               * PROPORTION_PARAMETERS_BUTTON // 2
+
         height_sampling_box = self.box_height
         width_sampling_box = self.box_width
 
@@ -194,10 +197,12 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         height_number_circle_box = self.box_height
         width_number_circle_box = self.box_width
         top_number_circle_box = self.reconstructed_drawing_rectangle.top \
-            - self.box_padding_ordinate - self.box_height
+            - 2.5 * self.box_padding_ordinate - self.box_height
 
-        left_number_circle_box = self.abscissa_dimension \
-        - self.box_padding_abscissa - self.box_width
+        left_number_circle_box =self.original_drawing_rectangle.width\
+                                + (self.screen.get_size()[0]\
+                                    - self.original_drawing_rectangle.width)\
+                                  * PROPORTION_PARAMETERS_BUTTON // 2
 
         number_circle_box = InputBox(self.screen, left_number_circle_box, \
             top_number_circle_box, width_number_circle_box, height_number_circle_box,\
