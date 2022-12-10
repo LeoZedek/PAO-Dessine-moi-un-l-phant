@@ -229,7 +229,9 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         height_box = self.box_height
         width_box = 2 * self.box_width
-        top_box = self.box_padding_ordinate
+        top_box = self.original_drawing_rectangle.height // 2\
+            - height_box\
+            - self.box_padding_ordinate // 2
         left_box = self.screen.get_size()[0]\
             - self.box_padding_abscissa\
             - width_box
@@ -243,7 +245,8 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         height_box = self.box_height
         width_box = 2 * self.box_width
-        top_box = self.box_padding_ordinate * 2 + self.draw_box.height
+        top_box = self.original_drawing_rectangle.height // 2\
+            + self.box_padding_ordinate // 2
         left_box = self.screen.get_size()[0]\
             - self.box_padding_abscissa\
             - width_box
