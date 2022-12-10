@@ -155,25 +155,25 @@ def _get_galerie(screen):
     top = 0
     width = x_dimension//2
     height = y_dimension//2
-    dessin1,new_points1 = _affichage_image(screen,"file1.txt",left,top,width,height,x_dimension,y_dimension)
+    dessin1,new_points1 = _affichage_image(screen,"galerie/file1.dump",left,top,width,height,x_dimension,y_dimension)
 
     left = x_dimension//2
     top = 0
     width = x_dimension//2
     height = y_dimension//2
-    dessin2,new_points2 = _affichage_image(screen,"file2.txt",left,top,width,height,x_dimension,y_dimension)
+    dessin2,new_points2 = _affichage_image(screen,"galerie/file2.dump",left,top,width,height,x_dimension,y_dimension)
 
     left = 0
     top = y_dimension//2
     width = x_dimension//2
     height = y_dimension//2
-    dessin3,new_points3 = _affichage_image(screen,"file3.txt",left,top,width,height,x_dimension,y_dimension)
+    dessin3,new_points3 = _affichage_image(screen,"galerie/file3.dump",left,top,width,height,x_dimension,y_dimension)
 
     left = x_dimension//2
     top = y_dimension//2
     width = x_dimension//2
     height = y_dimension//2
-    dessin4,new_points4 = _affichage_image(screen,"file4.txt",left,top,width,height,x_dimension,y_dimension)
+    dessin4,new_points4 = _affichage_image(screen,"galerie/file4.dump",left,top,width,height,x_dimension,y_dimension)
     
     run = True
     while run:
