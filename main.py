@@ -170,11 +170,11 @@ def _show_draw_boxes(constructed_rectangle):
     quit_box = constructed_rectangle.quit_box
 
     quit_box.draw()
-    quit_box.set_text("QUIT")
+    quit_box.set_text("Quitter")
     draw_box.draw()
-    draw_box.set_text("DRAW")
+    draw_box.set_text("Changer paramètres")
     redraw_box.draw()
-    redraw_box.set_text("REDRAW")
+    redraw_box.set_text("Changer dessin")
 
 def _launch_main():
 
