@@ -3,6 +3,20 @@
 Fichier main du projet pao "dessine moi un éléphant".
 """
 
+from dessiner_des_elephants.ihm.affichage.screen_utils import init_window, clear_screen
+from dessiner_des_elephants.ihm.acquisition.points_acquisition import get_points, \
+                                                                      sampling_points
+from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
+from dessiner_des_elephants.ihm.affichage.draw_elephant_utils import SLIDER_COLOR,\
+                                                                     SLIDER_HANDLE_COLOR, \
+                                                                     MIN_CIRCLE, MAX_CIRCLE,\
+                                                                PROPORTION_PARAMETERS_BUTTON
+import sys
+import pygame as pg
+import pygame_widgets
+from pygame_widgets.slider import Slider
+from pygame_widgets.widget import WidgetHandler
+
 def _create_sampling_slider(screen, constructed_rectangle, points):
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
     sampling_box = constructed_rectangle.sampling_box
@@ -223,19 +237,4 @@ def _launch_main():
                     end = True
 
 if __name__ == "__main__":
-
-    from dessiner_des_elephants.ihm.affichage.screen_utils import init_window, clear_screen
-    from dessiner_des_elephants.ihm.acquisition.points_acquisition import get_points, \
-                                                                          sampling_points
-    from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
-    from dessiner_des_elephants.ihm.affichage.draw_elephant_utils import SLIDER_COLOR,\
-                                                                         SLIDER_HANDLE_COLOR, \
-                                                                         MIN_CIRCLE, MAX_CIRCLE,\
-                                                                    PROPORTION_PARAMETERS_BUTTON
-    import sys
-    import pygame as pg
-    import pygame_widgets
-    from pygame_widgets.slider import Slider
-    from pygame_widgets.widget import WidgetHandler
-
     _launch_main()
