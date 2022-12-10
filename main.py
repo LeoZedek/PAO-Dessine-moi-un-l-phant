@@ -17,15 +17,33 @@ from pygame_widgets.widget import WidgetHandler
 
 import pickle
 
+from dessiner_des_elephants.ihm.affichage.screen_utils import init_window, clear_screen
+from dessiner_des_elephants.ihm.acquisition.points_acquisition import get_points, \
+                                                                      sampling_points
+from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
+from dessiner_des_elephants.ihm.affichage.draw_elephant_utils import SLIDER_COLOR,\
+                                                                     SLIDER_HANDLE_COLOR, \
+                                                                     MIN_CIRCLE, MAX_CIRCLE,\
+                                                                PROPORTION_PARAMETERS_BUTTON
+import sys
+import pygame as pg
+import pygame_widgets
+from pygame_widgets.slider import Slider
+from pygame_widgets.widget import WidgetHandler
+
 def _create_sampling_slider(screen, constructed_rectangle, points):
+    original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
     sampling_box = constructed_rectangle.sampling_box
+    number_circle_box = constructed_rectangle.number_circle_box
 
-    width_slider = constructed_rectangle.box_width
-    height_slider = constructed_rectangle.box_padding_ordinate // 2
+    width_slider = (screen.get_size()[0] - original_drawing_rectangle.width) \
+                   * PROPORTION_PARAMETERS_BUTTON
+    height_slider = number_circle_box.top - sampling_box.top \
+                    - sampling_box.height - constructed_rectangle.box_padding_ordinate
 
-    left_slider_sampling = sampling_box.left
+    left_slider_sampling = original_drawing_rectangle.width * 1.05
     top_slider_sampling = sampling_box.top + sampling_box.height \
-                          + (constructed_rectangle.box_padding_ordinate // 4)
+                          + (constructed_rectangle.box_padding_ordinate // 2)
 
     min_sampling = min(len(points), 10)
     max_sampling = min(len(points), 2000)
@@ -39,14 +57,18 @@ def _create_sampling_slider(screen, constructed_rectangle, points):
 
 def _create_number_circle_slider(screen, constructed_rectangle):
 
+    original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
+    sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
 
-    width_slider = constructed_rectangle.box_width
-    height_slider = constructed_rectangle.box_padding_ordinate // 2
+    width_slider = (screen.get_size()[0] - original_drawing_rectangle.width) \
+                   * PROPORTION_PARAMETERS_BUTTON
+    height_slider = number_circle_box.top - sampling_box.top \
+                    - sampling_box.height - constructed_rectangle.box_padding_ordinate
 
-    left_slider_number_circle = number_circle_box.left
+    left_slider_number_circle = original_drawing_rectangle.width * 1.05
     top_slider_number_circle = number_circle_box.top + number_circle_box.height \
-                          + (constructed_rectangle.box_padding_ordinate // 4)
+                          + (constructed_rectangle.box_padding_ordinate // 2)
 
     slider_number_circle = Slider(screen, left_slider_number_circle, \
                              top_slider_number_circle, width_slider, height_slider, \
@@ -176,11 +198,11 @@ def _show_draw_boxes(constructed_rectangle):
     quit_box = constructed_rectangle.quit_box
 
     quit_box.draw()
-    quit_box.set_text("QUIT")
+    quit_box.set_text("Quitter")
     draw_box.draw()
-    draw_box.set_text("DRAW")
+    draw_box.set_text("Changer paramètres")
     redraw_box.draw()
-    redraw_box.set_text("REDRAW")
+    redraw_box.set_text("Changer dessin")
 
 def _launch_main():
 
@@ -227,7 +249,6 @@ def _launch_main():
 
                 if quit_box.collidepoint(event.pos):
                     end = True
-
 
 def main()->None:
     """ Ensemble des instruction faite par le programme main """
