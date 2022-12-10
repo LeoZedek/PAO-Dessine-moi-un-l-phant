@@ -2,6 +2,20 @@
 """
 Fichier main du projet pao "dessine moi un éléphant".
 """
+from dessiner_des_elephants.ihm.affichage.screen_utils import init_window, clear_screen
+from dessiner_des_elephants.ihm.acquisition.points_acquisition import get_points, \
+                                                                            sampling_points
+from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
+from dessiner_des_elephants.ihm.affichage.draw_elephant_utils import SLIDER_COLOR,\
+                                                                    SLIDER_HANDLE_COLOR, \
+                                                                    MIN_CIRCLE, MAX_CIRCLE
+import sys
+import pygame as pg
+import pygame_widgets
+from pygame_widgets.slider import Slider
+from pygame_widgets.widget import WidgetHandler
+
+import pickle
 
 from dessiner_des_elephants.ihm.affichage.screen_utils import init_window, clear_screen
 from dessiner_des_elephants.ihm.acquisition.points_acquisition import get_points, \
@@ -236,5 +250,10 @@ def _launch_main():
                 if quit_box.collidepoint(event.pos):
                     end = True
 
-if __name__ == "__main__":
+def main()->None:
+    """ Ensemble des instruction faite par le programme main """
     _launch_main()
+
+if __name__ == "__main__":
+    main()
+    
