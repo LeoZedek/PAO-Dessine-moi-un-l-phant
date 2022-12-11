@@ -133,7 +133,7 @@ class SeriesCercles:
         return self._angles
 
     @angles.setter
-    def angles(self, angles: float) -> None:
+    def angles(self, angles: list[float]) -> None:
         """ Permet de set la valeur des angles """
         self._angles = angles
 

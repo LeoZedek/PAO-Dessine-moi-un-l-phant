@@ -9,13 +9,13 @@ from ...logique_metier.point import Point2D
 BLACK = 0, 0, 0
 WHITE = 255, 255, 255
 BLUE = 6, 28, 115
-GREEN = 30, 66,2
+GREEN = 30, 66, 2
 RED = 171, 15, 15
 
 TAILLE_POINT = 2
 
 
-def __polaire2carthesien(rho, phi):
+def __polaire2carthesien(rho: float, phi: float) -> tuple[float, float]:
     """
     number * number -> number, number
     rho : number la distance à zero à l'origine
@@ -28,7 +28,7 @@ def __polaire2carthesien(rho, phi):
     return abscisse, ordonnee
 
 
-def __avancement_cercle(angle, pas):
+def __avancement_cercle(angle: float, pas: float) -> float:
     """
     number*number  -> number
     angle : number l'angle compris entre 0 et 2pi
@@ -44,7 +44,7 @@ def __avancement_cercle(angle, pas):
     return res
 
 
-def __dessiner_le_chemin(series_cercles: SeriesCercles, screen):
+def __dessiner_le_chemin(series_cercles: SeriesCercles, screen) -> None:
     """
     dessine le chemin parcouru
     """
@@ -56,7 +56,7 @@ def __dessiner_le_chemin(series_cercles: SeriesCercles, screen):
 # Utiliser la classe coordonnée 2D
 
 
-def __dessiner_cercle_et_point(ecran, abscisse, ordonnee, rayon):
+def __dessiner_cercle_et_point(ecran, abscisse: float, ordonnee: float, rayon: float) -> None:
     """
     ecran : la surface pygame sur laquelle on dessine
     abscisse,ordonnee : les coordonées 2D carthésienne du centre du cercle
@@ -66,10 +66,10 @@ def __dessiner_cercle_et_point(ecran, abscisse, ordonnee, rayon):
     pg.draw.circle(surface=ecran, color=RED, center=(
         abscisse, ordonnee), radius=TAILLE_POINT)
     pg.draw.circle(surface=ecran, color=GREEN, center=(
-        abscisse, ordonnee), radius=rayon,width=2)
+        abscisse, ordonnee), radius=rayon, width=2)
 
 
-def __dessiner_les_cercles(series_cercles: SeriesCercles, screen):
+def __dessiner_les_cercles(series_cercles: SeriesCercles, screen) -> None:
     """
     dessine les cercles dans leurs Etat actuel et fait avancer les angles
     """
@@ -79,12 +79,13 @@ def __dessiner_les_cercles(series_cercles: SeriesCercles, screen):
     __dessiner_cercle_et_point(ecran=screen, abscisse=abscisse,
                                ordonnee=ordonnee, rayon=series_cercles.liste_rayon[0])
     newx, newy = __polaire2carthesien(
-            rho=series_cercles.liste_rayon[0], phi=series_cercles.angles[1])
-    abscisse2 = abscisse +  newx
-    ordonnee2 = ordonnee +  newy
-    
-    pg.draw.line(surface=screen, color=BLUE, start_pos=(abscisse, ordonnee),end_pos=(abscisse2, ordonnee2),width=2)
-    
+        rho=series_cercles.liste_rayon[0], phi=series_cercles.angles[1])
+    abscisse2 = abscisse + newx
+    ordonnee2 = ordonnee + newy
+
+    pg.draw.line(surface=screen, color=BLUE, start_pos=(
+        abscisse, ordonnee), end_pos=(abscisse2, ordonnee2), width=2)
+
     taille_liste = len(series_cercles.liste_rayon)
     for i in range(1, taille_liste):
         newx, newy = __polaire2carthesien(
@@ -97,13 +98,14 @@ def __dessiner_les_cercles(series_cercles: SeriesCercles, screen):
                 rho=series_cercles.liste_rayon[i], phi=series_cercles.angles[i+1])
             abscisse2 = newx2 + abscisse
             ordonnee2 = newy2 + ordonnee
-            pg.draw.line(surface=screen, color=BLUE, start_pos=(abscisse, ordonnee),end_pos=(abscisse2, ordonnee2),width=2)
-        
-        
+            pg.draw.line(surface=screen, color=BLUE, start_pos=(
+                abscisse, ordonnee), end_pos=(abscisse2, ordonnee2), width=2)
+
         else:
-            if (series_cercles.compteur_chemin >= series_cercles.nombre_point_chemin):
+            if series_cercles.compteur_chemin >= series_cercles.nombre_point_chemin:
                 series_cercles.compteur_chemin = 0
-                series_cercles._angles = series_cercles.angles_initiales.copy()
+                series_cercles.angles(
+                    angles=series_cercles.angles_initiales.copy())
             series_cercles.chemin[series_cercles.compteur_chemin] = Point2D(
                 abscisse, ordonnee)
             series_cercles.compteur_chemin += 1
@@ -114,6 +116,7 @@ def __dessiner_les_cercles(series_cercles: SeriesCercles, screen):
             angle=series_cercles.angles[i], pas=series_cercles.liste_pas[i])
 
 
-def dessiner_series_cercles(series_cercles: SeriesCercles, screen):
+def dessiner_series_cercles(series_cercles: SeriesCercles, screen) -> None:
+    """ Dessine d'abord le chemin puis al série de cercle """
     __dessiner_le_chemin(series_cercles=series_cercles, screen=screen)
     __dessiner_les_cercles(series_cercles=series_cercles, screen=screen)
