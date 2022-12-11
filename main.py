@@ -154,7 +154,7 @@ def _get_parameters(screen, points, constructed_rectangle,\
     number_points = sampling_box.value
     sampled_points = sampling_points(points, number_points)
 
-    return sampled_points, number_circle
+    return sampled_points, number_circle, points
 
 def _launch_drawing(screen, constructed_rectangle, points,\
                     number_point = None, number_circle = None):
@@ -167,13 +167,14 @@ def _launch_drawing(screen, constructed_rectangle, points,\
 
     original_drawing_rectangle.draw_points(points)
 
-    sampled_points, number_circle = _get_parameters(screen, points, constructed_rectangle,\
+    sampled_points, number_circle, points = _get_parameters(screen, points,\
+                                                    constructed_rectangle,\
                                                     number_point, number_circle)
 
     reconstructed_drawing_rectangle.draw_reconstructed_drawing( \
         original_drawing_rectangle, sampled_points, number_circle)
 
-    return len(sampled_points), number_circle
+    return len(sampled_points), number_circle, points
 
 def _show_parameters_box(constructed_rectangle):
     start_box = constructed_rectangle.start_box
@@ -212,7 +213,8 @@ def _launch_main():
     points = get_points(screen)
 
     constructed_rectangle = ConstructedRectangles(screen)
-    last_number_point, last_number_circle =  _launch_drawing(screen, constructed_rectangle, points)
+    last_number_point, last_number_circle, points =  _launch_drawing(screen,\
+                                                     constructed_rectangle, points)
 
     _show_draw_boxes(constructed_rectangle)
 
@@ -233,7 +235,7 @@ def _launch_main():
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             # If the button pressed is the left one
                 if draw_box.collidepoint(event.pos):
-                    last_number_point, last_number_circle = _launch_drawing(screen,\
+                    last_number_point, last_number_circle, points = _launch_drawing(screen,\
                                                                             constructed_rectangle,\
                                                                             points,\
                                                                             last_number_point,\
@@ -242,7 +244,7 @@ def _launch_main():
 
                 if redraw_box.collidepoint(event.pos):
                     points = get_points(screen)
-                    last_number_point, last_number_circle  = _launch_drawing(screen,\
+                    last_number_point, last_number_circle, points  = _launch_drawing(screen,\
                                                                              constructed_rectangle,\
                                                                              points)
                     _show_draw_boxes(constructed_rectangle)
