@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """ definition de la classe SeriesCercles """
-import pygame as pg
 from math import pi
 from .point import Point2D
 
@@ -8,7 +7,7 @@ from cmath import phase
 import numpy as np
 
 
-def _creation_liste_pas(nb_cercle, pas):
+def _creation_liste_pas(nb_cercle: int, pas: int) -> list[float]:
     """
     nbCercle : int>=0 la taille des listes à renvoyer dans notre le nombre de cercle
     pas : int>=0 le pas d'avancement de l'angle
@@ -23,13 +22,13 @@ def _creation_liste_pas(nb_cercle, pas):
     return liste_pas
 
 
-def _creation_liste_angle(coefficients):
+def _creation_liste_angle(coefficients: list[complex]) -> list[float]:
     """ creer la liste des angles """
     liste_angle = [0] + [phase(coefficient) for coefficient in coefficients]
     return liste_angle
 
 
-def _coeff2rayon(liste_coeff, scale):
+def _coeff2rayon(liste_coeff: list[complex], scale: float) -> list:
     """
     liste_coeff : liste des coefficients de la décomposition de fourrier complexe
     scale : mise à l'échelle par rapport à la fenêtre d'affichage
@@ -108,7 +107,7 @@ class SeriesCercles:
         return self._chemin
 
     @chemin.setter
-    def chemin(self, chemin: list[Point2D]):
+    def chemin(self, chemin: list[Point2D]) -> None:
         """ Setter de l'arguement chemin """
         self._chemin = chemin
 
@@ -127,27 +126,30 @@ class SeriesCercles:
         return self._liste_pas
 
     @property
-    def angles(self):
+    def angles(self) -> float:
         """
         Renvoi les angles sur chaque cercle
         """
         return self._angles
 
     @angles.setter
-    def angles(self, angles):
+    def angles(self, angles: float) -> None:
         """ Permet de set la valeur des angles """
         self._angles = angles
 
     @property
-    def angles_initiales(self):
+    def angles_initiales(self) -> float:
         """ Renvoi les phase initiale des angles """
         return self._angles_initiales
 
-    def get_angle_first_circle(self):
+    def get_angle_first_circle(self) -> float:
+        """ Retourne le premier angle """
         return self.angles[1]
 
-    def get_initial_angle_first_circle(self):
+    def get_initial_angle_first_circle(self) -> float:
+        """ Retourne le premier angles à la position initial """
         return self._angles_initiales[1]
 
-    def have_done_complete_tour(self):
+    def have_done_complete_tour(self) -> bool:
+        """ Retourne vrai si on vient de dépasser un tour complet """
         return self.get_angle_first_circle() < self.get_initial_angle_first_circle() - 2 * pi
