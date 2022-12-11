@@ -150,4 +150,8 @@ class SeriesCercles:
         return self._angles_initiales[1]
 
     def have_done_complete_tour(self):
-        return self.get_angle_first_circle() < self.get_initial_angle_first_circle() - 2 * pi
+        for point in self.chemin:
+            if point == None:
+                return False
+
+        return True
