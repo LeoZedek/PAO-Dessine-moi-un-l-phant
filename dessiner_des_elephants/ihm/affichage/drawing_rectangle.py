@@ -102,3 +102,5 @@ class DrawingRectangle(MyRectangle):
             pg.display.update(self)
 
             time.sleep(0.01)
+
+        return my_circles_serie.chemin

@@ -167,14 +167,14 @@ def _launch_drawing(screen, constructed_rectangle, points,\
 
     original_drawing_rectangle.draw_points(points)
 
-    sampled_points, number_circle, points = _get_parameters(screen, points,\
+    reconstitue_points = sampled_points, number_circle, points = _get_parameters(screen, points,\
                                                     constructed_rectangle,\
                                                     number_point, number_circle)
 
     reconstructed_drawing_rectangle.draw_reconstructed_drawing( \
         original_drawing_rectangle, sampled_points, number_circle)
 
-    return len(sampled_points), number_circle, points
+    return len(sampled_points), number_circle, points, reconstitue_points
 
 def _show_parameters_box(constructed_rectangle):
     start_box = constructed_rectangle.start_box
@@ -213,7 +213,8 @@ def _launch_main():
     points = get_points(screen)
 
     constructed_rectangle = ConstructedRectangles(screen)
-    last_number_point, last_number_circle, points =  _launch_drawing(screen,\
+    last_number_point, last_number_circle, points, reconstitue_points =\
+                                                     _launch_drawing(screen,\
                                                      constructed_rectangle, points)
 
     _show_draw_boxes(constructed_rectangle)
@@ -225,6 +226,9 @@ def _launch_main():
     end = False
 
     while not end:
+
+        ## Fonction pour afficher les informations.
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 end = True
@@ -235,7 +239,8 @@ def _launch_main():
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             # If the button pressed is the left one
                 if draw_box.collidepoint(event.pos):
-                    last_number_point, last_number_circle, points = _launch_drawing(screen,\
+                    last_number_point, last_number_circle, points, reconstitue_points =\
+                                                                            _launch_drawing(screen,\
                                                                             constructed_rectangle,\
                                                                             points,\
                                                                             last_number_point,\
@@ -244,7 +249,8 @@ def _launch_main():
 
                 if redraw_box.collidepoint(event.pos):
                     points = get_points(screen)
-                    last_number_point, last_number_circle, points  = _launch_drawing(screen,\
+                    last_number_point, last_number_circle, points, reconstitue_points =\
+                                                                             _launch_drawing(screen,\
                                                                              constructed_rectangle,\
                                                                              points)
                     _show_draw_boxes(constructed_rectangle)
