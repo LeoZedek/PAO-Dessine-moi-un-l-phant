@@ -130,11 +130,15 @@ def _get_parameters(screen, points, constructed_rectangle,\
 
                 if sampling_box.collidepoint(event.pos):
                     number_points = sampling_box.get_number_input()
+                    clear_screen(screen)
+                    pg.display.update
 
                     sampled_points = sampling_points(points, number_points)
 
                 elif number_circle_box.collidepoint(event.pos):
                     number_circle = number_circle_box.get_number_input()
+                    clear_screen(screen)
+                    pg.display.update()
 
                 elif start_box.collidepoint(event.pos):
                     if number_circle and number_circle > 0:
