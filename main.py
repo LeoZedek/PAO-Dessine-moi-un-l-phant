@@ -84,6 +84,8 @@ def _get_parameters(screen, points, constructed_rectangle,\
     sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
     start_box = constructed_rectangle.start_box
+    redraw_box = constructed_rectangle.redraw_box
+    quit_box = constructed_rectangle.quit_box
 
     slider_sampling = _create_sampling_slider(screen, constructed_rectangle, points)
     slider_number_circle = _create_number_circle_slider(screen, constructed_rectangle)
@@ -106,9 +108,11 @@ def _get_parameters(screen, points, constructed_rectangle,\
         number_circle = number_circle_box.value
 
     while not_done:
-        clear_screen(screen)
+        constructed_rectangle.top_right_rectangle.clear()
+        original_drawing_rectangle.clear()
 
         _show_parameters_box(constructed_rectangle)
+        _show_quit_start_box(constructed_rectangle)
         _show_drawing_rectangle(constructed_rectangle)
         original_drawing_rectangle.draw_points(sampled_points)
 
@@ -136,6 +140,16 @@ def _get_parameters(screen, points, constructed_rectangle,\
                     if number_circle and number_circle > 0:
                         not_done = False
 
+                elif redraw_box.collidepoint(event.pos):
+                    points = get_points(screen)
+                    clear_screen(screen)
+                    sampled_points = sampling_points(points, number_points)
+                    original_drawing_rectangle.draw_points(sampled_points)
+                    pg.display.update()
+
+                elif quit_box.collidepoint(event.pos):
+                    sys.exit()
+
         if sampling_box.update():
             number_points = sampling_box.value
             sampled_points = sampling_points(points, number_points)
@@ -158,7 +172,6 @@ def _get_parameters(screen, points, constructed_rectangle,\
 
 def _launch_drawing(screen, constructed_rectangle, points,\
                     number_point = None, number_circle = None):
-    clear_screen(screen)
     _show_parameters_box(constructed_rectangle)
     _show_drawing_rectangle(constructed_rectangle)
 
@@ -176,11 +189,24 @@ def _launch_drawing(screen, constructed_rectangle, points,\
 
     return len(sampled_points), number_circle, points, reconstitue_points
 
+def _show_quit_start_box(constructed_rectangle):
+    start_box = constructed_rectangle.start_box
+    quit_box = constructed_rectangle.quit_box
+
+    start_box.draw()
+    start_box.set_text("GO !")
+    quit_box.draw()
+    quit_box.set_text("Quitter")
+
 def _show_parameters_box(constructed_rectangle):
     start_box = constructed_rectangle.start_box
     number_circle_box = constructed_rectangle.number_circle_box
     sampling_box = constructed_rectangle.sampling_box
+    redraw_box = constructed_rectangle.redraw_box
 
+
+    redraw_box.draw()
+    redraw_box.set_text("Changer le dessin")
     sampling_box.draw()
     number_circle_box.draw()
     start_box.draw()
@@ -211,17 +237,13 @@ def _launch_main():
 
     screen = init_window()
     points = get_points(screen)
+    clear_screen(screen)
+    pg.display.update()
 
     constructed_rectangle = ConstructedRectangles(screen)
     last_number_point, last_number_circle, points, reconstitue_points =\
                                                      _launch_drawing(screen,\
                                                      constructed_rectangle, points)
-
-    _show_draw_boxes(constructed_rectangle)
-
-    draw_box = constructed_rectangle.draw_box
-    redraw_box = constructed_rectangle.redraw_box
-    quit_box = constructed_rectangle.quit_box
 
     end = False
 
@@ -229,34 +251,12 @@ def _launch_main():
 
         ## Fonction pour afficher les informations.
 
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                end = True
-
-            if event.type == pg.KEYDOWN and event.key == pg.K_q:
-                end = True
-
-            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-            # If the button pressed is the left one
-                if draw_box.collidepoint(event.pos):
-                    last_number_point, last_number_circle, points, reconstitue_points =\
+        last_number_point, last_number_circle, points, reconstitue_points =\
                                                                             _launch_drawing(screen,\
                                                                             constructed_rectangle,\
                                                                             points,\
                                                                             last_number_point,\
                                                                             last_number_circle)
-                    _show_draw_boxes(constructed_rectangle)
-
-                if redraw_box.collidepoint(event.pos):
-                    points = get_points(screen)
-                    last_number_point, last_number_circle, points, reconstitue_points =\
-                                                                             _launch_drawing(screen,\
-                                                                             constructed_rectangle,\
-                                                                             points)
-                    _show_draw_boxes(constructed_rectangle)
-
-                if quit_box.collidepoint(event.pos):
-                    end = True
 
 def main()->None:
     """ Ensemble des instruction faite par le programme main """

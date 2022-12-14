@@ -217,7 +217,8 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         height_start_box = self.box_height
         width_start_box = self.box_width
         top_start_box = self.reconstructed_drawing_rectangle.top \
-            + self.reconstructed_drawing_rectangle.height // 2 - height_start_box // 2
+            + self.reconstructed_drawing_rectangle.height // 2\
+            + self.box_padding_ordinate // 2
         left_start_box = self.abscissa_dimension - self.box_padding_abscissa - self.box_width
 
         start_box = TextBox(self.screen, left_start_box, \
@@ -263,7 +264,8 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         height_start_box = self.box_height
         width_start_box = self.box_width
         top_start_box = self.reconstructed_drawing_rectangle.top \
-            + self.reconstructed_drawing_rectangle.height // 2 - height_start_box // 2
+            + self.reconstructed_drawing_rectangle.height // 2 - height_start_box\
+            - self.box_padding_abscissa // 2
         left_start_box = self.abscissa_dimension - self.box_padding_abscissa - self.box_width
 
         quit_box = TextBox(self.screen, left_start_box, \

@@ -2,7 +2,8 @@
 """Module proposant la classe abstraite MyRectangle"""
 
 import pygame as pg
-from .draw_elephant_utils import BACKGROUND_COLOR
+from .draw_elephant_utils import BACKGROUND_COLOR, \
+                                 DRAWING_RECT_BORDER_COLOR
 
 class MyRectangle(pg.Rect):
     '''
@@ -32,9 +33,8 @@ class MyRectangle(pg.Rect):
         Vide le rectangle de tout dessins
         """
         pg.draw.rect(self.screen, BACKGROUND_COLOR, self)
-        self.draw()
 
-    def _draw_border(self, border_color):
+    def _draw_border(self, border_color = DRAWING_RECT_BORDER_COLOR):
         """
         Fonction privée
         """

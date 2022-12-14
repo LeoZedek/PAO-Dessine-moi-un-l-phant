@@ -4,6 +4,7 @@
 import pygame as pg
 from .draw_elephant_utils import PROPORTION_ORIGINAL_DRAWING
 from .drawing_rectangle import DrawingRectangle
+from .my_rectangle import MyRectangle
 
 class ConstructedDrawingRectangle:
     """
@@ -22,6 +23,9 @@ class ConstructedDrawingRectangle:
 
         self._original_drawing_rectangle, self._reconstructed_drawing_rectangle = \
             self._constructed_drawing_rect()
+
+        self._top_right_rectangle = self._constructed_top_right_rect()
+        self._bottom_left_rectangle = self._constructed_bottom_left_rect()
 
     @property
     def screen(self)->pg.Surface:
@@ -58,6 +62,17 @@ class ConstructedDrawingRectangle:
         """
         return self._reconstructed_drawing_rectangle
 
+    @property
+    def top_right_rectangle(self):
+        """ Getter du rectangle haut droit """
+        return self._top_right_rectangle
+    
+    @property
+    def bottom_left_rectangle(self):
+        """ Getter du rectangle bas gauche """
+        return self._bottom_left_rectangle
+    
+
     def _constructed_drawing_rect(self):
         """
         Fonction privée
@@ -86,3 +101,29 @@ class ConstructedDrawingRectangle:
         reconstructed_drawing_rectangle.draw()
 
         return original_drawing_rectangle, reconstructed_drawing_rectangle
+
+    def _constructed_top_right_rect(self):
+
+        top = 0
+        left = self.original_drawing_rectangle.width
+        width = self.screen.get_size()[0]\
+               - self.original_drawing_rectangle.width
+        height = self.original_drawing_rectangle.height
+
+        top_right_rectangle = MyRectangle(self.screen,\
+            left, top, width, height)
+
+        return top_right_rectangle
+
+    def _constructed_bottom_left_rect(self):
+
+        top = self.original_drawing_rectangle.height
+        left = 0
+        width = self.original_drawing_rectangle.width
+        height = self.screen.get_size()[1]\
+                - self.original_drawing_rectangle.height
+
+        bottom_left_rectangle = MyRectangle(self.screen,\
+            left, top, width, height)
+
+        return bottom_left_rectangle
