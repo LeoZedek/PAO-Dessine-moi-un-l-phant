@@ -224,14 +224,11 @@ def _show_drawing_rectangle(constructed_rectangle):
     reconstructed_drawing_rectangle.draw()
 
 def _show_draw_boxes(constructed_rectangle):
-    draw_box = constructed_rectangle.draw_box
     redraw_box = constructed_rectangle.redraw_box
     quit_box = constructed_rectangle.quit_box
 
     quit_box.draw()
     quit_box.set_text("Quitter")
-    draw_box.draw()
-    draw_box.set_text("Changer paramètres")
     redraw_box.draw()
     redraw_box.set_text("Changer dessin")
 

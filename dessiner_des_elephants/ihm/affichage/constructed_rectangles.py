@@ -71,7 +71,6 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         self._add_box(self._constructed_sampling_box(), "sampling_box")
         self._add_box(self._constructed_number_circle_box(), "number_circle_box")
         self._add_box(self._constructed_start_box(), "start_box")
-        self._add_box(self._constructed_draw_box(), "draw_box")
         self._add_box(self._constructed_redraw_box(), "redraw_box")
         self._add_box(self._constructed_quit_box(), "quit_box")
 
@@ -129,13 +128,6 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         Getter pour obtenir la boite d'entrée pour commencer le dessin.
         """
         return self._get_box_by_tag("start_box")
-
-    @property
-    def draw_box(self):
-        """
-        Getter pour obtenir la boite d'entrée pour recommencer la reconstruction du dessin.
-        """
-        return self._get_box_by_tag("draw_box")
 
     @property
     def redraw_box(self):
@@ -226,28 +218,12 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         return start_box
 
-    def _constructed_draw_box(self):
-
-        height_box = self.box_height
-        width_box = 2 * self.box_width
-        top_box = self.original_drawing_rectangle.height // 2\
-            - height_box\
-            - self.box_padding_ordinate // 2
-        left_box = self.screen.get_size()[0]\
-            - self.box_padding_abscissa\
-            - width_box
-
-        draw_box = TextBox(self.screen, left_box, top_box, \
-            width_box, height_box)
-
-        return draw_box
-
     def _constructed_redraw_box(self):
 
         height_box = self.box_height
         width_box = 2 * self.box_width
         top_box = self.original_drawing_rectangle.height // 2\
-            + self.box_padding_ordinate // 2
+            - height_box // 2
         left_box = self.screen.get_size()[0]\
             - self.box_padding_abscissa\
             - width_box
