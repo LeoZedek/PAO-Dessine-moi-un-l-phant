@@ -21,6 +21,23 @@ Le projet a été fortement inspiré de la vidéo de El Jj [Deux (deux ?) minute
 Réalisé sous la supervision de : M. DELESTRE et M. CHATELAIN
 Réalisé par : Alexis IMBERT, Solène PERRET et Léo ZEDEK
 
+## Pyenv 
+### Installation 
+[Voir le GitHub de pyenv ici](https://github.com/pyenv/pyenv)
+
+### Installer la bonne version de python
+Le projet utilise la version 3.10.2  
+Pour installer cette version merci d'utiliser la commande : 
+
+```bash
+pyenv install 3.10.2
+```
+
+### définir la version local du projet
+Pour utiliser la bonne version de python dans le projet, utiliser :
+```bash
+pyenv local 3.10.2
+```
 ## Pipenv
 
 (partie extraite d'un projet de M. DELESTRE)
