@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
 Fichier main du projet pao "dessine moi un éléphant".
+
 """
+from fastdtw import fastdtw
+import numpy as np
+
 from dessiner_des_elephants.ihm.affichage.screen_utils import init_window, clear_screen
 from dessiner_des_elephants.ihm.acquisition.points_acquisition import get_points, \
                                                                             sampling_points
@@ -125,6 +129,7 @@ def _get_parameters(screen, points, constructed_rectangle,\
             # If the button pressed is the left one
 
                 if sampling_box.collidepoint(event.pos):
+
                     number_points = sampling_box.get_number_input()
 
                     sampled_points = sampling_points(points, number_points)
@@ -167,11 +172,11 @@ def _launch_drawing(screen, constructed_rectangle, points,\
 
     original_drawing_rectangle.draw_points(points)
 
-    reconstitue_points = sampled_points, number_circle, points = _get_parameters(screen, points,\
+    sampled_points, number_circle, points = _get_parameters(screen, points,\
                                                     constructed_rectangle,\
                                                     number_point, number_circle)
 
-    reconstructed_drawing_rectangle.draw_reconstructed_drawing( \
+    reconstitue_points = reconstructed_drawing_rectangle.draw_reconstructed_drawing( \
         original_drawing_rectangle, sampled_points, number_circle)
 
     return len(sampled_points), number_circle, points, reconstitue_points
@@ -226,15 +231,38 @@ def _launch_main():
     end = False
 
     while not end:
+        # à compléter
+        
+        comparaison1 = []
+        abscisses = []
+        for a in points:
+            abscisses.append(a.abscisse)
+        ordonnees = []
+        for o in points:
+            ordonnees.append(o.ordonnee)
 
-        ## Fonction pour afficher les informations.
+        moyenneX = np.mean(abscisses)
+        moyenneY = np.mean(ordonnees)
+        for p in points : 
+            comparaison1.append([p.abscisse-moyenneX,p.ordonnee-moyenneY])
+
+        comparaison2 = []
+        for p in reconstitue_points :
+                comparaison2.append([p.abscisse,p.ordonnee])
+
+        coupure =len(comparaison2)
+        newComparaison = comparaison2[coupure:]+comparaison2[0:coupure]
+            
+        dtw_distance, warp_path = fastdtw(comparaison1,newComparaison)
+        print(dtw_distance//len(np.max((comparaison1,comparaison2))))
+        #print(warp_path)
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 end = True
 
             if event.type == pg.KEYDOWN and event.key == pg.K_q:
-                end = True
+                end = TTruerue
 
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             # If the button pressed is the left one

@@ -117,6 +117,6 @@ def __dessiner_les_cercles(series_cercles: SeriesCercles, screen) -> None:
 
 
 def dessiner_series_cercles(series_cercles: SeriesCercles, screen) -> None:
-    """ Dessine d'abord le chemin puis al série de cercle """
+    """ Dessine d'abord le chemin puis la  série de cercle """
     __dessiner_le_chemin(series_cercles=series_cercles, screen=screen)
     __dessiner_les_cercles(series_cercles=series_cercles, screen=screen)
