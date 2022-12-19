@@ -96,12 +96,12 @@ class VirtualKeyboard():
 
     @property
     def string_value(self):
+        """Getter de la valeur en chaine de character mis dans le clavier"""
         return self._string_value
 
     @string_value.setter
     def string_value(self, value):
         self._string_value = value
-    
 
     @property
     def height(self)->int:

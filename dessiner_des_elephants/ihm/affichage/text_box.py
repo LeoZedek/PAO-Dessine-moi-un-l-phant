@@ -25,7 +25,7 @@ class TextBox(MyRectangle):
 
         letter_size_in_pixels = self.height * 0.7
 
-        if (letter_size_in_pixels * len(text) >= 2 * self.width):
+        if letter_size_in_pixels * len(text) >= 2 * self.width:
             letter_size_in_pixels /= letter_size_in_pixels * len(text) / (2 * self.width)
 
         letter_size_in_points = round(letter_size_in_pixels * 72 / 96  * 1.5)

@@ -3,7 +3,7 @@
 
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_WIDTH
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_PADDING_RIGHT, INPUT_SAMPLING_BOX_PADDING_TOP
-from .draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT, LABEL_WIDTH, PROPORTION_PARAMETERS_BUTTON
+from .draw_elephant_utils import INPUT_SAMPLING_BOX_HEIGHT, PROPORTION_PARAMETERS_BUTTON
 from ..acquisition.input_box import InputBox
 from .text_box import TextBox
 from .constructed_drawing_rectangle import ConstructedDrawingRectangle

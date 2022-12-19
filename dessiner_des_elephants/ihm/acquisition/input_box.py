@@ -3,8 +3,7 @@
 
 import pygame as pg
 from pygame_widgets.slider import Slider
-from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS,\
-                                            LABEL_HEIGHT, LABEL_WIDTH,\
+from ..affichage.draw_elephant_utils import LABEL_HEIGHT, LABEL_WIDTH,\
                                             BLACK
 
 from ..affichage.text_box import TextBox
@@ -53,7 +52,7 @@ class InputBox(TextBox):
         self._value = value
 
         if self.slider:
-            if self.slider.min <= value and value <= self.slider.max:
+            if self.slider.min <= value <= self.slider.max:
 
                 self.slider.setValue(value)
                 self._last_slider_value = value

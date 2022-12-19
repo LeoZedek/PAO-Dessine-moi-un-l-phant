@@ -22,17 +22,20 @@ class Point2D:
 
     @abscisse.setter
     def abscisse(self, abscisse):
-        self._abscisse;
-        
+        self._abscisse = abscisse
+
     @ordonnee.setter
     def ordonnee(self,ordonnee):
-        self._ordonnee;
+        self._ordonnee = ordonnee
 
     def __complex__(self):
         return complex(self.abscisse,self.ordonnee)
 
     def distance(self, point2):
-        """ Permet de calculer la distance entre 2 points """
+        """ Permet de calculer la distance entre 2 points
+
+        point2 : le Point2D auquel on veux calculer la distance
+         """
         if self.abscisse == point2.abscisse:
             return abs(self.ordonnee - point2.ordonnee)
         if self.ordonnee == point2.ordonnee:
@@ -40,7 +43,10 @@ class Point2D:
         return hypot(self.abscisse - point2.abscisse, self.ordonnee - point2.ordonnee)
 
     def linear_equation(self, point2):
-        """ Permet d'obtenir l'équation linéaire entre 2 points """
+        """ Permet d'obtenir l'équation linéaire entre 2 points
+
+        point2 : Le deuxième Point2D pour calculer l'équation
+        """
         coeff_a = (point2.ordonnee - self.ordonnee) / (point2.abscisse - self.abscisse)
         coeff_b = self.ordonnee - coeff_a * self.abscisse
         return coeff_a, coeff_b
