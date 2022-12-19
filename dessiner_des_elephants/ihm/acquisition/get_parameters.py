@@ -46,10 +46,24 @@ def _get_parameters_from_box(screen : pg.Surface, \
 
             if sampling_box.collidepoint(event.pos):
                 number_points = sampling_box.get_number_input()
+
+                if number_points < 2:
+                    number_points = 2
+
                 clear_screen(screen)
 
             elif number_circle_box.collidepoint(event.pos):
                 number_circle = number_circle_box.get_number_input()
+
+                # On ne veux pas de nombre impaire ou égale à 0
+                if number_circle == 0:
+                    number_circle = 2
+                    number_circle_box.value = number_circle
+
+                if number_circle % 2 == 1:
+                    number_circle += 1
+                    number_circle_box.value = number_circle
+
                 clear_screen(screen)
 
             elif start_box.collidepoint(event.pos):
