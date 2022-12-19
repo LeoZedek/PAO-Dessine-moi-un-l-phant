@@ -16,8 +16,12 @@ from dessiner_des_elephants.ihm.affichage.draw_elephant_utils import SLIDER_COLO
                                                                      SLIDER_HANDLE_COLOR, \
                                                                      MIN_CIRCLE, MAX_CIRCLE,\
                                                                 PROPORTION_PARAMETERS_BUTTON
+from dessiner_des_elephants.logique_metier.point import Point2D
 
-def _create_sampling_slider(screen, constructed_rectangle, points):
+def _create_sampling_slider(screen : pg.Surface,\
+                            constructed_rectangle : ConstructedRectangles,\
+                            points : list[Point2D]):
+
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
     sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
@@ -41,7 +45,8 @@ def _create_sampling_slider(screen, constructed_rectangle, points):
                              handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
     return slider_sampling
 
-def _create_number_circle_slider(screen, constructed_rectangle):
+def _create_number_circle_slider(screen : pg.Surface,\
+                                 constructed_rectangle : ConstructedRectangles):
 
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
     sampling_box = constructed_rectangle.sampling_box
@@ -63,15 +68,60 @@ def _create_number_circle_slider(screen, constructed_rectangle):
                              handleColour = SLIDER_HANDLE_COLOR, colour = SLIDER_COLOR)
     return slider_number_circle
 
-def _get_parameters(screen, points, constructed_rectangle,\
-                    number_points, number_circle):
+def _get_parameters_from_box(screen : pg.Surface, \
+                             constructed_rectangle : ConstructedRectangles,\
+                             events : list[pg.event.Event]):
+
+    sampling_box = constructed_rectangle.sampling_box
+    number_circle_box = constructed_rectangle.number_circle_box
+
+    start_box = constructed_rectangle.start_box
+    redraw_box = constructed_rectangle.redraw_box
+    quit_box = constructed_rectangle.quit_box
+
+    number_points = None
+    number_circle = None
+    points = None
+
+    not_done = True
+    for event in events:
+
+        if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+        # If the button pressed is the left one
+
+            if sampling_box.collidepoint(event.pos):
+                number_points = sampling_box.get_number_input()
+                clear_screen(screen)
+
+            elif number_circle_box.collidepoint(event.pos):
+                number_circle = number_circle_box.get_number_input()
+                clear_screen(screen)
+
+            elif start_box.collidepoint(event.pos):
+                not_done = False
+
+            elif redraw_box.collidepoint(event.pos):
+                points = get_points(screen)
+                clear_screen(screen)
+
+            elif quit_box.collidepoint(event.pos):
+                sys.exit()
+
+    if sampling_box.update():
+        number_points = sampling_box.value
+
+    if number_circle_box.update():
+        number_circle = number_circle_box.value
+
+    return not_done, number_points, number_circle, points
+
+def _get_parameters(screen : pg.Surface, points : list[Point2D],\
+                    constructed_rectangle : ConstructedRectangles,\
+                    number_points : int, number_circle : int):
 
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
     sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
-    start_box = constructed_rectangle.start_box
-    redraw_box = constructed_rectangle.redraw_box
-    quit_box = constructed_rectangle.quit_box
 
     slider_sampling = _create_sampling_slider(screen, constructed_rectangle, points)
     slider_number_circle = _create_number_circle_slider(screen, constructed_rectangle)
@@ -98,54 +148,26 @@ def _get_parameters(screen, points, constructed_rectangle,\
         original_drawing_rectangle.clear()
 
         _show_parameters_box(constructed_rectangle)
-        _show_quit_start_box(constructed_rectangle)
+        _show_quit_and_start_box(constructed_rectangle)
         _show_drawing_rectangle(constructed_rectangle)
         original_drawing_rectangle.draw_points(sampled_points)
 
         events = pg.event.get()
 
-        for event in events:
-            if event.type == pg.QUIT:
-                sys.exit()
+        not_done, new_number_points, new_number_circle, new_points = _get_parameters_from_box(\
+                                                                     screen,\
+                                                                     constructed_rectangle, events)
 
-            if event.type == pg.KEYDOWN and event.key == pg.K_q:
-                sys.exit()
+        if new_points:
+            points = new_points
 
-            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-            # If the button pressed is the left one
+        if new_number_points:
+            number_points = new_number_points
 
-                if sampling_box.collidepoint(event.pos):
-                    number_points = sampling_box.get_number_input()
-                    clear_screen(screen)
-                    pg.display.update()
+        if new_number_circle:
+            number_circle = new_number_circle
 
-                    sampled_points = sampling_points(points, number_points)
-
-                elif number_circle_box.collidepoint(event.pos):
-                    number_circle = number_circle_box.get_number_input()
-                    clear_screen(screen)
-                    pg.display.update()
-
-                elif start_box.collidepoint(event.pos):
-                    if number_circle and number_circle > 0:
-                        not_done = False
-
-                elif redraw_box.collidepoint(event.pos):
-                    points = get_points(screen)
-                    clear_screen(screen)
-                    sampled_points = sampling_points(points, number_points)
-                    original_drawing_rectangle.draw_points(sampled_points)
-                    pg.display.update()
-
-                elif quit_box.collidepoint(event.pos):
-                    sys.exit()
-
-        if sampling_box.update():
-            number_points = sampling_box.value
-            sampled_points = sampling_points(points, number_points)
-
-        if number_circle_box.update():
-            number_circle = number_circle_box.value
+        sampled_points = sampling_points(points, number_points)
 
         pygame_widgets.update(events)
         pg.display.update()
@@ -154,13 +176,13 @@ def _get_parameters(screen, points, constructed_rectangle,\
     WidgetHandler.removeWidget(slider_number_circle)
 
     number_circle = number_circle_box.value
-
     number_points = sampling_box.value
     sampled_points = sampling_points(points, number_points)
 
     return sampled_points, number_circle, points
 
-def _launch_drawing(screen, constructed_rectangle, points,\
+def _launch_drawing(screen : pg.Surface, constructed_rectangle : ConstructedRectangles,\
+                    points : list[Point2D],\
                     number_point = None, number_circle = None):
     _show_parameters_box(constructed_rectangle)
     _show_drawing_rectangle(constructed_rectangle)
@@ -179,7 +201,7 @@ def _launch_drawing(screen, constructed_rectangle, points,\
 
     return len(sampled_points), number_circle, points, reconstitue_points
 
-def _show_quit_start_box(constructed_rectangle):
+def _show_quit_and_start_box(constructed_rectangle : ConstructedRectangles):
     start_box = constructed_rectangle.start_box
     quit_box = constructed_rectangle.quit_box
 
@@ -188,37 +210,24 @@ def _show_quit_start_box(constructed_rectangle):
     quit_box.draw()
     quit_box.set_text("Quitter")
 
-def _show_parameters_box(constructed_rectangle):
-    start_box = constructed_rectangle.start_box
+def _show_parameters_box(constructed_rectangle : ConstructedRectangles)->None:
     number_circle_box = constructed_rectangle.number_circle_box
     sampling_box = constructed_rectangle.sampling_box
     redraw_box = constructed_rectangle.redraw_box
-
 
     redraw_box.draw()
     redraw_box.set_text("Changer le dessin")
     sampling_box.draw()
     number_circle_box.draw()
-    start_box.draw()
-    start_box.set_text("GO !")
 
-def _show_drawing_rectangle(constructed_rectangle):
+def _show_drawing_rectangle(constructed_rectangle : ConstructedRectangles)->None:
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
     reconstructed_drawing_rectangle = constructed_rectangle.reconstructed_drawing_rectangle
 
     original_drawing_rectangle.draw()
     reconstructed_drawing_rectangle.draw()
 
-def _show_draw_boxes(constructed_rectangle):
-    redraw_box = constructed_rectangle.redraw_box
-    quit_box = constructed_rectangle.quit_box
-
-    quit_box.draw()
-    quit_box.set_text("Quitter")
-    redraw_box.draw()
-    redraw_box.set_text("Changer dessin")
-
-def _launch_main():
+def _launch_main()->None:
 
     pg.init()
 
