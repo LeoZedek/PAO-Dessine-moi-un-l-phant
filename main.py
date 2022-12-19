@@ -15,6 +15,10 @@ from dessiner_des_elephants.ihm.affichage.constructed_rectangles import Construc
 from dessiner_des_elephants.ihm.acquisition.create_slider import create_sampling_slider,\
                                                                  create_number_circle_slider
 
+from dessiner_des_elephants.ihm.affichage.show_boxes import show_quit_and_start_box,\
+                                                            show_parameters_box,\
+                                                            show_drawing_rectangle
+
 from dessiner_des_elephants.logique_metier.point import Point2D
 
 def _get_parameters_from_box(screen : pg.Surface, \
@@ -93,9 +97,9 @@ def _get_parameters(screen : pg.Surface, points : list[Point2D],\
         constructed_rectangle.top_right_rectangle.clear()
         original_drawing_rectangle.clear()
 
-        _show_parameters_box(constructed_rectangle)
-        _show_quit_and_start_box(constructed_rectangle)
-        _show_drawing_rectangle(constructed_rectangle)
+        show_parameters_box(constructed_rectangle)
+        show_quit_and_start_box(constructed_rectangle)
+        show_drawing_rectangle(constructed_rectangle)
         original_drawing_rectangle.draw_points(sampled_points)
 
         events = pg.event.get()
@@ -130,8 +134,8 @@ def _get_parameters(screen : pg.Surface, points : list[Point2D],\
 def _launch_drawing(screen : pg.Surface, constructed_rectangle : ConstructedRectangles,\
                     points : list[Point2D],\
                     number_point = None, number_circle = None):
-    _show_parameters_box(constructed_rectangle)
-    _show_drawing_rectangle(constructed_rectangle)
+    show_parameters_box(constructed_rectangle)
+    show_drawing_rectangle(constructed_rectangle)
 
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
     reconstructed_drawing_rectangle = constructed_rectangle.reconstructed_drawing_rectangle
@@ -147,31 +151,7 @@ def _launch_drawing(screen : pg.Surface, constructed_rectangle : ConstructedRect
 
     return len(sampled_points), number_circle, points, reconstitue_points
 
-def _show_quit_and_start_box(constructed_rectangle : ConstructedRectangles):
-    start_box = constructed_rectangle.start_box
-    quit_box = constructed_rectangle.quit_box
 
-    start_box.draw()
-    start_box.set_text("GO !")
-    quit_box.draw()
-    quit_box.set_text("Quitter")
-
-def _show_parameters_box(constructed_rectangle : ConstructedRectangles):
-    number_circle_box = constructed_rectangle.number_circle_box
-    sampling_box = constructed_rectangle.sampling_box
-    redraw_box = constructed_rectangle.redraw_box
-
-    redraw_box.draw()
-    redraw_box.set_text("Changer le dessin")
-    sampling_box.draw()
-    number_circle_box.draw()
-
-def _show_drawing_rectangle(constructed_rectangle : ConstructedRectangles):
-    original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
-    reconstructed_drawing_rectangle = constructed_rectangle.reconstructed_drawing_rectangle
-
-    original_drawing_rectangle.draw()
-    reconstructed_drawing_rectangle.draw()
 
 def _launch_main()->None:
 
