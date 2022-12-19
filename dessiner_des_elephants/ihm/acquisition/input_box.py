@@ -22,6 +22,7 @@ class InputBox(TextBox):
         self._slider = None
         self._virtual_keyboard = VirtualKeyboard(self.screen)
 
+        # Création du nom du rectangle qui sera affiché à gauche du rectangle
         letter_size_in_pixels = LABEL_HEIGHT * self.height * 0.5
         letter_size_in_points = round(letter_size_in_pixels * 72 / 96  * 1.5)
 
@@ -104,6 +105,9 @@ class InputBox(TextBox):
         """
         Méthode permettant de mettre à jour la valeur du slider s'il a bougé
         et le texte dans la boite.
+
+        return : True si la valeur du slider à été modifié
+                 False sinon
         """
         self.screen.blit(self._label, self._dimension_label_display)
         self._update_text()
