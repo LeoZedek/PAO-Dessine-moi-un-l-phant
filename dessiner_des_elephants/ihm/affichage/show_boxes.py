@@ -15,9 +15,9 @@ def show_quit_and_start_box(constructed_rectangle : ConstructedRectangles):
     quit_box = constructed_rectangle.quit_box
 
     start_box.draw()
-    start_box.set_text("GO !")
+    start_box.set_text(_("GO !"))
     quit_box.draw()
-    quit_box.set_text("Quitter")
+    quit_box.set_text(_("Quit"))
 
 def show_parameters_box(constructed_rectangle : ConstructedRectangles):
     '''
@@ -30,7 +30,7 @@ def show_parameters_box(constructed_rectangle : ConstructedRectangles):
     redraw_box = constructed_rectangle.redraw_box
 
     redraw_box.draw()
-    redraw_box.set_text("Changer le dessin")
+    redraw_box.set_text(_("Change the design"))
     sampling_box.draw()
     number_circle_box.draw()
 

@@ -198,7 +198,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         number_circle_box = InputBox(self.screen, left_number_circle_box, \
             top_number_circle_box, width_number_circle_box, height_number_circle_box,\
-            "number circle :")
+            _("number circle :"))
 
         return number_circle_box
 

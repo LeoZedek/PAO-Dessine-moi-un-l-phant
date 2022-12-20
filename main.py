@@ -72,7 +72,7 @@ def _launch_main() -> None:
         # Fonction pour afficher les informations.
         zone_nb_point = TextBox(screen=screen, left=10,
                                 top=375, width=400, height=50)
-        zone_nb_point.set_text("Number of point : "+str(last_number_point))
+        zone_nb_point.set_text(_("Number of point : ")+str(last_number_point))
         zone_nb_cercle = TextBox(
             screen=screen, left=10, top=430, width=400, height=50)
         zone_nb_cercle.set_text(_("Number of circle : ")+str(last_number_circle))

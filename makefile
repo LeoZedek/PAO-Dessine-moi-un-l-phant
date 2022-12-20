@@ -1,3 +1,7 @@
+# génération du fichier .pot
+POT_FILE := base.pot
+PYTHON_FILES := $(wildcard **/*.py)
+
 # préparation à la traduction
 LOCALES_DIR := locales
 PO_FILES := $(wildcard $(LOCALES_DIR)/*/*/*.po)#recherche de fichier .po
@@ -7,8 +11,6 @@ MO_FILES := $(patsubst %.po,%.mo,$(PO_FILES))#liste des fichier .mo à compiler
 	msgfmt $< -o $@
 
 .PHONY: clean
-
-
 
 all : run
 
@@ -22,8 +24,10 @@ install :
 	pipenv shell
 	pipenv install
 
-pre_traduction :
-	xgettext -L Python -o locales/base.pot *.py
+pre_traduction : $(POT_FILE)
+
+$(POT_FILE): $(PYTHON_FILES)
+	xgettext -o $@ $(PYTHON_FILES)
 
 traduction : $(MO_FILES)
 

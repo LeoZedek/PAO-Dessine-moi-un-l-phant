@@ -216,12 +216,12 @@ def get_points(screen)->list[Point2D]:
     left = x_dimension//2-width//2
     top = y_dimension//2-height
     choix1 = TextBox(screen,left,top,width,height)
-    choix1.set_text("Dessiner votre propre dessin")
+    choix1.set_text(_("Draw your own design"))
 
     left2 = x_dimension//2-width//2
     top2 = y_dimension//2+height
     choix2 = TextBox(screen,left2,top2,width,height)
-    choix2.set_text("Choisir un dessin à tracer")
+    choix2.set_text("Choose a design to trace")
 
     run=True
     while run:
