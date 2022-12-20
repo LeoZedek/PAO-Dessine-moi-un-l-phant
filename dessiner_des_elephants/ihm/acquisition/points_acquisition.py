@@ -2,16 +2,16 @@
 """Module proposant les fonctions pour acquérir les points dessiner par l'utilisateur"""
 
 import sys
+import pickle
 import pygame as pg
 from numpy import arange, linspace
+
+from  dessiner_des_elephants.ihm.affichage.drawing_rectangle import DrawingRectangle
 from ..affichage.draw_elephant_utils import DISTANCE_BETWEEN_POINT, POINT_RADIUS, COLOR_LINE
-from ..affichage.draw_elephant_utils import COLOR_AXES, AXES_WIDTH, BLACK, BACKGROUND_COLOR
+from ..affichage.draw_elephant_utils import COLOR_AXES, AXES_WIDTH
 from ...logique_metier.point import Point2D
 from ..affichage.screen_utils import clear_screen
 from ..affichage.text_box import TextBox
-from  dessiner_des_elephants.ihm.affichage.drawing_rectangle import DrawingRectangle
-import pickle
-
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
 # a linear interpolation is made to add points between them.
@@ -129,16 +129,15 @@ def _get_points_manually(screen)->list[Point2D]:
 
 def _affichage_image(screen,nom_fichier,left,top,width,height,x_dimension,y_dimension):
 
-    file = open(nom_fichier,"rb")
-    new_points, x_dimension_charge, y_dimension_charge = pickle.load(file)
-    file.close()
+    with open(nom_fichier, "rb") as file:
+        new_points, x_dimension_charge, y_dimension_charge = pickle.load(file)
 
     x_ratio =  x_dimension / x_dimension_charge
     y_ratio = y_dimension / y_dimension_charge
 
-    for p in new_points:
-        p.abscisse=p.abscisse*x_ratio
-        p.ordonne=p.ordonnee*y_ratio
+    for point in new_points:
+        point.abscisse = point.abscisse*x_ratio
+        point.ordonne = point.ordonnee*y_ratio
 
     dessin1 = DrawingRectangle(screen,left,top,width,height)
     dessin1.draw()
@@ -150,31 +149,35 @@ def _get_galerie(screen):
     clear_screen(screen)
 
     x_dimension, y_dimension = screen.get_size()
-    
+
     left = 0
     top = 0
     width = x_dimension//2
     height = y_dimension//2
-    dessin1,new_points1 = _affichage_image(screen,"galerie/file1.dump",left,top,width,height,x_dimension,y_dimension)
+    dessin1,new_points1 = _affichage_image(screen,"galerie/file1.dump",\
+                            left,top,width,height,x_dimension,y_dimension)
 
     left = x_dimension//2
     top = 0
     width = x_dimension//2
     height = y_dimension//2
-    dessin2,new_points2 = _affichage_image(screen,"galerie/file2.dump",left,top,width,height,x_dimension,y_dimension)
+    dessin2,new_points2 = _affichage_image(screen,"galerie/file2.dump",\
+                            left,top,width,height,x_dimension,y_dimension)
 
     left = 0
     top = y_dimension//2
     width = x_dimension//2
     height = y_dimension//2
-    dessin3,new_points3 = _affichage_image(screen,"galerie/file3.dump",left,top,width,height,x_dimension,y_dimension)
+    dessin3,new_points3 = _affichage_image(screen,"galerie/file3.dump",\
+                            left,top,width,height,x_dimension,y_dimension)
 
     left = x_dimension//2
     top = y_dimension//2
     width = x_dimension//2
     height = y_dimension//2
-    dessin4,new_points4 = _affichage_image(screen,"galerie/file4.dump",left,top,width,height,x_dimension,y_dimension)
-    
+    dessin4,new_points4 = _affichage_image(screen,"galerie/file4.dump",\
+                            left,top,width,height,x_dimension,y_dimension)
+
     run = True
     while run:
         dessin1.draw_points(new_points1)
@@ -197,10 +200,17 @@ def _get_galerie(screen):
 
 def get_points(screen)->list[Point2D]:
 
+    """
+        Fonction qui renvoie une liste de Point2D
+        en fonction du choix de l'utilisateur et/ou de son tracer
+
+        screen : la surface Pygame sur laquelle l'utilisateur va dessiner ou choisir son dessin
+    """
+
     clear_screen(screen)
-    
+
     x_dimension, y_dimension = screen.get_size()
-    
+
     width = x_dimension*0.50
     height = y_dimension*0.10
     left = x_dimension//2-width//2
@@ -208,14 +218,11 @@ def get_points(screen)->list[Point2D]:
     choix1 = TextBox(screen,left,top,width,height)
     choix1.set_text("Dessiner votre propre dessin")
 
-
     left2 = x_dimension//2-width//2
     top2 = y_dimension//2+height
     choix2 = TextBox(screen,left2,top2,width,height)
     choix2.set_text("Choisir un dessin à tracer")
 
-    
-    
     run=True
     while run:
         choix1.draw()
@@ -225,15 +232,13 @@ def get_points(screen)->list[Point2D]:
             if event.type == pg.QUIT:
                 pg.quit()
                 run =False
-                quit()
+                sys.exit()
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 if choix1.collidepoint(event.pos):
                     return _get_points_manually(screen)
                 if choix2.collidepoint(event.pos):
                     return _get_galerie(screen)
         pg.display.update()
-
-
 
 def sampling_points(points, number_of_points):
     """Retourne une liste échantilloné des points

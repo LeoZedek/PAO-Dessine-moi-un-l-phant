@@ -3,8 +3,7 @@
 
 import pygame as pg
 from pygame_widgets.slider import Slider
-from ..affichage.draw_elephant_utils import BOX_BORDER_COLOR_ON_FOCUS,\
-                                            LABEL_HEIGHT, LABEL_WIDTH,\
+from ..affichage.draw_elephant_utils import LABEL_HEIGHT, LABEL_WIDTH,\
                                             BLACK
 
 from ..affichage.text_box import TextBox
@@ -23,6 +22,7 @@ class InputBox(TextBox):
         self._slider = None
         self._virtual_keyboard = VirtualKeyboard(self.screen)
 
+        # Création du nom du rectangle qui sera affiché à gauche du rectangle
         letter_size_in_pixels = LABEL_HEIGHT * self.height * 0.5
         letter_size_in_points = round(letter_size_in_pixels * 72 / 96  * 1.5)
 
@@ -53,7 +53,7 @@ class InputBox(TextBox):
         self._value = value
 
         if self.slider:
-            if self.slider.min <= value and value <= self.slider.max:
+            if self.slider.min <= value <= self.slider.max:
 
                 self.slider.setValue(value)
                 self._last_slider_value = value
@@ -105,6 +105,9 @@ class InputBox(TextBox):
         """
         Méthode permettant de mettre à jour la valeur du slider s'il a bougé
         et le texte dans la boite.
+
+        return : True si la valeur du slider à été modifié
+                 False sinon
         """
         self.screen.blit(self._label, self._dimension_label_display)
         self._update_text()

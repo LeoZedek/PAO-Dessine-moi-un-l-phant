@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """ definition de la classe SeriesCercles """
 from math import pi
-from .point import Point2D
-
 from cmath import phase
+
 import numpy as np
 
+from .point import Point2D
 
 def _creation_liste_pas(nb_cercle: int, pas: int) -> list[float]:
     """
@@ -151,8 +151,14 @@ class SeriesCercles:
         return self._angles_initiales[1]
 
     def have_done_complete_tour(self):
+        """
+            Retourne un booléen
+            True si la serie de cercle à effectuer un tour entier
+            False sinon
+        """
+
         for point in self.chemin:
-            if point == None:
+            if point is None:
                 return False
 
         return True

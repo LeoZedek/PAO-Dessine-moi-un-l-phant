@@ -66,12 +66,11 @@ class ConstructedDrawingRectangle:
     def top_right_rectangle(self):
         """ Getter du rectangle haut droit """
         return self._top_right_rectangle
-    
+
     @property
     def bottom_left_rectangle(self):
         """ Getter du rectangle bas gauche """
         return self._bottom_left_rectangle
-    
 
     def _constructed_drawing_rect(self):
         """
