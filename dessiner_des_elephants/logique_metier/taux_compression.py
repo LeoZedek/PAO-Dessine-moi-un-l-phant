@@ -14,4 +14,4 @@ def taux_de_compression(nb_points: int, nb_cercle: int) -> float:
      # Return :
      float : le taux de compression en pourcentage
     """
-    return round((nb_points-nb_cercle) /(nb_points),4)*100
+    return round(((nb_points-nb_cercle) /(nb_points)),3)*100
