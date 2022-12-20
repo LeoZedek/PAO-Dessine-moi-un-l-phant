@@ -1,3 +1,14 @@
+# préparation à la traduction
+LOCALES_DIR := locales
+PO_FILES := $(wildcard $(LOCALES_DIR)/*/*/*.po)#recherche de fichier .po
+MO_FILES := $(patsubst %.po,%.mo,$(PO_FILES))#liste des fichier .mo à compiler
+
+%.mo: %.po
+	msgfmt $< -o $@
+
+.PHONY: clean
+
+
 
 all : run
 
@@ -11,7 +22,13 @@ install :
 	pipenv shell
 	pipenv install
 
-traduction :
+pre_traduction :
+	xgettext -L Python -o locales/base.pot *.py
+
+traduction : $(MO_FILES)
 
 run :
 	python main.py
+
+clean:
+	rm -f $(MO_FILES)
