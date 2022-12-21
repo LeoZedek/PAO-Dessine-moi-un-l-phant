@@ -1,6 +1,6 @@
 # génération du fichier .pot
 POT_FILE := base.pot
-PYTHON_FILES := $(wildcard **/*.py)
+PYTHON_FILES := $(shell find . -name "*.py")
 
 # préparation à la traduction
 LOCALES_DIR := locales
@@ -27,7 +27,7 @@ install :
 pre_traduction : $(POT_FILE)
 
 $(POT_FILE): $(PYTHON_FILES)
-	xgettext -o $@ $(PYTHON_FILES)
+	xgettext -o $(LOCALES_DIR)/$@ $(PYTHON_FILES)
 
 traduction : $(MO_FILES)
 

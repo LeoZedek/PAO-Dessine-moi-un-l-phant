@@ -5,6 +5,7 @@ import sys
 import pickle
 import pygame as pg
 from numpy import arange, linspace
+from dessiner_des_elephants.traduction import _
 
 from  dessiner_des_elephants.ihm.affichage.drawing_rectangle import DrawingRectangle
 from ..affichage.draw_elephant_utils import DISTANCE_BETWEEN_POINT, POINT_RADIUS, COLOR_LINE
@@ -221,7 +222,7 @@ def get_points(screen)->list[Point2D]:
     left2 = x_dimension//2-width//2
     top2 = y_dimension//2+height
     choix2 = TextBox(screen,left2,top2,width,height)
-    choix2.set_text("Choose a design to trace")
+    choix2.set_text(_("Choose a design to trace"))
 
     run=True
     while run:

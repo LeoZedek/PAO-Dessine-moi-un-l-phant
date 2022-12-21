@@ -2,6 +2,7 @@
 """
 Module présentant les fonctions nécessaires à l'affichage des rectangles du main
 """
+from dessiner_des_elephants.traduction import _
 
 from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
 

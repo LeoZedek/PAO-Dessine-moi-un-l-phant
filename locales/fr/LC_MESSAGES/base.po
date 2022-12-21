@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-20 22:08+0100\n"
+"POT-Creation-Date: 2022-12-20 23:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,46 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: main.py:67
-msgid "Number of circle : "
-msgstr "Nombre de cercle : "
+#: dessiner_des_elephants/ihm/acquisition/virtual_keyboard.py:212
+msgid "OK"
+msgstr "OK"
 
-#: main.py:70
+#: dessiner_des_elephants/ihm/acquisition/points_acquisition.py:220
+msgid "Draw your own design"
+msgstr "Dessiner votre propre dessin"
+
+#: dessiner_des_elephants/ihm/affichage/show_boxes.py:19
+msgid "GO !"
+msgstr "C'est parti !"
+
+#: dessiner_des_elephants/ihm/affichage/show_boxes.py:21
+msgid "Quit"
+msgstr "Quitter"
+
+#: dessiner_des_elephants/ihm/acquisition/points_acquisition.py:225
+msgid "Choose a design to trace"
+msgstr "Choisir un dessin à tracer"
+
+#: dessiner_des_elephants/ihm/affichage/show_boxes.py:34
+msgid "Change the design"
+msgstr "Changer de dessin"
+
+#: dessiner_des_elephants/ihm/affichage/constructed_rectangles.py:182
+msgid "number points :"
+msgstr "Nombre de point : "
+
+#: dessiner_des_elephants/ihm/affichage/constructed_rectangles.py:202
+msgid "number circle :"
+msgstr "Nombre de cercle :"
+
+#: main.py:66
+msgid "Number of point : "
+msgstr "Nombre de point : "
+
+#: main.py:69
+msgid "Number of circle : "
+msgstr "Nombre de cerlce : "
+
+#: main.py:72
 msgid "Compression rate : "
-msgstr "Taux de compression : "
+msgstr "taux de compression : "

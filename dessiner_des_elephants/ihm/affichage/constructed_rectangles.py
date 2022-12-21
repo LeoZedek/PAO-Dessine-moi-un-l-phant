@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Module permettant de construire les différents rectangle"""
+from dessiner_des_elephants.traduction import _
 
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_WIDTH
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_PADDING_RIGHT, INPUT_SAMPLING_BOX_PADDING_TOP
@@ -178,7 +179,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
         sampling_box = InputBox(self.screen, left_sampling_box, \
             top_sampling_box, width_sampling_box, height_sampling_box,\
-            "number points :")
+            _("number points :"))
 
         return sampling_box
 
