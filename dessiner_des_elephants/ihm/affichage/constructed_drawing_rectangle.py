@@ -75,7 +75,8 @@ class ConstructedDrawingRectangle:
 
     def _constructed_drawing_rect(self):
         """
-        Fonction privée
+        Construit le rectangles où le dessin original sera affiché et
+        le rectangle où le dessin reconstruit sera affiché
         """
         top_original_drawing_rect = 0
         left_original_drawing_rect = 0
@@ -83,7 +84,9 @@ class ConstructedDrawingRectangle:
         width_original_drawing_rect = self.abscissa_dimension * PROPORTION_ORIGINAL_DRAWING
 
         original_drawing_rectangle = DrawingRectangle(self.screen, left_original_drawing_rect,
-                                                      top_original_drawing_rect, width_original_drawing_rect, height_original_drawing_rect)
+                                                      top_original_drawing_rect,
+                                                      width_original_drawing_rect,
+                                                      height_original_drawing_rect)
 
         top_reconstructed_drawing_rect = height_original_drawing_rect - 1
         left_reconstructed_drawing_rect = width_original_drawing_rect - 1
@@ -94,7 +97,8 @@ class ConstructedDrawingRectangle:
 
         reconstructed_drawing_rectangle = DrawingRectangle(self.screen,
                                                            left_reconstructed_drawing_rect,
-                                                           top_reconstructed_drawing_rect, width_reconstructed_drawing_rect,
+                                                           top_reconstructed_drawing_rect,
+                                                           width_reconstructed_drawing_rect,
                                                            height_reconstructed_drawing_rect)
 
         original_drawing_rectangle.draw()
@@ -103,6 +107,7 @@ class ConstructedDrawingRectangle:
         return original_drawing_rectangle, reconstructed_drawing_rectangle
 
     def _constructed_top_right_rect(self):
+        """Construit le rectangle qui se trouve en haut à droite"""
 
         top = 0
         left = self.original_drawing_rectangle.width
@@ -116,6 +121,7 @@ class ConstructedDrawingRectangle:
         return top_right_rectangle
 
     def _constructed_bottom_left_rect(self):
+        """Construit le rectangle qui se trouve en bas à gauche"""
 
         top = self.original_drawing_rectangle.height
         left = 0

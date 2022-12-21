@@ -11,7 +11,6 @@ from ..acquisition.input_box import InputBox
 from .text_box import TextBox
 from .constructed_drawing_rectangle import ConstructedDrawingRectangle
 
-
 class _BoxDimension():
 
     def __init__(self, width, height):
@@ -82,9 +81,21 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         self._add_box(self._constructed_quit_box(), "quit_box")
 
     def _add_box(self, box, box_tag):
+        """Ajoute un rectangle dans le dictionnaire
+
+        box : Le rectangle à ajouter
+        box_tag : le nom du rectangle à ajouter
+        """
+
         self._box_map[box_tag] = box
 
     def _get_box_by_tag(self, box_tag):
+
+        """Retire un rectangle du dictionnaire
+
+        box_tag : le nom du rectangle à retirer
+        """
+
         return self._box_map[box_tag]
 
     @property
@@ -152,7 +163,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
     def _constructed_box_dimension(self):
         """
-        Fonction privée
+        Construit les dimensions des rectangles des paramètres
         """
         box_height = round(INPUT_SAMPLING_BOX_HEIGHT *
                            self.original_drawing_rectangle.height)
@@ -163,7 +174,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
     def _constructed_box_padding(self):
         """
-        Fonction privée
+        Construit les marges des rectangles des paramètres
         """
         padding_abscissa_box = round(self.original_drawing_rectangle.width
                                      * INPUT_SAMPLING_BOX_PADDING_RIGHT)
@@ -174,7 +185,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
     def _constructed_sampling_box(self):
         """
-        Fonction privée
+        Construit le rectangle qui contiendra le nombre de points
         """
         top_sampling_box = self.box_padding_ordinate
         left_sampling_box = self.original_drawing_rectangle.width\
@@ -193,7 +204,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
     def _constructed_number_circle_box(self):
         """
-        Fonction privée
+        Construit le rectangle qui contiendra le nombre de cercle
         """
         height_number_circle_box = self.box_height
         width_number_circle_box = self.box_width
@@ -206,14 +217,16 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
             * PROPORTION_PARAMETERS_BUTTON // 2
 
         number_circle_box = InputBox(self.screen, left_number_circle_box,
-                                     top_number_circle_box, width_number_circle_box, height_number_circle_box,
+                                     top_number_circle_box,
+                                     width_number_circle_box,
+                                     height_number_circle_box,
                                      _("number circle :"))
 
         return number_circle_box
 
     def _constructed_start_box(self):
         """
-        Fonction privée
+        Construit le rectangle pour lancer la reconstruction du dessin
         """
         height_start_box = self.box_height
         width_start_box = self.box_width
@@ -229,6 +242,10 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
         return start_box
 
     def _constructed_redraw_box(self):
+        """
+        Construit le rectangle pour lancer une nouvelle acquisition des points
+        et changer le dessin
+        """
 
         height_box = self.box_height
         width_box = 2 * self.box_width
@@ -245,7 +262,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
     def _constructed_quit_box(self):
         """
-        Fonction privée
+        Construit le rectangle pour quitter le programme
         """
         height_start_box = self.box_height
         width_start_box = self.box_width

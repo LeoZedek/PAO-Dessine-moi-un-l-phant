@@ -140,41 +140,77 @@ class VirtualKeyboard():
         return self._keyboard_dimension.left
 
     def _add_key_by_tag(self, key, key_tag):
+        """
+        Méthode utilisé pour stocker une touche du clavier dans le dictionnaire
+
+        key : le pygame_widgets.button.Button qui représente une touche du clavier
+        key_tag : le nom du boutton
+        """
+
         self._keys[key_tag] = key
 
     def _update_text_box(self):
+        """
+        Met à jour l'écran où est afficher le texte du clavier virtuel
+        """
+
         self._delete_text_box()
         self._create_text_box()
 
     def _add_character_to_string_value(self, charactere):
+        """
+        Ajoute un charactère à la fin de la chaine self.string_value
+        N'ajoute pas si la taille de la chaine est supérieur ou égale à 6.
+
+        charactere : le charactère à ajouter à la chaine
+        """
+
         if len(self.string_value) < 5 and len(charactere) == 1:
             self.string_value += charactere
 
         self._update_text_box()
 
     def _return_press(self):
+        """
+        Effet de la touche retour, qui enlève le dernier charactère
+        de la chaine self.string_value s'il y en a.
+        """
+
         self.string_value = _remove_last_letter_from_string(self.string_value)
         self._update_text_box()
 
     def _create_keyboard(self):
+        """
+        Créer tous les composants du clavier virtuel pour commencer l'utilisation du
+        clavier par l'utilisateur. Cela a effet d'afficher le clavier
+        """
         self._create_text_box()
         self._create_number_keys()
 
     def _delete_text_box(self):
+        """Supprime la zone de texte du clavier virtuel"""
         WidgetHandler.removeWidget(self._text_box)
         self._text_box = None
 
     def _delete_keys(self):
+        """Supprime toutes les touches du clavier virtuel"""
         for key in self._keys.values():
             WidgetHandler.removeWidget(key)
 
         self._keys = {}
 
     def _delete_keyboard(self):
+        """
+        Détruit les composants du clavier virtuel pour finir l'utilisation du
+        clavier virtuel
+        """
         self._delete_text_box()
         self._delete_keys()
 
     def _create_text_box(self):
+        """Créer la zone de texte du clavier virtuel,
+        cela a pour effet de l'afficher"""
+
         button_parameters = KEY_PARAMETERS.copy()
         button_parameters["text"] = self.string_value
         button_parameters["hoverColour"] = BACKGROUND_COLOR
@@ -191,6 +227,8 @@ class VirtualKeyboard():
                                 **button_parameters)
 
     def _create_number_keys(self):
+        """Créer les touches du clavier virtuel,
+        cela a pour effets de les afficher"""
         button_parameters = KEY_PARAMETERS.copy()
         button_parameters["text"] = "<-"
         button_parameters["onRelease"] = self._return_press
@@ -216,7 +254,7 @@ class VirtualKeyboard():
         self._add_key_by_tag(zero_button, "0")
 
         button_parameters = KEY_PARAMETERS.copy()
-        button_parameters["text"] = _("OK")
+        button_parameters["text"] = "OK"
         button_parameters["onRelease"] = self._end_acquisition
 
         enter_button = Button(self.screen,
@@ -247,12 +285,17 @@ class VirtualKeyboard():
             self._add_key_by_tag(button, str(number))
 
     def _end_acquisition(self):
+        """Met fin à l'acquisition si une valeur à été entrée dans le clavier,
+        le clavier sera ensuite détruit"""
+
         if len(self.string_value) > 0:
             self._in_acquisition = False
 
     def get_input_value(self) -> int:
         """
         Méthode pour faire apparaître le clavier virtuel et renvoie la valeur final.
+
+        return : la valeur en int entrée par l'utilisateur sur le clavier virtuel
         """
         self.string_value = ""
 

@@ -37,7 +37,9 @@ class MyRectangle(pg.Rect):
 
     def _draw_border(self, border_color=DRAWING_RECT_BORDER_COLOR):
         """
-        Fonction privée
+        Dessine les bordures du rectangle
+
+        border_color : La couleur des bordures (tuples rgb)
         """
         pg.draw.line(self.screen, border_color,
                      (self.left, self.top), (self.left + self.width - 1, self.top))

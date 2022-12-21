@@ -20,6 +20,7 @@ class TextBox(MyRectangle):
         Dessine le text dans le rectangle
 
             text : Le texte qui va être afficher dans le rectangle
+            border_color : la couleur des bordures (tuples rgb)
         """
         self.clear()
         self.draw(border_color)

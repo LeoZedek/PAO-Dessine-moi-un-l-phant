@@ -20,7 +20,14 @@ from ..affichage.text_box import TextBox
 
 
 def _fix_point(points, screen):
-    """Fonction privée"""
+    """
+        Fonction qui permet d'ajouter et de dessiner (grace à une interpolation linéaire)
+        des points entre le dernier Point2D de la liste et l'avant dernier
+        si ces deux points sont eloigné de plus de DISTANCE_BETWEEN_POINT.
+
+        points : la liste de Point2D
+        screen : la Surface sur laquelle les points sont déssiner
+    """
 
     x_dimension, y_dimension = screen.get_size()
 
@@ -75,7 +82,9 @@ def _fix_point(points, screen):
 def _get_points_manually(screen) -> list[Point2D]:
     """Retourne la liste des points dessiner par l'utilisateur.
 
-        screen : la Surface sur laquelle l'utilisateur dessine.
+        screen : la Surface sur laquelle l'utilisateur dessine
+
+        return : la liste des Point2D que l'utilisateur à dessiné
     """
 
     clear_screen(screen)
@@ -213,6 +222,8 @@ def get_points(screen) -> list[Point2D]:
         en fonction du choix de l'utilisateur et/ou de son tracer
 
         screen : la surface Pygame sur laquelle l'utilisateur va dessiner ou choisir son dessin
+
+        return : la liste de Point2D que l'utilisateur à choisit ou dessiné
     """
 
     clear_screen(screen)
@@ -254,6 +265,8 @@ def sampling_points(points, number_of_points):
 
         points : la liste des points à échantilloner
         number_of_points : le nombre de points à échantilloner
+
+        return : la liste de Point2D échantillonée
     """
 
     points_length = len(points)
