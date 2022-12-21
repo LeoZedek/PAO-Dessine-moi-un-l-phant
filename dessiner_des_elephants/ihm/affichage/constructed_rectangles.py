@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Module permettant de construire les différents rectangle"""
+import pygame as pg
+
 from dessiner_des_elephants.traduction import _
 
 from .draw_elephant_utils import INPUT_SAMPLING_BOX_WIDTH

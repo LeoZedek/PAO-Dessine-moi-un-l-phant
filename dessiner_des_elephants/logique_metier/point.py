@@ -35,7 +35,7 @@ class Point2D:
     def __complex__(self):
         return complex(self.abscisse, self.ordonnee)
 
-    def distance(self, point2: Point2D) -> float:
+    def distance(self, point2) -> float:
         """ Permet de calculer la distance entre 2 points
 
         point2 : le Point2D auquel on veux calculer la distance
@@ -46,7 +46,7 @@ class Point2D:
             return abs(self.abscisse - point2.abscisse)
         return hypot(self.abscisse - point2.abscisse, self.ordonnee - point2.ordonnee)
 
-    def linear_equation(self, point2: Point2D) -> tuple[float, float]:
+    def linear_equation(self, point2) -> tuple[float, float]:
         """ Permet d'obtenir l'équation linéaire entre 2 points
 
         point2 : Le deuxième Point2D pour calculer l'équation
