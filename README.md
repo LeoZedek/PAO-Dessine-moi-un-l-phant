@@ -63,6 +63,37 @@ If you want to install requirements, execute the following command:
 pipenv install
 ```
 
+## La traduction :
+Cette application prend en charge la traduction. Pour le moment les 2 langue prise en charge sont l'anglais - par défaut - et le francais.
+
+Cette internationalisation (i18n) utilise le module gettext.
+
+Pour lancer l'application veuillez utiliser le make run qui va automatique compiler les fichier de compilation.
+
+### Ajout texte dans l'application
+si vous souhaitez ajouter du texte traduisible :
+1. Si le module ne l'a pas déjà : ajouter l'import de la fonction ```_``` avec la ligne suivante :
+```python
+from dessiner_des_elephants.traduction import _
+```
+2. Encadrer le texte à traduire dans la fonction ```_("texte à traduire")```
+3. Utiliser la commande 
+```bash
+make pre_traduction
+```
+Pour générer le fichier base.pot (il sera générer dans le dossier locales de l'applciation)
+4. À partir du fichier base.pot créer un fichier base.po par langue à traduire.
+Dans les fichiers base.po ```msgid``` représente la chaine de caractère original et ```msgstr``` la chaine de caractère traduite.
+Il faut mettre les fichiers base.po dans un dossier portant le code de la langue (fr pour francais par exemple), dans ce dossier il faut mettre un dossier LC_MESSAGES puis le fichier base.po
+
+5. Pour compiler les fichiers base.po en base.mo utilisable par l'application il faut faire la commande :
+```bash
+make traduction
+```
+OU lancer le directement l'application avec la commande ce qui compilera juste avant les fichiers base.po
+```bash
+make run
+```
 
 ## Roadmap
 If you have ideas for releases in the future, it is a good idea to list them in the README.
