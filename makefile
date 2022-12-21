@@ -31,7 +31,7 @@ $(POT_FILE): $(PYTHON_FILES)
 
 traduction : $(MO_FILES)
 
-run :
+run : traduction
 	python main.py
 
 clean:
