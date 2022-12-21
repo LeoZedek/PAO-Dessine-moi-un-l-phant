@@ -27,7 +27,9 @@ class DrawingRectangle(MyRectangle):
 
     def _draw_point(self, point):
         """
-        Méthode privée
+        Dessine le point sur l'écran self.screen
+
+        point : le Point2D qui sera affiché
         """
 
         x_dimension, y_dimension = self.screen.get_size()

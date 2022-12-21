@@ -6,7 +6,10 @@ from .draw_elephant_utils import BACKGROUND_COLOR
 
 
 def init_window() -> pg.Surface:
-    '''Fonction permettant l\'initialisation de la fenêtre'''
+    '''Fonction permettant l\'initialisation de la fenêtre
+
+    return l'objet pg.Surface
+    '''
     pg.init()
 
     screen = pg.display.set_mode((0, 0), pg.FULLSCREEN)
@@ -22,8 +25,11 @@ def init_window() -> pg.Surface:
     return screen
 
 
-def clear_screen(screen):
-    '''Fonction qui vide la fenêtre de tout dessin'''
+def clear_screen(screen: pg.Surface):
+    '''Fonction qui vide la fenêtre de tout dessin
+
+    screen : l'objet pg.Surface qui sera rénitialisé
+    '''
 
     screen.fill(BACKGROUND_COLOR)
 

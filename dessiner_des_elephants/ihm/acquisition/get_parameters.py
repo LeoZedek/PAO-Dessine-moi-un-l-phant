@@ -28,6 +28,26 @@ def _get_parameters_from_box(screen: pg.Surface,
                              constructed_rectangle: ConstructedRectangles,
                              events: list[pg.event.Event]):
 
+    """
+    Check les evénements pygame pour vérifier si l'utilisateur veut modifier, la valeur des paramètres
+
+    screen : la pg.Surface où les paramètres sont affiché
+    constructed_rectangle : l'objet ConstructedRectangle qui contient tous les rectangles
+    events : liste d'objet pg.event.Event qui contient tous les événements pygame
+
+    return : True si l'utilisateur ne sort pas de l'acquisition des paramètres 
+             False sinon
+
+             Le nombre de points si l'utilisateur a changé le nombre de points
+             None sinon
+
+             Le nombre de cercle si l'utilisateur a changé le nombre de cercle
+             None sinon
+
+             La liste de Point2D si l'utilisateur a changer le dessin
+             None sinon
+    """
+
     sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
 

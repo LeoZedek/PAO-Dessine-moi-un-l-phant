@@ -87,6 +87,9 @@ class InputBox(TextBox):
     def _update_slider_value(self) -> bool:
         """
         Méthode mettant à jour la valeur de la box si la valeur du slider à été touché.
+
+        return : True si la valeur du slider à été modifier
+                 False sinon
         """
         slider_value = self.slider.getValue()
 
