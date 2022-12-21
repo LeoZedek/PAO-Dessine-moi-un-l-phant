@@ -1,4 +1,4 @@
-""" Module pour l'importation de la fonciton gettext """
+""" Module permettant la gestion i18n (internationnalisation) pour l'importation de la fonciton gettext et son alias _"""
 import gettext
 # Initialisation de la traduction
 # Définition du chemin vers le dossier de traductions

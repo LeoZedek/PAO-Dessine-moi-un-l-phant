@@ -12,6 +12,6 @@ def taux_de_compression(nb_points: int, nb_cercle: int) -> float:
      - nb_cercle : le nombre de cercle stocké afin de reproduire le dessin
 
      # Return :
-     float : le taux de compression en pourcentage
+     float : le taux de compression en pourcentage arrondi 
     """
-    return round(((nb_points-nb_cercle) /(nb_points)),3)*100
+    return round(((nb_points-nb_cercle) / (nb_points)), 3)*100

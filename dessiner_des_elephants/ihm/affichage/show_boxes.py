@@ -6,7 +6,8 @@ from dessiner_des_elephants.traduction import _
 
 from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
 
-def show_quit_and_start_box(constructed_rectangle : ConstructedRectangles):
+
+def show_quit_and_start_box(constructed_rectangle: ConstructedRectangles):
     '''
         Fonction qui affiche les rectanges start et quit
 
@@ -20,7 +21,8 @@ def show_quit_and_start_box(constructed_rectangle : ConstructedRectangles):
     quit_box.draw()
     quit_box.set_text(_("Quit"))
 
-def show_parameters_box(constructed_rectangle : ConstructedRectangles):
+
+def show_parameters_box(constructed_rectangle: ConstructedRectangles) -> None:
     '''
         Fonction qui affiche les rectanges redraw, sampling et number_circle
 
@@ -35,7 +37,8 @@ def show_parameters_box(constructed_rectangle : ConstructedRectangles):
     sampling_box.draw()
     number_circle_box.draw()
 
-def show_drawing_rectangle(constructed_rectangle : ConstructedRectangles):
+
+def show_drawing_rectangle(constructed_rectangle: ConstructedRectangles) -> None:
     '''
         Fonction qui affiche les rectanges original_drawing et reconstructed_drawing
 

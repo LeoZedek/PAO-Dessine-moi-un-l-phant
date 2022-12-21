@@ -3,7 +3,8 @@
 
 import pygame as pg
 from .draw_elephant_utils import BACKGROUND_COLOR, \
-                                 DRAWING_RECT_BORDER_COLOR
+    DRAWING_RECT_BORDER_COLOR
+
 
 class MyRectangle(pg.Rect):
     '''
@@ -22,7 +23,7 @@ class MyRectangle(pg.Rect):
         self._screen = screen
 
     @property
-    def screen(self)->pg.Surface:
+    def screen(self) -> pg.Surface:
         """
         Renvoie la surface du rectangle
         """
@@ -34,20 +35,20 @@ class MyRectangle(pg.Rect):
         """
         pg.draw.rect(self.screen, BACKGROUND_COLOR, self)
 
-    def _draw_border(self, border_color = DRAWING_RECT_BORDER_COLOR):
+    def _draw_border(self, border_color=DRAWING_RECT_BORDER_COLOR):
         """
         Fonction privée
         """
-        pg.draw.line(self.screen, border_color,\
-         (self.left, self.top), (self.left + self.width -1, self.top))
+        pg.draw.line(self.screen, border_color,
+                     (self.left, self.top), (self.left + self.width - 1, self.top))
 
-        pg.draw.line(self.screen, border_color,\
-         (self.left, self.top), (self.left, self.top + self.height -1))
+        pg.draw.line(self.screen, border_color,
+                     (self.left, self.top), (self.left, self.top + self.height - 1))
 
-        pg.draw.line(self.screen, border_color,\
-         (self.left + self.width - 1, self.top),\
-          (self.left + self.width - 1, self.top + self.height - 1))
+        pg.draw.line(self.screen, border_color,
+                     (self.left + self.width - 1, self.top),
+                     (self.left + self.width - 1, self.top + self.height - 1))
 
-        pg.draw.line(self.screen, border_color,\
-         (self.left, self.top + self.height - 1),\
-          (self.left + self.width - 1, self.top + self.height - 1))
+        pg.draw.line(self.screen, border_color,
+                     (self.left, self.top + self.height - 1),
+                     (self.left + self.width - 1, self.top + self.height - 1))

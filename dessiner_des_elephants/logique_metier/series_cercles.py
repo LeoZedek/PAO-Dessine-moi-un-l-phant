@@ -7,6 +7,7 @@ import numpy as np
 
 from .point import Point2D
 
+
 def _creation_liste_pas(nb_cercle: int, pas: int) -> list[float]:
     """
     nbCercle : int>=0 la taille des listes à renvoyer dans notre le nombre de cercle
@@ -28,7 +29,7 @@ def _creation_liste_angle(coefficients: list[complex]) -> list[float]:
     return liste_angle
 
 
-def _coeff2rayon(liste_coeff: list[complex], scale: float) -> list:
+def _coeff2rayon(liste_coeff: list[complex], scale: float) -> list[float]:
     """
     liste_coeff : liste des coefficients de la décomposition de fourrier complexe
     scale : mise à l'échelle par rapport à la fenêtre d'affichage
@@ -67,7 +68,7 @@ class SeriesCercles:
         self._compteur_chemin = 0
 
     @property
-    def nombre_point_chemin(self):
+    def nombre_point_chemin(self) -> list[float]:
         """ renvoi le nombre de point dans le chemin """
         return self._nombre_point_chemin
 
@@ -81,7 +82,7 @@ class SeriesCercles:
         return self._compteur_chemin
 
     @compteur_chemin.setter
-    def compteur_chemin(self, compteur_chemin: int):
+    def compteur_chemin(self, compteur_chemin: int) -> None:
         """Setter de l'argument compteur_chemin"""
         self._compteur_chemin = compteur_chemin
 

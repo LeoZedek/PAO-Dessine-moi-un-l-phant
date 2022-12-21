@@ -5,16 +5,17 @@ import pygame as pg
 from .draw_elephant_utils import BLACK, BOX_BORDER_WIDTH, BOX_BORDER_COLOR
 from .my_rectangle import MyRectangle
 
+
 class TextBox(MyRectangle):
     '''
         Classe représentant une boite dans laquelle on peut mettre un text dedans.
     '''
 
-    def draw(self, border_color = BOX_BORDER_COLOR):
+    def draw(self, border_color=BOX_BORDER_COLOR):
         """Dessine le rectangle"""
-        pg.draw.rect(self.screen, border_color, self, width = BOX_BORDER_WIDTH)
+        pg.draw.rect(self.screen, border_color, self, width=BOX_BORDER_WIDTH)
 
-    def set_text(self, text : str, border_color = BOX_BORDER_COLOR):
+    def set_text(self, text: str, border_color=BOX_BORDER_COLOR):
         """
         Dessine le text dans le rectangle
 
@@ -26,9 +27,10 @@ class TextBox(MyRectangle):
         letter_size_in_pixels = self.height * 0.7
 
         if letter_size_in_pixels * len(text) >= 2 * self.width:
-            letter_size_in_pixels /= letter_size_in_pixels * len(text) / (2 * self.width)
+            letter_size_in_pixels /= letter_size_in_pixels * \
+                len(text) / (2 * self.width)
 
-        letter_size_in_points = round(letter_size_in_pixels * 72 / 96  * 1.5)
+        letter_size_in_points = round(letter_size_in_pixels * 72 / 96 * 1.5)
 
         font = pg.font.SysFont(None, letter_size_in_points)
         text_to_display = font.render(text, True, BLACK)

@@ -6,6 +6,7 @@ from .draw_elephant_utils import PROPORTION_ORIGINAL_DRAWING
 from .drawing_rectangle import DrawingRectangle
 from .my_rectangle import MyRectangle
 
+
 class ConstructedDrawingRectangle:
     """
     Classe permettant de construire les differents rectangle de dessin de l'ihm.
@@ -28,21 +29,21 @@ class ConstructedDrawingRectangle:
         self._bottom_left_rectangle = self._constructed_bottom_left_rect()
 
     @property
-    def screen(self)->pg.Surface:
+    def screen(self) -> pg.Surface:
         """
         Getter pour avoir la Surface
         """
         return self._screen
 
     @property
-    def abscissa_dimension(self)->int:
+    def abscissa_dimension(self) -> int:
         """
         Getter de la dimension de l'abscisse
         """
         return self._abscissa_dimension
 
     @property
-    def ordinate_dimension(self)->int:
+    def ordinate_dimension(self) -> int:
         """
         Getter de la dimension de l'ordonnee
         """
@@ -81,8 +82,8 @@ class ConstructedDrawingRectangle:
         height_original_drawing_rect = self.ordinate_dimension * PROPORTION_ORIGINAL_DRAWING
         width_original_drawing_rect = self.abscissa_dimension * PROPORTION_ORIGINAL_DRAWING
 
-        original_drawing_rectangle = DrawingRectangle(self.screen, left_original_drawing_rect,\
-            top_original_drawing_rect, width_original_drawing_rect, height_original_drawing_rect)
+        original_drawing_rectangle = DrawingRectangle(self.screen, left_original_drawing_rect,
+                                                      top_original_drawing_rect, width_original_drawing_rect, height_original_drawing_rect)
 
         top_reconstructed_drawing_rect = height_original_drawing_rect - 1
         left_reconstructed_drawing_rect = width_original_drawing_rect - 1
@@ -91,10 +92,10 @@ class ConstructedDrawingRectangle:
         height_reconstructed_drawing_rect = self.ordinate_dimension \
             - top_reconstructed_drawing_rect + 1
 
-        reconstructed_drawing_rectangle = DrawingRectangle(self.screen, \
-            left_reconstructed_drawing_rect,\
-            top_reconstructed_drawing_rect, width_reconstructed_drawing_rect, \
-            height_reconstructed_drawing_rect)
+        reconstructed_drawing_rectangle = DrawingRectangle(self.screen,
+                                                           left_reconstructed_drawing_rect,
+                                                           top_reconstructed_drawing_rect, width_reconstructed_drawing_rect,
+                                                           height_reconstructed_drawing_rect)
 
         original_drawing_rectangle.draw()
         reconstructed_drawing_rectangle.draw()
@@ -106,11 +107,11 @@ class ConstructedDrawingRectangle:
         top = 0
         left = self.original_drawing_rectangle.width
         width = self.screen.get_size()[0]\
-               - self.original_drawing_rectangle.width
+            - self.original_drawing_rectangle.width
         height = self.original_drawing_rectangle.height
 
-        top_right_rectangle = MyRectangle(self.screen,\
-            left, top, width, height)
+        top_right_rectangle = MyRectangle(self.screen,
+                                          left, top, width, height)
 
         return top_right_rectangle
 
@@ -120,9 +121,9 @@ class ConstructedDrawingRectangle:
         left = 0
         width = self.original_drawing_rectangle.width
         height = self.screen.get_size()[1]\
-                - self.original_drawing_rectangle.height
+            - self.original_drawing_rectangle.height
 
-        bottom_left_rectangle = MyRectangle(self.screen,\
-            left, top, width, height)
+        bottom_left_rectangle = MyRectangle(self.screen,
+                                            left, top, width, height)
 
         return bottom_left_rectangle

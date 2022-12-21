@@ -7,7 +7,7 @@ import pygame as pg
 from numpy import arange, linspace
 from dessiner_des_elephants.traduction import _
 
-from  dessiner_des_elephants.ihm.affichage.drawing_rectangle import DrawingRectangle
+from dessiner_des_elephants.ihm.affichage.drawing_rectangle import DrawingRectangle
 from ..affichage.draw_elephant_utils import DISTANCE_BETWEEN_POINT, POINT_RADIUS, COLOR_LINE
 from ..affichage.draw_elephant_utils import COLOR_AXES, AXES_WIDTH
 from ...logique_metier.point import Point2D
@@ -17,10 +17,12 @@ from ..affichage.text_box import TextBox
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
 # a linear interpolation is made to add points between them.
 # Private function
+
+
 def _fix_point(points, screen):
     """Fonction privée"""
 
-    x_dimension  , y_dimension   = screen.get_size()
+    x_dimension, y_dimension = screen.get_size()
 
     if len(points) > 1:
 
@@ -43,14 +45,14 @@ def _fix_point(points, screen):
                 index = 0
                 for new_y in arange(point1.ordonnee, point2.ordonnee, y_step):
                     if index > 0:
-                        pg.draw.circle(screen, COLOR_LINE, \
-                            (point1.abscisse + (x_dimension   // 2), \
-                            (-new_y + (y_dimension   // 2))), POINT_RADIUS)
-                        points.insert(len(points) - 1, Point2D(point1.abscisse, new_y))
+                        pg.draw.circle(screen, COLOR_LINE,
+                                       (point1.abscisse + (x_dimension // 2),
+                                        (-new_y + (y_dimension // 2))), POINT_RADIUS)
+                        points.insert(len(points) - 1,
+                                      Point2D(point1.abscisse, new_y))
                     index += 1
 
                 pg.display.update()
-
 
             else:
                 coeff_a, coeff_b = point1.linear_equation(point2)
@@ -61,15 +63,16 @@ def _fix_point(points, screen):
                 for new_x in arange(point1.abscisse, point2.abscisse, x_step):
                     if index > 0:
                         new_y = coeff_a * new_x + coeff_b
-                        pg.draw.circle(screen, COLOR_LINE, (\
-                            new_x + (x_dimension   // 2), \
-                            (-new_y + (y_dimension   // 2))), POINT_RADIUS)
+                        pg.draw.circle(screen, COLOR_LINE, (
+                            new_x + (x_dimension // 2),
+                            (-new_y + (y_dimension // 2))), POINT_RADIUS)
                         points.insert(len(points) - 1, Point2D(new_x, new_y))
                     index += 1
 
                 pg.display.update()
 
-def _get_points_manually(screen)->list[Point2D]:
+
+def _get_points_manually(screen) -> list[Point2D]:
     """Retourne la liste des points dessiner par l'utilisateur.
 
         screen : la Surface sur laquelle l'utilisateur dessine.
@@ -77,14 +80,16 @@ def _get_points_manually(screen)->list[Point2D]:
 
     clear_screen(screen)
 
-    x_dimension  , y_dimension   = screen.get_size()
+    x_dimension, y_dimension = screen.get_size()
 
     # Draw axis
-    for x_axis in range(x_dimension  ):
-        pg.draw.circle(screen, COLOR_AXES, (x_axis, y_dimension   // 2), AXES_WIDTH)
+    for x_axis in range(x_dimension):
+        pg.draw.circle(screen, COLOR_AXES,
+                       (x_axis, y_dimension // 2), AXES_WIDTH)
 
-    for y_axis in range(y_dimension  ):
-        pg.draw.circle(screen, COLOR_AXES, (x_dimension   // 2, y_axis), AXES_WIDTH)
+    for y_axis in range(y_dimension):
+        pg.draw.circle(screen, COLOR_AXES,
+                       (x_dimension // 2, y_axis), AXES_WIDTH)
 
     pg.display.update()
 
@@ -107,8 +112,8 @@ def _get_points_manually(screen)->list[Point2D]:
                     not_done = False
 
             elif event.type == pg.MOUSEMOTION and mouse_down:
-                new_point = Point2D(float(event.pos[0] - (x_dimension   // 2)), \
-                    -float(event.pos[1] - (y_dimension   // 2)))
+                new_point = Point2D(float(event.pos[0] - (x_dimension // 2)),
+                                    -float(event.pos[1] - (y_dimension // 2)))
                 points.append(new_point)
                 pg.draw.circle(screen, COLOR_LINE, event.pos, POINT_RADIUS)
 
@@ -128,22 +133,24 @@ def _get_points_manually(screen)->list[Point2D]:
 
     return points
 
-def _affichage_image(screen,nom_fichier,left,top,width,height,x_dimension,y_dimension):
+
+def _affichage_image(screen, nom_fichier, left, top, width, height, x_dimension, y_dimension):
 
     with open(nom_fichier, "rb") as file:
         new_points, x_dimension_charge, y_dimension_charge = pickle.load(file)
 
-    x_ratio =  x_dimension / x_dimension_charge
+    x_ratio = x_dimension / x_dimension_charge
     y_ratio = y_dimension / y_dimension_charge
 
     for point in new_points:
         point.abscisse = point.abscisse*x_ratio
         point.ordonne = point.ordonnee*y_ratio
 
-    dessin1 = DrawingRectangle(screen,left,top,width,height)
+    dessin1 = DrawingRectangle(screen, left, top, width, height)
     dessin1.draw()
 
-    return dessin1,new_points
+    return dessin1, new_points
+
 
 def _get_galerie(screen):
 
@@ -155,29 +162,29 @@ def _get_galerie(screen):
     top = 0
     width = x_dimension//2
     height = y_dimension//2
-    dessin1,new_points1 = _affichage_image(screen,"galerie/file1.dump",\
-                            left,top,width,height,x_dimension,y_dimension)
+    dessin1, new_points1 = _affichage_image(screen, "galerie/file1.dump",
+                                            left, top, width, height, x_dimension, y_dimension)
 
     left = x_dimension//2
     top = 0
     width = x_dimension//2
     height = y_dimension//2
-    dessin2,new_points2 = _affichage_image(screen,"galerie/file2.dump",\
-                            left,top,width,height,x_dimension,y_dimension)
+    dessin2, new_points2 = _affichage_image(screen, "galerie/file2.dump",
+                                            left, top, width, height, x_dimension, y_dimension)
 
     left = 0
     top = y_dimension//2
     width = x_dimension//2
     height = y_dimension//2
-    dessin3,new_points3 = _affichage_image(screen,"galerie/file3.dump",\
-                            left,top,width,height,x_dimension,y_dimension)
+    dessin3, new_points3 = _affichage_image(screen, "galerie/file3.dump",
+                                            left, top, width, height, x_dimension, y_dimension)
 
     left = x_dimension//2
     top = y_dimension//2
     width = x_dimension//2
     height = y_dimension//2
-    dessin4,new_points4 = _affichage_image(screen,"galerie/file4.dump",\
-                            left,top,width,height,x_dimension,y_dimension)
+    dessin4, new_points4 = _affichage_image(screen, "galerie/file4.dump",
+                                            left, top, width, height, x_dimension, y_dimension)
 
     run = True
     while run:
@@ -199,8 +206,8 @@ def _get_galerie(screen):
                     return new_points4
         pg.display.update()
 
-def get_points(screen)->list[Point2D]:
 
+def get_points(screen) -> list[Point2D]:
     """
         Fonction qui renvoie une liste de Point2D
         en fonction du choix de l'utilisateur et/ou de son tracer
@@ -216,15 +223,15 @@ def get_points(screen)->list[Point2D]:
     height = y_dimension*0.10
     left = x_dimension//2-width//2
     top = y_dimension//2-height
-    choix1 = TextBox(screen,left,top,width,height)
+    choix1 = TextBox(screen, left, top, width, height)
     choix1.set_text(_("Draw your own design"))
 
     left2 = x_dimension//2-width//2
     top2 = y_dimension//2+height
-    choix2 = TextBox(screen,left2,top2,width,height)
+    choix2 = TextBox(screen, left2, top2, width, height)
     choix2.set_text(_("Choose a design to trace"))
 
-    run=True
+    run = True
     while run:
         choix1.draw()
         choix2.draw()
@@ -232,7 +239,7 @@ def get_points(screen)->list[Point2D]:
         for event in events:
             if event.type == pg.QUIT:
                 pg.quit()
-                run =False
+                run = False
                 sys.exit()
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 if choix1.collidepoint(event.pos):
@@ -240,6 +247,7 @@ def get_points(screen)->list[Point2D]:
                 if choix2.collidepoint(event.pos):
                     return _get_galerie(screen)
         pg.display.update()
+
 
 def sampling_points(points, number_of_points):
     """Retourne une liste échantilloné des points
@@ -253,8 +261,8 @@ def sampling_points(points, number_of_points):
     if number_of_points > points_length:
         return points
 
-    sampling = [points[round(i)] for i in \
-        linspace(0, points_length, number_of_points - 1, endpoint = False)]
+    sampling = [points[round(i)] for i in
+                linspace(0, points_length, number_of_points - 1, endpoint=False)]
 
     if sampling:
         sampling.append(sampling[0])

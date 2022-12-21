@@ -24,13 +24,13 @@ PROPORTION_ORIGINAL_DRAWING = 1/3
 DRAWING_RECT_BORDER_COLOR = DARK_GRAY
 DRAWING_RECT_BORDER_WIDTH = 1
 
-## Value relative to the size of the original drawing window
+# Value relative to the size of the original drawing window
 INPUT_SAMPLING_BOX_PADDING_TOP = 1/10
 INPUT_SAMPLING_BOX_PADDING_RIGHT = 1/10
 INPUT_SAMPLING_BOX_HEIGHT = 1/5
 INPUT_SAMPLING_BOX_WIDTH = 1/5
 
-## Value relative to the size of the input box
+# Value relative to the size of the input box
 LABEL_HEIGHT = 1
 LABEL_WIDTH = 2
 
@@ -48,5 +48,5 @@ POINTS_SLIDER_STEP = 1
 
 PROPORTION_VIRTUAL_KEYBOARD_HEIGHT = 1/2
 
-## Proportion of the parameters button size taken on the right-top rectangle
+# Proportion of the parameters button size taken on the right-top rectangle
 PROPORTION_PARAMETERS_BUTTON = 2/3

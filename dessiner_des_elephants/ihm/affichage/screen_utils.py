@@ -4,7 +4,8 @@
 import pygame as pg
 from .draw_elephant_utils import BACKGROUND_COLOR
 
-def init_window()->pg.Surface:
+
+def init_window() -> pg.Surface:
     '''Fonction permettant l\'initialisation de la fenêtre'''
     pg.init()
 
@@ -20,13 +21,14 @@ def init_window()->pg.Surface:
 
     return screen
 
+
 def clear_screen(screen):
     '''Fonction qui vide la fenêtre de tout dessin'''
 
     screen.fill(BACKGROUND_COLOR)
 
-    #background = pg.Surface(screen.get_size())
-    #background = background.convert()
-    #background.fill(BACKGROUND_COLOR)
+    # background = pg.Surface(screen.get_size())
+    # background = background.convert()
+    # background.fill(BACKGROUND_COLOR)
 
-    #screen.blit(background, (0, 0))
+    # screen.blit(background, (0, 0))

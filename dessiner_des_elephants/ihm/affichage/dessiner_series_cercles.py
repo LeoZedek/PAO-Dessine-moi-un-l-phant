@@ -44,7 +44,7 @@ def __avancement_cercle(angle: float, pas: float) -> float:
     return res
 
 
-def __dessiner_le_chemin(series_cercles: SeriesCercles, screen) -> None:
+def __dessiner_le_chemin(series_cercles: SeriesCercles, screen: pg.Surface) -> None:
     """
     dessine le chemin parcouru
     """
@@ -69,7 +69,7 @@ def __dessiner_cercle_et_point(ecran, abscisse: float, ordonnee: float, rayon: f
         abscisse, ordonnee), radius=rayon, width=2)
 
 
-def __dessiner_les_cercles(series_cercles: SeriesCercles, screen) -> None:
+def __dessiner_les_cercles(series_cercles: SeriesCercles, screen: pg.Surface) -> None:
     """
     dessine les cercles dans leurs Etat actuel et fait avancer les angles
     """
@@ -116,7 +116,7 @@ def __dessiner_les_cercles(series_cercles: SeriesCercles, screen) -> None:
             angle=series_cercles.angles[i], pas=series_cercles.liste_pas[i])
 
 
-def dessiner_series_cercles(series_cercles: SeriesCercles, screen) -> None:
+def dessiner_series_cercles(series_cercles: SeriesCercles, screen: pg.Surface) -> None:
     """ Dessine d'abord le chemin puis al série de cercle """
     __dessiner_le_chemin(series_cercles=series_cercles, screen=screen)
     __dessiner_les_cercles(series_cercles=series_cercles, screen=screen)

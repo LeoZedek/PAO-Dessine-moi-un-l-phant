@@ -11,21 +11,22 @@ from pygame_widgets.widget import WidgetHandler
 
 from dessiner_des_elephants.ihm.affichage.screen_utils import clear_screen
 from dessiner_des_elephants.ihm.acquisition.points_acquisition import get_points, \
-                                                                      sampling_points
+    sampling_points
 from dessiner_des_elephants.ihm.affichage.constructed_rectangles import ConstructedRectangles
 
 from dessiner_des_elephants.ihm.acquisition.create_slider import create_sampling_slider,\
-                                                                 create_number_circle_slider
+    create_number_circle_slider
 
 from dessiner_des_elephants.ihm.affichage.show_boxes import show_quit_and_start_box,\
-                                                            show_parameters_box,\
-                                                            show_drawing_rectangle
+    show_parameters_box,\
+    show_drawing_rectangle
 
 from dessiner_des_elephants.logique_metier.point import Point2D
 
-def _get_parameters_from_box(screen : pg.Surface, \
-                             constructed_rectangle : ConstructedRectangles,\
-                             events : list[pg.event.Event]):
+
+def _get_parameters_from_box(screen: pg.Surface,
+                             constructed_rectangle: ConstructedRectangles,
+                             events: list[pg.event.Event]):
 
     sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
@@ -42,7 +43,7 @@ def _get_parameters_from_box(screen : pg.Surface, \
     for event in events:
 
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-        # If the button pressed is the left one
+            # If the button pressed is the left one
 
             if sampling_box.collidepoint(event.pos):
                 number_points = sampling_box.get_number_input()
@@ -84,10 +85,10 @@ def _get_parameters_from_box(screen : pg.Surface, \
 
     return not_done, number_points, number_circle, points
 
-def get_parameters(screen : pg.Surface, points : list[Point2D],\
-                    constructed_rectangle : ConstructedRectangles,\
-                    number_points : int, number_circle : int):
 
+def get_parameters(screen: pg.Surface, points: list[Point2D],
+                   constructed_rectangle: ConstructedRectangles,
+                   number_points: int, number_circle: int):
     """
     Renvoie les paramètres que l'utilisateur à choisit
 
@@ -106,8 +107,10 @@ def get_parameters(screen : pg.Surface, points : list[Point2D],\
     sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
 
-    sampling_box.slider = create_sampling_slider(screen, constructed_rectangle, points)
-    number_circle_box.slider = create_number_circle_slider(screen, constructed_rectangle)
+    sampling_box.slider = create_sampling_slider(
+        screen, constructed_rectangle, points)
+    number_circle_box.slider = create_number_circle_slider(
+        screen, constructed_rectangle)
 
     not_done = True
 
@@ -135,9 +138,9 @@ def get_parameters(screen : pg.Surface, points : list[Point2D],\
 
         events = pg.event.get()
 
-        not_done, new_number_points, new_number_circle, new_points = _get_parameters_from_box(\
-                                                                     screen,\
-                                                                     constructed_rectangle, events)
+        not_done, new_number_points, new_number_circle, new_points = _get_parameters_from_box(
+            screen,
+            constructed_rectangle, events)
 
         # Si l'utilisateur à changer les paramètres, on les mets à jours
         if new_points:
