@@ -19,6 +19,7 @@ Le projet a été fortement inspiré de la vidéo de El Jj [Deux (deux ?) minute
 
 ## Membres :
 Réalisé sous la supervision de : M. DELESTRE et M. CHATELAIN
+
 Réalisé par : Alexis IMBERT, Solène PERRET et Léo ZEDEK
 
 ## Pyenv 
@@ -76,12 +77,13 @@ si vous souhaitez ajouter du texte traduisible :
 ```python
 from dessiner_des_elephants.traduction import _
 ```
-2. Encadrer le texte à traduire dans la fonction ```_("texte à traduire")```
+2. Encadrer le texte à traduire de la manière suivante :  ```_("texte à traduire")```
 3. Utiliser la commande 
 ```bash
 make pre_traduction
 ```
 Pour générer le fichier base.pot (il sera générer dans le dossier locales de l'applciation)
+
 4. À partir du fichier base.pot créer un fichier base.po par langue à traduire.
 Dans les fichiers base.po ```msgid``` représente la chaine de caractère original et ```msgstr``` la chaine de caractère traduite.
 Il faut mettre les fichiers base.po dans un dossier portant le code de la langue (fr pour francais par exemple), dans ce dossier il faut mettre un dossier LC_MESSAGES puis le fichier base.po
@@ -95,5 +97,11 @@ OU lancer le directement l'application avec la commande ce qui compilera juste a
 make run
 ```
 
+
 ## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Pour la suite du projet nous avons pensez à :
+    - réaliser une séparation MVC (modèle view controleur : séparation de la vu et des données)
+    - transformer la galerie (composé de .dump) en .jpg
+    - pour la ressemblance dtw, prendre le même point de départ
+    - dessiner des droites entre chaque point
+    - mettre le même nombre de point que la visualisation du dessin original dans le dessin reconstitué
