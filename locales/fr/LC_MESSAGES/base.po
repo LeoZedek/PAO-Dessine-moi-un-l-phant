@@ -27,7 +27,7 @@ msgstr "Dessiner votre propre dessin"
 
 #: dessiner_des_elephants/ihm/affichage/show_boxes.py:19
 msgid "GO !"
-msgstr "C'est parti !"
+msgstr "Lancer !"
 
 #: dessiner_des_elephants/ihm/affichage/show_boxes.py:21
 msgid "Quit"
