@@ -69,6 +69,11 @@ Cette application prend en charge la traduction. Pour le moment les 2 langue pri
 
 Cette internationalisation (i18n) utilise le module gettext.
 
+Il faut préalablement installer le module gettext sur votre machine en executant la commande suivante :
+```bash
+sudo apt install gettext
+```
+
 Pour lancer l'application veuillez utiliser le make run qui va automatique compiler les fichier de compilation.
 
 ### Ajout texte dans l'application
