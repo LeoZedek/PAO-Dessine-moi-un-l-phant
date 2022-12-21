@@ -29,13 +29,14 @@ def _get_parameters_from_box(screen: pg.Surface,
                              events: list[pg.event.Event]):
 
     """
-    Check les evénements pygame pour vérifier si l'utilisateur veut modifier, la valeur des paramètres
+    Check les evénements pygame pour vérifier si l'utilisateur
+    veut modifier, la valeur des paramètres
 
     screen : la pg.Surface où les paramètres sont affiché
     constructed_rectangle : l'objet ConstructedRectangle qui contient tous les rectangles
     events : liste d'objet pg.event.Event qui contient tous les événements pygame
 
-    return : True si l'utilisateur ne sort pas de l'acquisition des paramètres 
+    return : True si l'utilisateur ne sort pas de l'acquisition des paramètres
              False sinon
 
              Le nombre de points si l'utilisateur a changé le nombre de points
@@ -70,6 +71,7 @@ def _get_parameters_from_box(screen: pg.Surface,
 
                 if number_points < 2:
                     number_points = 2
+                    sampling_box.set("2")
 
                 clear_screen(screen)
 

@@ -11,7 +11,6 @@ from ..acquisition.input_box import InputBox
 from .text_box import TextBox
 from .constructed_drawing_rectangle import ConstructedDrawingRectangle
 
-
 class _BoxDimension():
 
     def __init__(self, width, height):
@@ -83,7 +82,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
 
     def _add_box(self, box, box_tag):
         """Ajoute un rectangle dans le dictionnaire
-        
+
         box : Le rectangle à ajouter
         box_tag : le nom du rectangle à ajouter
         """
@@ -93,7 +92,7 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
     def _get_box_by_tag(self, box_tag):
 
         """Retire un rectangle du dictionnaire
-        
+
         box_tag : le nom du rectangle à retirer
         """
 
@@ -218,7 +217,9 @@ class ConstructedRectangles(ConstructedDrawingRectangle):
             * PROPORTION_PARAMETERS_BUTTON // 2
 
         number_circle_box = InputBox(self.screen, left_number_circle_box,
-                                     top_number_circle_box, width_number_circle_box, height_number_circle_box,
+                                     top_number_circle_box,
+                                     width_number_circle_box,
+                                     height_number_circle_box,
                                      _("number circle :"))
 
         return number_circle_box

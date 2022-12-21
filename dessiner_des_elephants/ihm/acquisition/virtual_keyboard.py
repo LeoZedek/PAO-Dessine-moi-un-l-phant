@@ -254,7 +254,7 @@ class VirtualKeyboard():
         self._add_key_by_tag(zero_button, "0")
 
         button_parameters = KEY_PARAMETERS.copy()
-        button_parameters["text"] = _("OK")
+        button_parameters["text"] = "OK"
         button_parameters["onRelease"] = self._end_acquisition
 
         enter_button = Button(self.screen,
