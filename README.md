@@ -105,8 +105,8 @@ make run
 
 ## Roadmap
 Pour la suite du projet nous avons pensez à :
-    - réaliser une séparation MVC (modèle view controleur : séparation de la vu et des données)
-    - transformer la galerie (composé de .dump) en .jpg
-    - pour la ressemblance dtw, prendre le même point de départ
-    - dessiner des droites entre chaque point
-    - mettre le même nombre de point que la visualisation du dessin original dans le dessin reconstitué
+ - réaliser une séparation MVC (modèle view controleur : séparation de la vu et des données)
+ - transformer la galerie (composé de .dump) en .jpg
+ - pour la ressemblance dtw, prendre le même point de départ
+ - dessiner des droites entre chaque point
+ - mettre le même nombre de point que la visualisation du dessin original dans le dessin reconstitué
