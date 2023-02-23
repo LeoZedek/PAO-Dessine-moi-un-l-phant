@@ -124,7 +124,6 @@ def get_parameters(screen: pg.Surface, points: list[Point2D],
            number_circle : Nombre de cercle choisit par l'utilisateur
            points : La liste de Point2D, que l'utilisateur a potentiellement changé
     """
-
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
     sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
