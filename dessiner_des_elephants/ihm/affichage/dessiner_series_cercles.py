@@ -3,6 +3,7 @@
 
 import numpy as np
 import pygame as pg
+from .draw_elephant_utils import POINT_RADIUS, COLOR_LINE
 from ...logique_metier.series_cercles import SeriesCercles
 from ...logique_metier.point import Point2D
 
@@ -48,13 +49,20 @@ def __dessiner_le_chemin(series_cercles: SeriesCercles, screen: pg.Surface) -> N
     """
     dessine le chemin parcouru
     """
-    for point in series_cercles.chemin:
-        if point:
+    #vérification des deux premiers points(affichage sous forme de droites)
+    if(not(series_cercles.chemin[1])):
+        if(series_cercles.chemin[0]): #si la liste ne contient qu'un seul point2D
             pg.draw.circle(surface=screen, color=BLACK,
-                           center=(point.abscisse, point.ordonnee), radius=TAILLE_POINT)
-
-# Utiliser la classe coordonnée 2D
-
+                           center=(series_cercles.chemin[0].abscisse, series_cercles.chemin[0].ordonnee), radius=TAILLE_POINT)
+    else:
+        for i in range(len(series_cercles.chemin)):
+            if(not(series_cercles.chemin[i+1])):
+                break
+            point1 = series_cercles.chemin[i]
+            point2 = series_cercles.chemin[i+1]
+            pg.draw.line(screen, COLOR_LINE, (point1.abscisse, point1.ordonnee),
+                    (point2.abscisse, point2.ordonnee), 3)
+                    
 
 def __dessiner_cercle_et_point(ecran, abscisse: float, ordonnee: float, rayon: float) -> None:
     """
