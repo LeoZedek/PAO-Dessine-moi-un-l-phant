@@ -83,9 +83,9 @@ def _get_parameters_from_box(screen: pg.Surface,
                     number_circle = 2
                     number_circle_box.value = number_circle
 
-                if number_circle % 2 == 1:
-                    number_circle += 1
-                    number_circle_box.value = number_circle
+                #if number_circle % 2 == 1:
+                #    number_circle += 1
+                #    number_circle_box.value = number_circle
 
                 clear_screen(screen)
 

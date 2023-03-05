@@ -46,6 +46,5 @@ def decompositions_en_serie_de_fourier(points_complexes, nb_cercle: int) -> list
         borne = borne + 1
         coefficients = [calcul_coefficient(points_complexes, indice_coefficients)
                         for indice_coefficients in range(-borne, borne+1)]
-        print(len(coefficients))
     coefficients = rangement(coefficients, nb_cercle)
     return coefficients
