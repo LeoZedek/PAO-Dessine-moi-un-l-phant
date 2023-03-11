@@ -19,7 +19,11 @@ BACKGROUND_COLOR = GRAY
 COLOR_AXES = DARK_GRAY
 COLOR_LINE = BLACK
 
-PROPORTION_ORIGINAL_DRAWING = 1/3
+#value used to proportion all layout rectangles
+PROPORTION_ORIGINAL_DRAWING = 1/2
+
+#value used to proportion all input/text rectangles
+PROPORTION_INPUT_BOXES = 1/3
 
 DRAWING_RECT_BORDER_COLOR = DARK_GRAY
 DRAWING_RECT_BORDER_WIDTH = 1
@@ -27,7 +31,7 @@ DRAWING_RECT_BORDER_WIDTH = 1
 # Value relative to the size of the original drawing window
 INPUT_SAMPLING_BOX_PADDING_TOP = 1/10
 INPUT_SAMPLING_BOX_PADDING_RIGHT = 1/10
-INPUT_SAMPLING_BOX_HEIGHT = 1/5
+INPUT_SAMPLING_BOX_HEIGHT = 1/6
 INPUT_SAMPLING_BOX_WIDTH = 1/5
 
 # Value relative to the size of the input box

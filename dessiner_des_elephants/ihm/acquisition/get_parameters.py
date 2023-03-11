@@ -19,7 +19,9 @@ from dessiner_des_elephants.ihm.acquisition.create_slider import create_sampling
 
 from dessiner_des_elephants.ihm.affichage.show_boxes import show_quit_and_start_box,\
     show_parameters_box,\
-    show_drawing_rectangle
+    show_drawing_rectangle, \
+    show_drawing_title_box, \
+    show_compression_box
 
 from dessiner_des_elephants.logique_metier.point import Point2D
 
@@ -125,6 +127,7 @@ def get_parameters(screen: pg.Surface, points: list[Point2D],
            points : La liste de Point2D, que l'utilisateur a potentiellement changé
     """
     original_drawing_rectangle = constructed_rectangle.original_drawing_rectangle
+    top_left_rectangle = constructed_rectangle.top_left_rectangle
     sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
 
@@ -155,7 +158,10 @@ def get_parameters(screen: pg.Surface, points: list[Point2D],
         show_parameters_box(constructed_rectangle)
         show_quit_and_start_box(constructed_rectangle)
         show_drawing_rectangle(constructed_rectangle)
+        show_drawing_title_box(constructed_rectangle, len(points), number_points, number_circle) 
+        show_compression_box(constructed_rectangle, len(points), number_points, number_circle)
         original_drawing_rectangle.draw_points(sampled_points)
+        top_left_rectangle.draw_points(points)
 
         events = pg.event.get()
 
