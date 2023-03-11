@@ -34,7 +34,7 @@ def create_sampling_slider(screen: pg.Surface,
     sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
 
-    width_slider = (screen.get_size()[0] - original_drawing_rectangle.width) \
+    width_slider = (screen.get_size()[0] - constructed_rectangle._input_box_width) \
         * PROPORTION_PARAMETERS_BUTTON
     height_slider = number_circle_box.top - sampling_box.top \
         - sampling_box.height - constructed_rectangle.box_padding_ordinate
@@ -44,6 +44,7 @@ def create_sampling_slider(screen: pg.Surface,
         + (constructed_rectangle.box_padding_ordinate // 2)
 
     min_sampling = min(len(points), MIN_POINTS_SLIDER_VALUE)
+    #TODO : à modifier
     max_sampling = min(len(points), MAX_POINTS_SLIDER_VALUE)
 
     slider_sampling = Slider(screen, left_slider_sampling, top_slider_sampling,
@@ -69,7 +70,7 @@ def create_number_circle_slider(screen: pg.Surface,
     sampling_box = constructed_rectangle.sampling_box
     number_circle_box = constructed_rectangle.number_circle_box
 
-    width_slider = (screen.get_size()[0] - original_drawing_rectangle.width) \
+    width_slider = (screen.get_size()[0] - constructed_rectangle._input_box_width) \
         * PROPORTION_PARAMETERS_BUTTON
     height_slider = number_circle_box.top - sampling_box.top \
         - sampling_box.height - constructed_rectangle.box_padding_ordinate

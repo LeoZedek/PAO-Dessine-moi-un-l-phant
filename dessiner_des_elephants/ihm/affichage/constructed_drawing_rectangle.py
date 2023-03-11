@@ -26,7 +26,7 @@ class ConstructedDrawingRectangle:
             self._constructed_drawing_rect()
 
         self._top_right_rectangle = self._constructed_top_right_rect()
-        self._bottom_left_rectangle = self._constructed_bottom_left_rect()
+        self._top_left_rectangle = self._constructed_top_left_rect()
 
     @property
     def screen(self) -> pg.Surface:
@@ -69,19 +69,19 @@ class ConstructedDrawingRectangle:
         return self._top_right_rectangle
 
     @property
-    def bottom_left_rectangle(self):
+    def top_left_rectangle(self):
         """ Getter du rectangle bas gauche """
-        return self._bottom_left_rectangle
+        return self._top_left_rectangle
 
     def _constructed_drawing_rect(self):
         """
         Construit le rectangles où le dessin original sera affiché et
         le rectangle où le dessin reconstruit sera affiché
         """
-        top_original_drawing_rect = 0
-        left_original_drawing_rect = 0
         height_original_drawing_rect = self.ordinate_dimension * PROPORTION_ORIGINAL_DRAWING
         width_original_drawing_rect = self.abscissa_dimension * PROPORTION_ORIGINAL_DRAWING
+        top_original_drawing_rect = height_original_drawing_rect - 1
+        left_original_drawing_rect = 0
 
         original_drawing_rectangle = DrawingRectangle(self.screen, left_original_drawing_rect,
                                                       top_original_drawing_rect,
@@ -120,16 +120,18 @@ class ConstructedDrawingRectangle:
 
         return top_right_rectangle
 
-    def _constructed_bottom_left_rect(self):
-        """Construit le rectangle qui se trouve en bas à gauche"""
+    def _constructed_top_left_rect(self):
+        """Construit le rectangle qui se trouve en haut à gauche"""
 
-        top = self.original_drawing_rectangle.height
+        top = 0
         left = 0
         width = self.original_drawing_rectangle.width
         height = self.screen.get_size()[1]\
             - self.original_drawing_rectangle.height
 
-        bottom_left_rectangle = MyRectangle(self.screen,
+        top_left_rectangle = DrawingRectangle(self.screen,
                                             left, top, width, height)
 
-        return bottom_left_rectangle
+        top_left_rectangle.draw()
+
+        return top_left_rectangle
