@@ -36,7 +36,7 @@ def _launch_drawing(screen: pg.Surface, constructed_rectangle: ConstructedRectan
                                                            number_point, number_circle)
 
     reconstitue_points = reconstructed_drawing_rectangle.draw_reconstructed_drawing(
-        original_drawing_rectangle, sampled_points, number_circle)
+        original_drawing_rectangle, points, number_circle)
 
     return len(sampled_points), number_circle, points, reconstitue_points
 
