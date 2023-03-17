@@ -14,8 +14,7 @@ from ...logique_metier.point import Point2D
 from ..affichage.screen_utils import clear_screen
 from ..affichage.text_box import TextBox
 
-#import tkinter
-#import tkinter.filedialog
+from dessiner_des_elephants.logique_metier.process_images import bitmap_to_points, open_bitmap_image
 
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
@@ -225,7 +224,8 @@ def _choose_input_file():
     #top.withdraw()
     #file_name = tkinter.filedialog.askopenfilename(parent=top)
     #top.destroy()
-    #return file_name
+    file_name = "./test.bmp"
+    return file_name
     pass
 
 
@@ -236,7 +236,7 @@ def _choose_and_process_image_file(screen):
 
     valid_file = False
     while(not valid_file):
-        #filename = _choose_input_file()
+        filename = _choose_input_file()
         if(filename != ""):
             valid_file = True
 
@@ -245,10 +245,10 @@ def _choose_and_process_image_file(screen):
     #process
 
     #bitmap_inter = _image_to_bitmap(filename)
-    #bitmap_array = open_bitmap_image(filename)
-    #points_list = _bitmap_to_points_list(bitmap_array)
+    bitmap_array = open_bitmap_image(filename)
+    points_list = bitmap_to_points(bitmap_array, screen)
 
-    #return points_list
+    return points_list
 
 def get_points(screen) -> list[Point2D]:
     """
@@ -298,7 +298,7 @@ def get_points(screen) -> list[Point2D]:
                 if choix2.collidepoint(event.pos):
                     return _get_galerie(screen)
                 if choix3.collidepoint(event.pos):
-                    _choose_and_process_image_file(screen)
+                    return _choose_and_process_image_file(screen)
         pg.display.update()
 
 

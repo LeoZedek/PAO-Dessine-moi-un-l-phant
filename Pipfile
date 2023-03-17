@@ -9,6 +9,7 @@ pygame = "*"
 pylint = "*"
 pytest = "*"
 pygame-widgets = "*"
+opencv-python = "*"
 
 [dev-packages]
 
