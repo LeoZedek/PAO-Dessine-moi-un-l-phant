@@ -140,6 +140,8 @@ def get_parameters(screen: pg.Surface, points: list[Point2D],
 
     sampled_points = points
 
+    clock = pg.time.Clock()
+
     # Pour garder les anciennes valeurs qui ont été mises par l'utilisateur
     if number_points:
         sampling_box.value = number_points
@@ -151,17 +153,29 @@ def get_parameters(screen: pg.Surface, points: list[Point2D],
     else:
         number_circle = number_circle_box.value
 
+    #elements qui n'ont pas besoin d'être réaffiché à chaque while
+    constructed_rectangle.top_right_rectangle.clear()
+    original_drawing_rectangle.clear()
+    show_quit_and_start_box(constructed_rectangle)
+
+    show_drawing_rectangle(constructed_rectangle)
+    show_drawing_title_box(constructed_rectangle, len(points), number_points, number_circle) 
+
+    original_drawing_rectangle.draw_points(sampled_points)
+    top_left_rectangle.draw_points(points)
+
     while not_done:
+        clock.tick(30)
         constructed_rectangle.top_right_rectangle.clear()
-        original_drawing_rectangle.clear()
+        #original_drawing_rectangle.clear()
 
         show_parameters_box(constructed_rectangle)
-        show_quit_and_start_box(constructed_rectangle)
-        show_drawing_rectangle(constructed_rectangle)
-        show_drawing_title_box(constructed_rectangle, len(points), number_points, number_circle) 
+        #show_quit_and_start_box(constructed_rectangle)
+        #show_drawing_rectangle(constructed_rectangle)
+        #show_drawing_title_box(constructed_rectangle, len(points), number_points, number_circle) 
         show_compression_box(constructed_rectangle, len(points), number_points, number_circle)
-        original_drawing_rectangle.draw_points(sampled_points)
-        top_left_rectangle.draw_points(points)
+        #original_drawing_rectangle.draw_points(sampled_points)
+        #top_left_rectangle.draw_points(points)
 
         events = pg.event.get()
 
@@ -175,9 +189,15 @@ def get_parameters(screen: pg.Surface, points: list[Point2D],
 
         if new_number_points:
             number_points = new_number_points
+            original_drawing_rectangle.clear()
+            show_drawing_rectangle(constructed_rectangle)
+            show_drawing_title_box(constructed_rectangle, len(points), number_points, number_circle) 
+            original_drawing_rectangle.draw_points(sampled_points)
+
 
         if new_number_circle:
             number_circle = new_number_circle
+            show_drawing_title_box(constructed_rectangle, len(points), number_points, number_circle) 
 
         sampled_points = sampling_points(points, number_points)
 

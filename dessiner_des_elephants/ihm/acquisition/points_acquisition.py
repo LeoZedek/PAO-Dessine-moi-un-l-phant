@@ -218,17 +218,20 @@ def _get_galerie(screen):
                     return new_points4
         pg.display.update()
 
-def _choose_input_file():
+def _choose_input_file(screen):
 
     #top = tkinter.Tk()
     #top.withdraw()
     #file_name = tkinter.filedialog.askopenfilename(parent=top)
     #top.destroy()
-    file_name = "./test.bmp"
+    #x_dimension, y_dimension = screen.get_size()
+    #not_existing_file = True
+    #while(not_existing_file):
+
+
+
+    file_name = "./test2.bmp"
     return file_name
-    pass
-
-
 
 def _choose_and_process_image_file(screen):
 
@@ -236,11 +239,10 @@ def _choose_and_process_image_file(screen):
 
     valid_file = False
     while(not valid_file):
-        filename = _choose_input_file()
+        filename = _choose_input_file(screen)
         if(filename != ""):
             valid_file = True
-
-    print(filename)
+    #print(filename)
     
     #process
 
