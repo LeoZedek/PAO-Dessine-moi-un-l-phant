@@ -14,6 +14,9 @@ from ...logique_metier.point import Point2D
 from ..affichage.screen_utils import clear_screen
 from ..affichage.text_box import TextBox
 
+from dessiner_des_elephants.logique_metier.process_images import bitmap_to_points, open_bitmap_image
+
+
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
 # a linear interpolation is made to add points between them.
 # Private function
@@ -215,6 +218,39 @@ def _get_galerie(screen):
                     return new_points4
         pg.display.update()
 
+def _choose_input_file(screen):
+
+    #top = tkinter.Tk()
+    #top.withdraw()
+    #file_name = tkinter.filedialog.askopenfilename(parent=top)
+    #top.destroy()
+    #x_dimension, y_dimension = screen.get_size()
+    #not_existing_file = True
+    #while(not_existing_file):
+
+
+
+    file_name = "./test2.bmp"
+    return file_name
+
+def _choose_and_process_image_file(screen):
+
+    clear_screen(screen)
+
+    valid_file = False
+    while(not valid_file):
+        filename = _choose_input_file(screen)
+        if(filename != ""):
+            valid_file = True
+    #print(filename)
+    
+    #process
+
+    #bitmap_inter = _image_to_bitmap(filename)
+    bitmap_array = open_bitmap_image(filename)
+    points_list = bitmap_to_points(bitmap_array, screen)
+
+    return points_list
 
 def get_points(screen) -> list[Point2D]:
     """
@@ -242,10 +278,16 @@ def get_points(screen) -> list[Point2D]:
     choix2 = TextBox(screen, left2, top2, width, height)
     choix2.set_text(_("Choose a design to trace"))
 
+    left3 = x_dimension//2-width//2
+    top3 = y_dimension//2-3*height
+    choix3 = TextBox(screen, left3, top3, width, height)
+    choix3.set_text(_("Import your image"))
+
     run = True
     while run:
         choix1.draw()
         choix2.draw()
+        choix3.draw()
         events = pg.event.get()
         for event in events:
             if event.type == pg.QUIT:
@@ -257,6 +299,8 @@ def get_points(screen) -> list[Point2D]:
                     return _get_points_manually(screen)
                 if choix2.collidepoint(event.pos):
                     return _get_galerie(screen)
+                if choix3.collidepoint(event.pos):
+                    return _choose_and_process_image_file(screen)
         pg.display.update()
 
 

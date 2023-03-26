@@ -44,7 +44,7 @@ def create_sampling_slider(screen: pg.Surface,
         + (constructed_rectangle.box_padding_ordinate // 2)
 
     min_sampling = min(len(points), MIN_POINTS_SLIDER_VALUE)
-    max_sampling = len(points)
+    max_sampling = min(len(points), MAX_POINTS_SLIDER_VALUE)
 
     slider_sampling = Slider(screen, left_slider_sampling, top_slider_sampling,
                              width_slider, height_slider,
