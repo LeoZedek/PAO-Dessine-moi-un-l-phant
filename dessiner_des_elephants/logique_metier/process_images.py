@@ -10,14 +10,17 @@ from dessiner_des_elephants.ihm.affichage.draw_elephant_utils import DISTANCE_BE
 
 def open_bitmap_image(filename):
     """
-    fonction pour ouvir une image 
+    fonction pour ouvir une image bitmap
     
     filename : chemin vers fichier depuis racine
 
     return: l'image sous forme de numpy array
     """
     image = np.array(cv.imread(filename, cv.IMREAD_GRAYSCALE))
-    return image
+    #seuillage pour les format autres que bmp
+    seuil = 50
+    image_seuil = 255*(image > seuil)
+    return image_seuil
 
 def _odd_line_number(direction):
     """
@@ -27,9 +30,8 @@ def _odd_line_number(direction):
     
     Return:
     int: le nombre de successions de 0 dans la liste
-    
     """
-    
+
     number_line = 0  
     in_line = False 
     
@@ -46,6 +48,8 @@ def _odd_line_number(direction):
 def _pixel_in_shape(image, i, j):
     """
     vérifie si un pixel de coordonnées i et j est danss la forme fermée
+    pour qu'un point soit dans la forme, il faut que dans chacune
+    des directions, le nombre de ligne parcourues soit impair
 
     image : numpy array d'une image noire et blanche
     i, j : coordonnées du pixel
@@ -111,7 +115,7 @@ def _cut_edge(image):
     #a partie de l'index, retrouver coord dans l image
     point_entree = (link_direction_image[index_entree], j)
 
-    # Determine the values in the neighborhood of the point
+    # on récupère les valeurs dans le voisinage du point
     row, col = point_entree[0], point_entree[1]
     neighborhood = []
     coord_list = []
@@ -120,7 +124,7 @@ def _cut_edge(image):
             neighborhood.append(image[i][j])
             coord_list.append((i, j))
 
-    # Find the first 0 in the neighborhood and set all other values to 0
+    # On garde le premier 0 et on change les autres
     found_zero = False
     point_final = (0, 0)
     for i in range(len(neighborhood)):
@@ -131,7 +135,7 @@ def _cut_edge(image):
         if found_zero:
             neighborhood[i] = 255
 
-    # Update the matrix with the modified neighborhood
+    # On remplace les valeurs modifiées dans l'image
     index = 0
     for i in range(max(0, row-1), min(row+2, dim_v)):
         for j in range(max(0, col-1), min(col+2, dim_h)):
@@ -238,6 +242,7 @@ def bitmap_to_points(image, screen):
     return : liste ordonnées des points du contour
     """
     dim_v, dim_h = image.shape
+    x_dimension, y_dimension = screen.get_size()
 
     #couper la courbe pour le bfs 
     point_depart = _cut_edge(image)
@@ -246,9 +251,7 @@ def bitmap_to_points(image, screen):
     visited = []
     _bfs(visited, image, point_depart)
     
-    #création liste Point2D
-    x_dimension, y_dimension = screen.get_size()
-    #reverse dessin
+    #reverse dessin (symétrie axe horizontal milieu)
     visited_final = []
     axe = dim_v // 2
     for pt in visited:
@@ -261,7 +264,8 @@ def bitmap_to_points(image, screen):
 
     liste = list(map(lambda x: Point2D(
                         float(x[1] - (x_dimension//2)),
-                        float(x[0] - (y_dimension//2))),visited_final))
+                        float(x[0] - (y_dimension//2))),
+                        visited_final))
     liste.append(liste[0])
     _fix_point_image(liste, screen)
 

@@ -219,7 +219,13 @@ def _get_galerie(screen):
         pg.display.update()
 
 def _choose_input_file(screen):
+    """
+    fonction pour faire choisir à l'utilisateur une image
 
+    screen : surface de l'écran
+
+    return : le chemin vers le fichier
+    """
     #top = tkinter.Tk()
     #top.withdraw()
     #file_name = tkinter.filedialog.askopenfilename(parent=top)
@@ -228,12 +234,20 @@ def _choose_input_file(screen):
     #not_existing_file = True
     #while(not_existing_file):
 
+    #TODO : a faire
 
-
-    file_name = "./test2.bmp"
+    file_name = "./test.png"
     return file_name
 
 def _choose_and_process_image_file(screen):
+    """
+    fonction permettant de choisir une image stockée sur la machine
+    et de la transformer en liste de points ordonnées
+
+    screen : la surface de l'écran
+
+    return : la liste des point2D ordonnés
+    """
 
     clear_screen(screen)
 
