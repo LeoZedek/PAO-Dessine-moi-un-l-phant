@@ -15,6 +15,7 @@ from ..affichage.screen_utils import clear_screen
 from ..affichage.text_box import TextBox
 
 from dessiner_des_elephants.logique_metier.process_images import bitmap_to_points, open_bitmap_image
+from dessiner_des_elephants.logique_metier.image_en_liste_ordonnee import image_to_list_points
 
 
 # If the last two point of the points tab have a distance superior to DISTANCE_BETWEEN_POINT,
@@ -218,7 +219,23 @@ def _get_galerie(screen):
                     return new_points4
         pg.display.update()
 
-def _choose_input_file(screen):
+def _affichage_nom_fichier(screen, filename):
+    clear_screen(screen)
+    x_dimension, y_dimension = screen.get_size()
+
+    width = x_dimension*0.50
+    height = y_dimension*0.10
+    left = x_dimension//2-width//2
+    top = y_dimension//2-height
+    titre = TextBox(screen, left, top, width, height)
+    titre.set_text(_("enter the name of file located in images folder : "))
+    left2 = x_dimension//2-width//2
+    top2 = y_dimension//2+height
+    choix2 = TextBox(screen, left2, top2, width, height)
+    choix2.set_text(filename)
+
+
+def validate_filename(screen):
     """
     fonction pour faire choisir à l'utilisateur une image
 
@@ -226,18 +243,26 @@ def _choose_input_file(screen):
 
     return : le chemin vers le fichier
     """
-    #top = tkinter.Tk()
-    #top.withdraw()
-    #file_name = tkinter.filedialog.askopenfilename(parent=top)
-    #top.destroy()
-    #x_dimension, y_dimension = screen.get_size()
-    #not_existing_file = True
-    #while(not_existing_file):
-
-    #TODO : a faire
-
-    file_name = "./test.png"
-    return file_name
+    filename = "./images/"
+    clear_screen(screen)
+    pg.display.update()
+    x_dimension, y_dimension = screen.get_size()
+    _affichage_nom_fichier(screen, filename)
+    while True:
+        for event in pg.event.get():
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_RETURN:
+                    if filename.lower().endswith((".png", ".bmp", ".jpeg")):
+                        return filename
+                    else:
+                        filename = "./images/"
+                        _affichage_nom_fichier(screen, filename)
+                elif event.key == pg.K_BACKSPACE:
+                    filename = filename[:-1]
+                    _affichage_nom_fichier(screen, filename)
+                else:
+                    filename += event.unicode
+                    _affichage_nom_fichier(screen, filename)
 
 def _choose_and_process_image_file(screen):
     """
@@ -248,22 +273,9 @@ def _choose_and_process_image_file(screen):
 
     return : la liste des point2D ordonnés
     """
-
     clear_screen(screen)
-
-    valid_file = False
-    while(not valid_file):
-        filename = _choose_input_file(screen)
-        if(filename != ""):
-            valid_file = True
-    #print(filename)
-    
-    #process
-
-    #bitmap_inter = _image_to_bitmap(filename)
-    bitmap_array = open_bitmap_image(filename)
-    points_list = bitmap_to_points(bitmap_array, screen)
-
+    filename = validate_filename(screen)
+    points_list = image_to_list_points(filename, screen)
     return points_list
 
 def get_points(screen) -> list[Point2D]:
@@ -333,7 +345,7 @@ def sampling_points(points, number_of_points):
         return points
 
     sampling = [points[round(i)] for i in
-                linspace(0, points_length, number_of_points - 1, endpoint=False)]
+            linspace(0, points_length, number_of_points - 1, endpoint=False)]
 
     if sampling:
         sampling.append(sampling[0])
