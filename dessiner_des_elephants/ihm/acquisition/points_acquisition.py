@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Module proposant les fonctions pour acquérir les points dessiner par l'utilisateur"""
 
+import os
 import sys
 import pickle
 import pygame as pg
@@ -252,7 +253,7 @@ def validate_filename(screen):
         for event in pg.event.get():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_RETURN:
-                    if filename.lower().endswith((".png", ".bmp", ".jpeg")):
+                    if filename.lower().endswith((".png", ".bmp", ".jpeg")) and os.path.isfile(filename):
                         return filename
                     else:
                         filename = "./images/"

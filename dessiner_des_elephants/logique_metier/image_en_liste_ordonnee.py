@@ -4,6 +4,7 @@ module proposant les fonctions permettant de passer d'une
 image noir et blanc à une liste ordonnée représentant le tracé
 """
 
+import sys
 import copy
 import cv2 as cv
 from plantcv import plantcv as pcv
@@ -14,6 +15,19 @@ from dessiner_des_elephants.logique_metier.point import Point2D
 def voisins_true(image, x_coord, y_coord):
     """
     Retourne la liste des voisins étant un contour d'un pixel (x, y)
+
+    Parameters
+    ----------
+    image : np.ndarray
+        l'image du contour
+    x_coord : int
+    y_coord : int
+
+    Returns
+    -------
+    list
+        une liste qui contient les points voisins du point (x_coord, y_coord)
+
     """
     voisins = []
     for i in range(-1, 2):
@@ -28,6 +42,18 @@ def voisins_true(image, x_coord, y_coord):
 def all_voisins(image, x_coord, y_coord):
     """
     Retourne la liste des voisins d'un pixel (x, y) (contour ou pas)
+
+    Parameters
+    ----------
+    image : np.ndarray
+        l'image du contour
+    x_coord : int
+    y_coord : int
+
+    Returns
+    -------
+    list
+        une liste qui contient tout les points voisins du point (x_coord, y_coord)
     """
     voisins = []
     for i in range(-1, 2):
@@ -46,6 +72,28 @@ def parcours_recursif(image, x_coord, y_coord, liste_actuelle, autres_directions
     lorsque l'on arrive à une jonction/intersection, l'algo liste 
     les différentes directions possibles, et explore chaque direction récursivement. 
     lorsqu'il n'y a plus de voisins, l'algo ajoute la sous liste actuelle dans liste_de_liste.
+
+    Parameters
+    ----------
+    image : np.ndarray
+        l'image du contour
+    x_coord : int
+    y_coord : int
+    liste_actuelle : list<tuple<int, int>>
+        la direction actuellement parcourue (entre deux intersections)
+    autres_directions : list<list<tuple<int, int>>>
+        les autres directions partant de la même intersection que liste_actuelle
+    liste_de_liste : list<list<tuple<int, int>>>
+        liste qui stocke tout les bouts de tracé
+    liste_intersections : list<tuple<int, int>>
+        contient tout les points d'intersections du tracé
+
+    Returns
+    -------
+    liste_de_liste : list<list<tuple<int, int>>>
+        liste qui stocke tout les bouts de tracé
+    liste_intersections : list<tuple<int, int>>
+        contient tout les points d'intersections du tracé
     """
     liste_actuelle.append((x_coord,y_coord))
     image[x_coord,y_coord] = False
@@ -97,6 +145,16 @@ def parcours_recursif(image, x_coord, y_coord, liste_actuelle, autres_directions
 def bitmap_to_skeleton(nom_fichier):
     """
     permet de passer du nom de fichier de l'image au squelette de celle ci
+
+    Parameters
+    ----------
+    nom_fichier : str
+        le nom du fichier de l'image (avec le chemin)
+
+    Returns
+    -------
+    np.ndarray
+        le squelette du tracé
     """
     image_bitmap = cv.imread(nom_fichier, cv.IMREAD_GRAYSCALE)
     image_inversee = 255*(image_bitmap<50) # seuil + invert colors (shape in white)
@@ -110,7 +168,20 @@ def bitmap_to_skeleton(nom_fichier):
 def bitmap_to_list_of_lists(nom_fichier):
     """
     transforme l'image bitmap en liste de listes de coordonneés
+
+    Parameters
+    ----------
+    nom_fichier : str
+        le nom du fichier de l'image (avec le chemin)
+
+    Returns
+    -------
+    liste_de_liste : list<list<tuple<int, int>>>
+        liste qui stocke tout les bouts de tracé
+    liste_intersections : list<tuple<int, int>>
+        contient tout les points d'intersections du tracé
     """
+    sys.setrecursionlimit(10000) #limite trop basse par defaut
     image =  bitmap_to_skeleton(nom_fichier)
     #on trouve un point sur le contour pour démarrer
     index_contour = np.where(image)
@@ -138,6 +209,23 @@ def bitmap_to_list_of_lists(nom_fichier):
 def listes_voisines(liste, listes, image):
     """
     renvoie les listes adjacentes a la liste actuelle
+    
+    une liste est adajcente a une autre si son dernier ou premier
+    point est voisin du premier ou dernier de l'autre
+
+    Parameters
+    ----------
+    liste : list<tuple<int, int>>
+        la liste testée
+    listes : list<list<tuple<int, int>>>
+        les listes pouvant être voisines
+    image : np.ndarray
+        l'image du contour
+
+    Returns
+    -------
+    list<list<tuple<int, int>>>
+        les listes adjacentes
     """
     listes_vois = []
     for une_liste in listes:
@@ -152,6 +240,15 @@ def listes_voisines(liste, listes, image):
 def sont_voisins(pt1, pt2):
     """
     renvoie True si deux points sont voisins
+
+    Parameters
+    ----------
+    pt1 : tuple<int, int>
+    pt2 : tuple<int, int>
+
+    Returns
+    -------
+    True si les deux points sont voisins
     """
     voisins = []
     for i in range(-1, 2):
@@ -161,6 +258,16 @@ def sont_voisins(pt1, pt2):
     return pt2 in voisins
 
 def _fusion_deux_listes(listes, liste_de_deux_listes):
+    """
+    cette fonction permet de fusionner deux listes en gardant l'ordre
+
+    Parameters
+    ----------
+    listes : list<tuple<int, int>>
+        la liste contenant la fusion
+    liste_de_deux_listes : list<list<tuple<int, int>>>
+        les deux listes à fusionner
+    """
     for couple_liste in liste_de_deux_listes:
         buffer = []
         couple_ord = (couple_liste[0], couple_liste[1]) if len(couple_liste[0]) > len(couple_liste[1]) else (couple_liste[1], couple_liste[0])
@@ -171,6 +278,18 @@ def _fusion_deux_listes(listes, liste_de_deux_listes):
         listes.append(buffer)
 
 def _traitement_listes_non_reliees(image, listes, pts_intersection):
+    """
+    cette fonction traite un bug qui apparait souvent et qui fait que
+    certaines listes ne sont pas reliées à un point d'intersection
+
+    Parameters
+    ----------
+    image : np.ndarray
+    listes : list<list<tuple<int, int>>>
+        toutes les sous listes
+    pts_intersection : list<tuple<int, int>>
+        liste contenant les points d'intersections
+    """
     deux_listes_a_fusionner = []
     for liste in listes:
         relie = False
@@ -198,6 +317,20 @@ def traitement_listes_avant(image, listes, pts_intersection):
     """
     dans cette fonction, on traite le problème des listes non reliées à un point d'intersection, 
     on élimine les listes d'un seul point, et on rajoute aux listes les points d'intersections
+    cette fonction doit être exécutée avant l'algorithme de postier chinois
+
+    Parameters
+    ----------
+    image : np.ndarray
+    listes : list<list<tuple<int, int>>>
+        toutes les sous listes
+    pts_intersection : list<tuple<int, int>>
+        liste contenant les points d'intersections
+
+    Returns
+    -------
+    list<list<tuple<int, int>>>
+        toutes les sous listes traitées
     """
     _traitement_listes_non_reliees(image, listes, pts_intersection)
     listes_finales = []
@@ -229,6 +362,22 @@ def traitement_listes_avant(image, listes, pts_intersection):
     return listes_finales
 
 def _reconstitution_chemin(graphe_euler, chemin_postier):
+    """
+    cette fonction va utiliser le résultat de la méthode eulerian_circuit
+    et reconstituer le chemin emprunté par cet algorithme
+
+    Parameters
+    ----------
+    graphe_euler : nx.MultiGraph
+        un multigraphe eulérisé
+    chemin_postier : list
+        l'output de la méthode eulerian_circuit
+
+    returns
+    -------
+    list<tuple<int, int>>
+        le chemin ordonnée permettant de reconstituer le tracé
+    """
     chemin_final = []
     for edge in chemin_postier:
         depart, arrivee, index_edge = edge
@@ -255,6 +404,18 @@ def postier_chinois(listes, pts_intersection):
     Cette fonction construit un graphe avec les intersections comme noeuds et les bouts de
     dessin comme arêtes, et on utilise ensuite l'algorithme du postier chinois afin de trouver
     le tracé du dessin
+
+    Parameters
+    ----------
+    listes : list<list<tuple<int, int>>>
+        toutes les sous listes traitées
+    pts_intersection : list<tuple<int, int>>
+        liste contenant les points d'intersections
+
+    Returns
+    -------
+    list<tuple<int, int>>
+        le chemin ordonnée permettant de reconstituer le tracé
     """
     graphe = nx.MultiGraph()
     graphe.add_nodes_from(pts_intersection)
@@ -272,6 +433,21 @@ def postier_chinois(listes, pts_intersection):
     return _reconstitution_chemin(graphe_euler, chemin_postier)
 
 def _inverser_trace(trace, dim_v):
+    """
+    permet d'inverser les dimensions ainsi que les points selon
+    un axe de symétrie horizontal (pour que la liste marche dans le programme)
+
+    Parameters
+    ----------
+    trace : list<tuple<int, int>>
+    dim_v : int
+        la dimension verticale du screen
+
+    Returns
+    -------
+    list<tuple<int, int>>
+        la liste avec les bonnes valeurs de points
+    """
     trace_final = []
     axe = dim_v // 2
     for point in trace:
@@ -288,6 +464,18 @@ def image_to_list_points(filename, screen):
     cette fonction permet de passer d'une image (sous forme d'un
     nom de fichier) à une liste de points ordonnée en utilisant les 
     fonctions ci-dessus
+
+    Parameters
+    ----------
+    filename : str
+        le nom du fichier de l'image (avec le chemin)
+    screen : pg.surface.Surface
+        la surface d'affichage pygame
+
+    Returns
+    -------
+    list<Point2D>
+        la liste ordonnée du contour dans un format utilisable par le programme
     """
     x_dimension, y_dimension = screen.get_size()
     liste_de_liste, liste_intersections = bitmap_to_list_of_lists(filename)
