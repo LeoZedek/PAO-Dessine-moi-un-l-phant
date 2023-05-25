@@ -235,6 +235,26 @@ def _affichage_nom_fichier(screen, filename):
     choix2 = TextBox(screen, left2, top2, width, height)
     choix2.set_text(filename)
 
+    left5 = x_dimension//2-width//2
+    top5 = y_dimension//2+height*2 + 100
+    choix5 = TextBox(screen, left5, top5, width, height)
+    choix5.set_text("valider")
+
+    left3 = left2 + width +  100
+    top3 = top2
+    width = 100
+    height = 100
+    choix3 = TextBox(screen, left3, top3, width, height)
+    choix3.set_text(">")
+
+    left4 = left2 -200
+    top4 = top2
+    width = 100
+    height = 100
+    choix4 = TextBox(screen, left4, top4, width, height)
+    choix4.set_text("<")
+
+    return choix3, choix4, choix5
 
 def validate_filename(screen):
     """
@@ -248,9 +268,33 @@ def validate_filename(screen):
     clear_screen(screen)
     pg.display.update()
     x_dimension, y_dimension = screen.get_size()
-    _affichage_nom_fichier(screen, filename)
+    c3, c4, c5 = _affichage_nom_fichier(screen, filename)
+    images = [f for f in os.listdir("./images") if os.path.isfile(os.path.join("./images", f))]
+    images_chemin = ["./images/"+f for f in images]
+    index = 0
     while True:
         for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                run = False
+                sys.exit()
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                if c3.collidepoint(event.pos):
+                    index += 1 
+                    if index == len(images_chemin):
+                        index = 0
+                    filename = images_chemin[index]
+                    c3, c4, c5 = _affichage_nom_fichier(screen, filename)
+                if c4.collidepoint(event.pos):
+                    index -= 1
+                    if index < 0 : 
+                        index = len(images_chemin)-1
+                    filename = images_chemin[index]
+                    c3, c4, c5 = _affichage_nom_fichier(screen, filename)
+                if c5.collidepoint(event.pos):
+                    return filename
+                
+
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_RETURN:
                     if filename.lower().endswith((".png", ".bmp", ".jpeg")) and os.path.isfile(filename):
