@@ -1,0 +1,58 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-21 21:20+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: dessiner_des_elephants/ihm/acquisition/points_acquisition.py:238
+msgid "Draw your own design"
+msgstr ""
+
+#: dessiner_des_elephants/ihm/acquisition/points_acquisition.py:243
+msgid "Choose a design to trace"
+msgstr ""
+
+#: dessiner_des_elephants/ihm/affichage/show_boxes.py:20
+msgid "GO !"
+msgstr ""
+
+#: dessiner_des_elephants/ihm/affichage/show_boxes.py:22
+msgid "Quit"
+msgstr ""
+
+#: dessiner_des_elephants/ihm/affichage/show_boxes.py:36
+msgid "Change the design"
+msgstr ""
+
+#: dessiner_des_elephants/ihm/affichage/constructed_rectangles.py:201
+msgid "number points :"
+msgstr ""
+
+#: dessiner_des_elephants/ihm/affichage/constructed_rectangles.py:223
+msgid "number circle :"
+msgstr ""
+
+#: main.py:66
+msgid "Number of point : "
+msgstr ""
+
+#: main.py:69
+msgid "Number of circle : "
+msgstr ""
+
+#: main.py:72
+msgid "Compression rate : "
+msgstr ""
